@@ -1,0 +1,13 @@
+.Player {
+  box-shadow: 0 0 6px 0 rgba(30, 30, 30, 0.3);
+  box-sizing: border-box;
+  height: 425px;
+  margin: 0 auto;
+  max-width: 300px;
+  padding: 1rem;
+  width: 100%;
+
+  &__audio {
+    width: 100%;
+  }
+}

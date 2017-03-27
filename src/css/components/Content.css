@@ -1,0 +1,14 @@
+.Content {
+
+  &__title {
+    text-align: center;
+  }
+
+  &__body {
+    font-size: 1.1rem;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6em;
+    margin: 0 auto;
+    max-width: 46rem;
+  }
+}

@@ -1,0 +1,14 @@
+.InlinePlayer {
+  box-shadow: 0 1px 2px 0 rgba(20, 20, 20, 0.1);
+  border-top: 1px solid #eee;
+  background: #fff;
+  padding: 0.25rem 0;
+
+  & > .Container {
+    display: flex;
+  }
+
+  &__play {
+    display: inline-block;
+  }
+}

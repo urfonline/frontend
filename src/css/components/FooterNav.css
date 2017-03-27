@@ -1,0 +1,16 @@
+.FooterNav {
+
+  &__list {
+    list-style: none;
+    margin: 0 0 1rem;
+    padding: 0;
+  }
+
+  &__item {
+
+    & > a {
+      color: #fff;
+      text-decoration: none;
+    }
+  }
+}

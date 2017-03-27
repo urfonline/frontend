@@ -1,0 +1,20 @@
+.Schedule {
+  display: flex;
+
+  &__days {
+    flex: 1 0 auto;
+  }
+
+  &__scroll {
+    width: 3600px;
+  }
+
+  &__scroll-container {
+    overflow-x: scroll;
+    padding-bottom: 1.3rem;
+  }
+}
+
+.ScheduleSingleContainer {
+  min-height: 132px;
+}

@@ -1,0 +1,18 @@
+.ScheduleTimeline {
+  display: flex;
+  height: 25px;
+  position: relative;
+
+  &__hour {
+    border-left: 1px solid #d1d1d1;
+    box-sizing: border-box;
+    color: #848484;
+    padding-left: 0.5rem;
+  }
+
+  &__bookmark {
+    border-left: 1px solid #ff3d35;
+    height: 20px;
+    position: absolute;
+  }
+}

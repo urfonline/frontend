@@ -1,0 +1,37 @@
+.TeamMember {
+  display: flex;
+
+  &__name {
+    font-size: 2rem;
+    margin-bottom: 0.4rem;
+  }
+
+  &__image {
+    order: 2;
+  }
+
+  &__info {
+    flex: auto;
+  }
+
+  &__bio {
+    max-width: 600px;
+    font-size: 1.2rem;
+  }
+
+  &__job-title {
+    font-size: 1.45rem;
+    font-weight: 300;
+    margin-bottom: 0.8rem;
+  }
+}
+
+.TeamMember:nth-child(odd) .TeamMember__info {
+  order: 1;
+  padding-right: 2rem;
+}
+
+.TeamMember:nth-child(even) .TeamMember__info {
+  order: 3;
+  padding-left: 2rem;
+}

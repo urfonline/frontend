@@ -1,0 +1,50 @@
+.ScheduleSlot {
+  border: 1px solid #fff;
+  box-sizing: border-box;
+  display: block;
+  float: left;
+  height: 70px;
+  opacity: 0.9;
+  position: relative;
+
+  &--tone-light {
+    color: var(--show-tone-dark);
+  }
+
+  &--active {
+    opacity: 1;
+  }
+
+  &__inner {
+    background: #e2e2e2;
+    box-sizing: border-box;
+    color: var(--show-tone-dark);
+    display: block;
+    height: 100%;
+    mix-blend-mode: darken;
+    padding: 0.25rem 0.5rem;
+    text-decoration: none;
+    width: 100%;
+  }
+
+  &__time {
+    font-size: 0.9em;
+  }
+
+  &__time-item {
+
+    &--continuation {
+      opacity: 0.6;
+    }
+  }
+
+  &--on-air {
+    position: relative;
+    z-index: var(--layer-on-air);
+  }
+}
+
+
+.ScheduleSlot--tone-light .ScheduleSlot__inner {
+  color: var(--show-tone-light);
+}

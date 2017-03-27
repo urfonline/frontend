@@ -1,0 +1,32 @@
+.NowAndNext {
+  font-size: 1rem;
+  background-color: #f04c37;
+  color: #fff;
+  cursor: pointer;
+  display: block;
+  height: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  position: relative;
+  text-decoration: none;
+  border: 0;
+  appearance: none;
+  margin: 0;
+  text-align: left;
+
+  &__heading {
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  &__icon {
+    width: 24px;
+    margin-right: 1rem;
+    float: left;
+  }
+}
+
+.NowAndNextRoot {
+  display: block;
+
+}

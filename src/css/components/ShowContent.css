@@ -1,0 +1,25 @@
+.ShowContent {
+  background: #fff;
+  display: flex;
+  flex: 1;
+  padding: 1.4rem 0;
+  z-index: var(--layer-show-card);
+
+  &__content {
+    flex: 1;
+    min-width: 0;
+
+    & .block-image {
+      box-sizing: border-box;
+      padding: 1rem;
+
+      & > img {
+        display: block;
+        height: auto;
+        margin: 0 auto;
+        max-width: 100%;
+        width: auto;
+      }
+    }
+  }
+}

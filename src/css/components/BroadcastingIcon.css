@@ -1,0 +1,30 @@
+@keyframes BroadcastingFade {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.Broadcasting {
+  width: 100%;
+
+  &__left-end,
+  &__right-end {
+    animation: BroadcastingFade 1.2s infinite reverse 750ms;
+  }
+
+  &__left-center,
+  &__right-center {
+    animation: BroadcastingFade 1.2s infinite reverse 500ms;
+  }
+
+  &__left-start,
+  &__right-start {
+    animation: BroadcastingFade 1.2s infinite reverse 250ms;
+  }
+
+
+}

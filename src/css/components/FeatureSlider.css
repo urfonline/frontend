@@ -1,0 +1,28 @@
+.FeatureSlider {
+
+  &__slides {
+    width: 100%;
+  }
+
+  &__slide {
+    height: 280px;
+    width: 100%;
+  }
+
+  &__navigation {
+    position: relative;
+    top: 120px;
+  }
+
+  &__prev {
+    left: 0;
+    position: absolute;
+    z-index: var(--layer-slider-arrows);
+  }
+
+  &__next {
+    position: absolute;
+    right: 0;
+    z-index: var(--layer-slider-arrows);
+  }
+}

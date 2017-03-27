@@ -1,0 +1,25 @@
+.Slider {
+
+  &__frame {
+    font-size: 0;
+    line-height: 0;
+    overflow: hidden;
+    position: relative;
+    white-space: nowrap;
+  }
+
+  &__slides {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+  }
+
+  & li {
+    display: inline-block;
+    font-size: 15px;
+    line-height: 30px;
+    position: relative;
+    white-space: normal;
+  }
+
+}
