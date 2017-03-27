@@ -1,0 +1,11 @@
+{
+  "extends": "prettier",
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "allowImportExportEverywhere": true,
+    "sourceType": "module"
+  },
+  "env": {
+    "browser": true
+  }
+}
