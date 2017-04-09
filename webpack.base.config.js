@@ -5,6 +5,7 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 var LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 var DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
@@ -69,6 +70,10 @@ module.exports = {
     }),
     new webpack.optimize.CommonsChunkPlugin({ async: true, children: true, minChunks: 2 }),
     new DuplicatePackageCheckerPlugin(),
+    new HtmlWebpackPlugin({
+      filename: '200.html',
+      template: 'src/index.html'
+    }),
     extractCSS,
   ],
   module: {

@@ -8,6 +8,13 @@ if (process.env.NODE_ENV !== 'test') {
 
 config.devServer = {
   historyApiFallback: true,
+  proxy: {
+    '/api': {
+      target: 'http://localhost:4444',
+      secure: false,
+      pathRewrite: {'^/api' : ''}
+    }
+  }
 };
 
 config.output = {
