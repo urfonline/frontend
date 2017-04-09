@@ -11,6 +11,8 @@ import {
 } from 'react-router-dom';
 
 import Home from '../Home';
+import Shows from '../Shows';
+import ShowBase from '../ShowBase';
 import NotFound from '../NotFound';
 
 function App() {
@@ -20,6 +22,8 @@ function App() {
       <Player />
       <Switch>
         <Route path="/" exact component={Home} />
+        <Route path="/shows" exact component={Shows} />
+        <Route path="/shows/:showSlug" component={ShowBase} />
         <Route component={NotFound} />
       </Switch>
       <DevTool />
