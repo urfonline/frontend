@@ -8,6 +8,7 @@ if (process.env.NODE_ENV !== 'test') {
 
 config.devServer = {
   historyApiFallback: true,
+
   proxy: {
     '/api': {
       target: 'http://localhost:4444',
@@ -19,7 +20,7 @@ config.devServer = {
 
 config.output = {
   path: path.resolve('./build'),
-  publicPath: '/assets/',
+  publicPath: 'assets/',
   filename: '[name].js',
   chunkFilename: '[id].chunk.js',
 };

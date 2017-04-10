@@ -1,12 +1,13 @@
 const webpack = require('webpack');
 
 const path = require('path');
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-var LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
+const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
 console.log(JSON.stringify(NODE_ENV));
@@ -72,8 +73,10 @@ module.exports = {
     new DuplicatePackageCheckerPlugin(),
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: 'src/index.html'
+      template: 'src/index.html',
+      alwaysWriteToDisk: true,
     }),
+    new HtmlWebpackHarddiskPlugin(),
     extractCSS,
   ],
   module: {
