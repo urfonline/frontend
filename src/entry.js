@@ -11,7 +11,7 @@ import createSagaMiddleware from 'redux-saga';
 import { ApolloClient, ApolloProvider, createNetworkInterface } from 'react-apollo';
 
 const networkInterface = createNetworkInterface({
-  uri: process.env === 'production' ? 'https://api.urfonline.com/graphql' : 'http://localhost:8080/api/graphql',
+  uri: process.env.NODE_ENV === 'production' ? 'https://api.urfonline.com/graphql' : 'http://localhost:8080/api/graphql',
 });
 const apolloClient = new ApolloClient({
   networkInterface,
