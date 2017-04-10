@@ -27,6 +27,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "chunk-manifest-webpack-plugin": "^1.0.0",
+    "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.0",
     "duplicate-package-checker-webpack-plugin": "^1.2.4",
     "eslint": "^3.18.0",

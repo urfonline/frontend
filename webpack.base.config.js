@@ -71,7 +71,7 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin({ async: true, children: true, minChunks: 2 }),
     new DuplicatePackageCheckerPlugin(),
     new HtmlWebpackPlugin({
-      filename: '200.html',
+      filename: 'index.html',
       template: 'src/index.html'
     }),
     extractCSS,
@@ -99,3 +99,6 @@ module.exports = {
     noParse: /\.min\.js/,
   },
 };
+
+
+

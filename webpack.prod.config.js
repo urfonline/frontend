@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const config = require('./webpack.base.config.js');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 config.bail = true;
 config.profile = false;
@@ -16,6 +17,9 @@ config.plugins = config.plugins.concat([
   new webpack.LoaderOptionsPlugin({
     minimize: true,
   }),
+  new CopyWebpackPlugin([
+    { from: './src/root', to: './'}
+  ]),
   new webpack.optimize.UglifyJsPlugin({ output: { comments: false } }),
 ]);
 
