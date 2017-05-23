@@ -24,7 +24,7 @@ function ScheduleSlot(props) {
     >
       <Link
         className="ScheduleSlot__inner"
-        style={{ backgroundColor: show.brandColor }}
+        style={{ backgroundColor: `#${show.brandColor}` }}
         to={`/shows/${show.slug}`}
       >
         <ScheduleSlotTime slot={slot} onAir={props.onAir} index={props.index} />
