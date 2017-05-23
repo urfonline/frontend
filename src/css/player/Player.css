@@ -1,12 +1,14 @@
 .Player {
-  box-shadow: 0 0 6px 0 rgba(30, 30, 30, 0.3);
-  box-sizing: border-box;
-  height: 425px;
-  margin: 0 auto;
-  max-width: 300px;
-  padding: 1rem;
   width: 100%;
-
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #090d0f;
+  color: #ffffff;
+  padding: 1rem 0;
+  box-shadow: 0 0 4px 0 rgba(30, 30, 30, 0.4);
+  
   &__audio {
     width: 100%;
   }

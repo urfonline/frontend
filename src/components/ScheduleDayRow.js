@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import moment from 'moment';
+import dateFormat from 'date-fns/format';
 import ScheduleSlot from './ScheduleSlot';
 import dateInterval from '../hoc/DateInterval';
 import { getTodayDayMonday, slotIsOnAt } from '../utils/schedule';
 
 function ScheduleDayRow(props) {
-  const { shows, slots, calculateWidth } = props;
+  const { slots, calculateWidth } = props;
 
   if (slots === undefined) {
     return <div>Nothing is scheduled.</div>;
@@ -20,11 +20,7 @@ function ScheduleDayRow(props) {
       <div className="ScheduleRow__inner">
         <div className="ScheduleRow__slots">
           {slots.map((slot, index) => {
-            const momentFrom = moment(slot.from_time);
-            const momentTo = moment(slot.to_time);
-            const fromTimeFormatted = momentFrom.format('hh:mm');
-            const toTimeFormatted = momentTo.format('hh:mm');
-            const timeKey = `${fromTimeFormatted}:${toTimeFormatted}`;
+            const timeKey = `${dateFormat(slot.startDate, 'hh:mm')}:${dateFormat(slot.endDate, 'hh:mm')}`;
             const isOnAir =
               isToday &&
               slotIsOnAt(slot, props.dateInterval, index / (slots.length - 1));
@@ -32,7 +28,6 @@ function ScheduleDayRow(props) {
               <ScheduleSlot
                 key={timeKey}
                 slot={slot}
-                shows={shows}
                 index={index}
                 onAir={isOnAir}
                 calculateWidth={calculateWidth}
@@ -51,7 +46,6 @@ ScheduleDayRow.propTypes = {
   day: PropTypes.number.isRequired,
   className: PropTypes.string,
   slots: PropTypes.array.isRequired,
-  shows: PropTypes.object.isRequired,
 };
 
 ScheduleDayRow.defaultProps = {

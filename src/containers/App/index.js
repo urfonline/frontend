@@ -11,6 +11,7 @@ import {
 } from 'react-router-dom';
 
 import Home from '../Home';
+import Schedule from '../Schedule';
 import Shows from '../Shows';
 import ShowBase from '../ShowBase';
 import NotFound from '../NotFound';
@@ -22,6 +23,7 @@ function App() {
       <div className="Page">
         <Switch>
           <Route path="/" exact component={Home} />
+          <Route path="/schedule" exact component={Schedule} />
           <Route path="/shows" exact component={Shows} />
           <Route path="/shows/:showSlug" component={ShowBase} />
           <Route component={NotFound} />

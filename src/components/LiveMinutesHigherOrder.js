@@ -20,7 +20,14 @@ export default WrappedComponent =>
     }
 
     componentDidMount() {
-      setInterval(() => this.setState({ minutes: getMinutes() }), 10000);
+      this.interval = setInterval(
+        () => this.setState({ minutes: getMinutes() }),
+        10000
+      );
+    }
+
+    componentDidLeave() {
+      clearInterval(this.interval);
     }
 
     render() {

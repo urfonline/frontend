@@ -2,39 +2,107 @@ import parseDate from 'date-fns/parse';
 import differenceInMinutes from 'date-fns/difference_in_minutes';
 import startOfTomorrow from 'date-fns/start_of_tomorrow';
 import getDay from 'date-fns/get_day';
+import setHours from 'date-fns/set_hours';
 import getHours from 'date-fns/get_hours';
+import setMinutes from 'date-fns/set_minutes';
 import getMinutes from 'date-fns/get_minutes';
 import getSeconds from 'date-fns/get_seconds';
 import subDays from 'date-fns/sub_days';
 import addDays from 'date-fns/add_days';
+import isBefore from 'date-fns/is_before';
 import startOfToday from 'date-fns/start_of_today';
+import endOfToday from 'date-fns/end_of_today';
 import isWithinRange from 'date-fns/is_within_range';
 
 const shiftedDates = [6, 0, 1, 2, 3, 4, 5];
 
-export function chunkSlotsByDay(slots) {
+function parseTime(timeString) {
+  const [hours, minutes] = timeString.split(':');
+
+  let date = new Date();
+  date = setHours(date, parseInt(hours, 10));
+  date = setMinutes(date, parseInt(minutes, 10));
+
+  return date;
+}
+
+function createAutomationSlot(show, startDate, endDate) {
+  return {
+    startDate,
+    endDate,
+    automation: true,
+    show,
+    duration: differenceInMinutes(endDate, startDate),
+  };
+}
+
+export function chunkSlotsByDay(slots, automationShow) {
   const days = [[], [], [], [], [], [], []];
+  let currentDate = startOfToday(new Date());
 
   slots.forEach(slot => {
-    if (slot.is_overnight) {
-      const slotFrom = parseDate(slot.from_time);
-      const diffMins = differenceInMinutes(startOfTomorrow(slotFrom), slotFrom);
+    // slot times
+    const startDate = parseTime(slot.startTime);
+    const endDate = parseTime(slot.endTime);
+
+    // add automation show if there is a gap before this show
+    if (currentDate !== startDate) {
       days[slot.day].push(
-        Object.assign({}, slot, { duration: diffMins, type: 'pre-overnight' })
+        createAutomationSlot(automationShow, currentDate, startDate)
+      );
+    }
+
+    // add this show
+    if (isBefore(endDate, startDate)) {
+      const diffMins = differenceInMinutes(
+        startOfTomorrow(startDate),
+        startDate
+      );
+      days[slot.day].push(
+        Object.assign({}, slot, {
+          duration: diffMins,
+          type: 'pre-overnight',
+          startDate,
+          endDate,
+        })
       );
 
       if (slot.day !== 6) {
+        const postMins = differenceInMinutes(startOfTomorrow(), endDate);
         days[slot.day + 1].push(
           Object.assign({}, slot, {
-            duration: slot.duration - diffMins,
+            duration: postMins,
             type: 'post-overnight',
+            startDate,
+            endDate,
           })
         );
       }
     } else {
-      days[slot.day].push(slot);
+      days[slot.day].push({
+        ...slot,
+        startDate,
+        endDate,
+        duration: differenceInMinutes(endDate, startDate),
+      });
+    }
+
+    currentDate = endDate;
+  });
+
+  const startDay = startOfToday();
+  const endDay = endOfToday();
+  days.forEach(daySlots => {
+    if (daySlots.length <= 0) {
+      daySlots.push(createAutomationSlot(automationShow, startDay, endDay));
+    } else if (daySlots[daySlots.length - 1].endDate !== endDay) {
+      const lastSlot = daySlots[daySlots.length - 1];
+      daySlots.push(
+        createAutomationSlot(automationShow, lastSlot.endDate, endDay)
+      );
     }
   });
+
   return days;
 }
 
@@ -42,8 +110,6 @@ export function calculateWidth(number, includeUnit = true) {
   const width = 3600;
   const totalMinutes = 24 * 60;
   const widthPerMinute = width / totalMinutes;
-
-  // console.log({ duration: number, width: number * widthPerMinute });
 
   if (!includeUnit) {
     return number * widthPerMinute;

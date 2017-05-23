@@ -9,15 +9,13 @@ function ShowsGridItem({ show }) {
       <Link
         className="ShowsGrid__anchor"
         to={`/shows/${show.slug}`}
-        style={{ backgroundColor: show.accentColor }}
+        style={{ backgroundColor: `#${show.brandColor}` }}
       >
-        {show.logo
-          ? <img className="ShowsGrid__logo" src="" alt={show.title} />
-          : <h1 className={cx('ShowsGrid__title', { srt: show.logo })}>
-              {show.title}
-            </h1>}
+        <h1 className={cx('ShowsGrid__title')}>
+          {show.name}
+        </h1>
       </Link>
-      <p className="ShowsGrid__description">{show.description}</p>
+      <p className="ShowsGrid__description">{show.shortDescription}</p>
     </li>
   );
 }

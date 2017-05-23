@@ -10,6 +10,7 @@ import {
   getOnAirSlot,
   getTodayDayMonday,
   getScrollPositionForSlot,
+  chunkSlotsByDay,
 } from '../utils/schedule';
 
 class FullSchedule extends React.Component {
@@ -33,20 +34,16 @@ class FullSchedule extends React.Component {
   }
 
   render() {
-    if (this.props.schedule.isLoading) {
+    if (this.props.schedule.loading) {
       return <Spinner />;
     }
 
-    const days = [
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday',
-      'Sunday',
-    ];
-    const slotsByDay = this.props.schedule.chunked;
+    const days = ['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'];
+    const slotsByDay = chunkSlotsByDay(
+      this.props.schedule.allSlots,
+      this.props.schedule.automationShow
+    );
+
     return (
       <div className="Schedule">
         <ScheduleDayColumn className="Schedule__days" days={days} />
@@ -63,7 +60,6 @@ class FullSchedule extends React.Component {
                 <ScheduleDayRow
                   title={day}
                   day={index}
-                  shows={this.props.schedule.data.shows}
                   slots={slotsByDay[index]}
                   calculateWidth={calculateWidth}
                 />
@@ -81,6 +77,4 @@ FullSchedule.propTypes = {
   schedule: PropTypes.object.isRequired,
 };
 
-export default connect(state => ({
-  schedule: state.schedule,
-}))(FullSchedule);
+export default FullSchedule;

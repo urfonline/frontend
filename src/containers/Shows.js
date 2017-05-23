@@ -18,6 +18,7 @@ const HomeQuery = gql`
       name
       slug
       brandColor
+      shortDescription
     }
   }
 `;

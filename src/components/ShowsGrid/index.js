@@ -3,7 +3,7 @@ import groupBy from 'lodash/groupBy';
 import ShowsGridItem from './ShowsGridItem';
 
 function ShowsGrid({ shows }) {
-  const showsByLetter = groupBy(shows, show => show.title.slice[0]);
+  const showsByLetter = groupBy(shows, show => show.name.slice[0]);
   return (
     <ul className="ShowsGrid">
       <li className="ShowsGrid__group">
