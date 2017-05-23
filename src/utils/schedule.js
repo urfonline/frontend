@@ -12,19 +12,23 @@ import isWithinRange from 'date-fns/is_within_range';
 
 const shiftedDates = [6, 0, 1, 2, 3, 4, 5];
 
-
 export function chunkSlotsByDay(slots) {
   const days = [[], [], [], [], [], [], []];
 
-  slots.forEach((slot) => {
+  slots.forEach(slot => {
     if (slot.is_overnight) {
       const slotFrom = parseDate(slot.from_time);
       const diffMins = differenceInMinutes(startOfTomorrow(slotFrom), slotFrom);
-      days[slot.day].push(Object.assign({}, slot, { duration: diffMins, type: 'pre-overnight' }));
+      days[slot.day].push(
+        Object.assign({}, slot, { duration: diffMins, type: 'pre-overnight' })
+      );
 
       if (slot.day !== 6) {
-        days[(slot.day + 1)].push(
-          Object.assign({}, slot, { duration: slot.duration - diffMins, type: 'post-overnight' }),
+        days[slot.day + 1].push(
+          Object.assign({}, slot, {
+            duration: slot.duration - diffMins,
+            type: 'post-overnight',
+          })
         );
       }
     } else {
@@ -67,9 +71,10 @@ export function getOnAirSlot(slots) {
     }
 
     if (
-      (
-        (getHours(toTime) === 0 && getMinutes(toTime) === 0) || slot.is_overnight)
-          && index === todaySlots.length - 1) {
+      ((getHours(toTime) === 0 && getMinutes(toTime) === 0) ||
+        slot.is_overnight) &&
+      index === todaySlots.length - 1
+    ) {
       toTime = addDays(toTime, 1);
     }
 
@@ -84,7 +89,7 @@ export function getOnAirSlot(slots) {
 export function getSecondsToNextQuater() {
   const d = new Date();
   const mins = getMinutes(d);
-  return ((15 - (mins % 15)) * 60) + (60 - getSeconds(d));
+  return (15 - mins % 15) * 60 + (60 - getSeconds(d));
 }
 
 getSecondsToNextQuater();

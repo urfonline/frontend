@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import liveMinutesHigherOrder from './LiveMinutesHigherOrder';
 
 function ScheduleTimeline(props) {
@@ -37,18 +38,21 @@ function ScheduleTimeline(props) {
         style={{ left: props.calculateWidth(props.minutes) }}
       />
       {hours.map(hour => (
-        <div className="ScheduleTimeline__hour" key={hour} style={{ width: hourWidth }}>
+        <div
+          className="ScheduleTimeline__hour"
+          key={hour}
+          style={{ width: hourWidth }}
+        >
           {hour}
         </div>
-        ),
-      )}
+      ))}
     </div>
   );
 }
 
 ScheduleTimeline.propTypes = {
-  calculateWidth: React.PropTypes.func.isRequired,
-  minutes: React.PropTypes.number.isRequired,
+  calculateWidth: PropTypes.func.isRequired,
+  minutes: PropTypes.number.isRequired,
 };
 
 export default liveMinutesHigherOrder(ScheduleTimeline);

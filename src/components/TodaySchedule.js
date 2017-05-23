@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ScheduleTimeline from './ScheduleTimeline';
 import ScheduleDayRow from './ScheduleDayRow';
@@ -11,7 +12,6 @@ import {
 } from '../utils/schedule';
 
 class TodaySchedule extends React.Component {
-
   componentDidUpdate() {
     const container = this.containerRef;
 
@@ -38,7 +38,7 @@ class TodaySchedule extends React.Component {
     return (
       <div
         className="Schedule__scroll-container"
-        ref={(ref) => {
+        ref={ref => {
           this.containerRef = ref;
         }}
       >
@@ -66,7 +66,7 @@ class TodaySchedule extends React.Component {
 }
 
 TodaySchedule.propTypes = {
-  schedule: React.PropTypes.object.isRequired,
+  schedule: PropTypes.object.isRequired,
 };
 
 export default connect(state => ({

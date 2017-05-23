@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import BroadcastingIcon from '../components/BroadcastingIcon';
@@ -27,14 +28,21 @@ function NowAndNext({ schedule, player, playLiveAction }) {
 }
 
 NowAndNext.propTypes = {
-  schedule: React.PropTypes.object.isRequired,
-  player: React.PropTypes.object.isRequired,
-  playLiveAction: React.PropTypes.func.isRequired,
+  schedule: PropTypes.object.isRequired,
+  player: PropTypes.object.isRequired,
+  playLiveAction: PropTypes.func.isRequired,
 };
 
-export default connect(state => ({
-  schedule: state.schedule,
-  player: state.player,
-}), dispatch => bindActionCreators({
-  playLiveAction: playLive,
-}, dispatch))(NowAndNext);
+export default connect(
+  state => ({
+    schedule: state.schedule,
+    player: state.player,
+  }),
+  dispatch =>
+    bindActionCreators(
+      {
+        playLiveAction: playLive,
+      },
+      dispatch
+    )
+)(NowAndNext);

@@ -1,4 +1,9 @@
-import { LOAD_SCHEDULE_REQUEST, LOAD_SCHEDULE_SUCCESS, LOAD_SCHEDULE_FAILURE, UPDATE_ON_AIR_SLOT } from '../actions';
+import {
+  LOAD_SCHEDULE_REQUEST,
+  LOAD_SCHEDULE_SUCCESS,
+  LOAD_SCHEDULE_FAILURE,
+  UPDATE_ON_AIR_SLOT,
+} from '../actions';
 import { chunkSlotsByDay, getOnAirSlot } from '../utils/schedule';
 
 const initialState = {

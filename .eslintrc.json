@@ -5,7 +5,19 @@
     "allowImportExportEverywhere": true,
     "sourceType": "module"
   },
+  "plugins": [
+    "prettier"
+  ],
   "env": {
     "browser": true
+  },
+  "rules": {
+    "prettier/prettier": ["error", {
+      "singleQuote": true,
+      "trailingComma": "es5",
+      "bracketSpacing": true,
+      "jsxBracketSameLine": false,
+      "parser": "babylon"
+    }]
   }
 }

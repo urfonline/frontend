@@ -1,5 +1,5 @@
 .Core {
-  background: var(--background);
+  background: #ffffff;
   display: flex;
   flex-direction: column;
   font-family: freight-sans-pro, sans-serif;

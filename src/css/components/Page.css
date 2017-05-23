@@ -1,0 +1,13 @@
+.Page {
+  background-color: #ffffff;
+  position: relative;
+  z-index: var(--layers-page);
+  margin-top: var(--header-height);
+  min-height: calc(100vh - var(--header-height));
+  box-sizing: border-box;
+  box-shadow: 0 0 28px 0 rgba(30, 30, 30, 0.3);
+  
+  &__heading {
+    margin: 0;
+  }
+}

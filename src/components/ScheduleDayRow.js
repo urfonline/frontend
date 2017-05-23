@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 import moment from 'moment';
 import ScheduleSlot from './ScheduleSlot';
@@ -9,7 +10,7 @@ function ScheduleDayRow(props) {
   const { shows, slots, calculateWidth } = props;
 
   if (slots === undefined) {
-    return (<div>Nothing is scheduled.</div>);
+    return <div>Nothing is scheduled.</div>;
   }
 
   const isToday = props.day === getTodayDayMonday(props.dateInterval);
@@ -24,7 +25,8 @@ function ScheduleDayRow(props) {
             const fromTimeFormatted = momentFrom.format('hh:mm');
             const toTimeFormatted = momentTo.format('hh:mm');
             const timeKey = `${fromTimeFormatted}:${toTimeFormatted}`;
-            const isOnAir = isToday &&
+            const isOnAir =
+              isToday &&
               slotIsOnAt(slot, props.dateInterval, index / (slots.length - 1));
             return (
               <ScheduleSlot
@@ -44,12 +46,12 @@ function ScheduleDayRow(props) {
 }
 
 ScheduleDayRow.propTypes = {
-  dateInterval: React.PropTypes.object.isRequired,
-  calculateWidth: React.PropTypes.func.isRequired,
-  day: React.PropTypes.number.isRequired,
-  className: React.PropTypes.string,
-  slots: React.PropTypes.array.isRequired,
-  shows: React.PropTypes.object.isRequired,
+  dateInterval: PropTypes.object.isRequired,
+  calculateWidth: PropTypes.func.isRequired,
+  day: PropTypes.number.isRequired,
+  className: PropTypes.string,
+  slots: PropTypes.array.isRequired,
+  shows: PropTypes.object.isRequired,
 };
 
 ScheduleDayRow.defaultProps = {

@@ -5,5 +5,7 @@
   --layer-on-air: 90;
 
   --layer-show-card: 10;
+  --layer-page: 10;
   --layer-cover-photo: 0;
+  --layer-header: 0;
 }

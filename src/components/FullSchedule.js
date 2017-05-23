@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ScheduleTimeline from './ScheduleTimeline';
 import ScheduleDayRow from './ScheduleDayRow';
@@ -12,7 +13,6 @@ import {
 } from '../utils/schedule';
 
 class FullSchedule extends React.Component {
-
   componentDidUpdate() {
     const container = this.containerRef;
 
@@ -37,14 +37,22 @@ class FullSchedule extends React.Component {
       return <Spinner />;
     }
 
-    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    const days = [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday',
+    ];
     const slotsByDay = this.props.schedule.chunked;
     return (
       <div className="Schedule">
         <ScheduleDayColumn className="Schedule__days" days={days} />
         <div
           className="Schedule__scroll-container"
-          ref={(ref) => {
+          ref={ref => {
             this.containerRef = ref;
           }}
         >
@@ -60,8 +68,7 @@ class FullSchedule extends React.Component {
                   calculateWidth={calculateWidth}
                 />
               </div>
-              ),
-            )}
+            ))}
             <ScheduleTimeline calculateWidth={calculateWidth} />
           </div>
         </div>
@@ -71,7 +78,7 @@ class FullSchedule extends React.Component {
 }
 
 FullSchedule.propTypes = {
-  schedule: React.PropTypes.object.isRequired,
+  schedule: PropTypes.object.isRequired,
 };
 
 export default connect(state => ({

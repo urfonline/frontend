@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { connect } from 'react-redux';
 import PlayIcon from './PlayIcon';
@@ -20,7 +21,10 @@ class InlinePlayer extends React.Component {
     }
 
     return (
-      <div className={cx('InlinePlayer', `InlinePlayer--tone-${onAir.show.tone}`)} style={{ backgroundColor: onAir.show.accent }}>
+      <div
+        className={cx('InlinePlayer', `InlinePlayer--tone-${onAir.show.tone}`)}
+        style={{ backgroundColor: onAir.show.accent }}
+      >
         <div className="Container">
           <div className="InlinePlayer__play">
             <PlayIcon tone={onAir.show.tone} /> Live
@@ -33,8 +37,8 @@ class InlinePlayer extends React.Component {
 }
 
 InlinePlayer.propTypes = {
-  player: React.PropTypes.object.isRequired,
-  onAir: React.PropTypes.object,
+  player: PropTypes.object.isRequired,
+  onAir: PropTypes.object,
 };
 
 InlinePlayer.defaultProps = {

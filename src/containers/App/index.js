@@ -7,7 +7,7 @@ import {
   Route,
   Link,
   Switch,
-  Redirect
+  Redirect,
 } from 'react-router-dom';
 
 import Home from '../Home';
@@ -19,17 +19,18 @@ function App() {
   return (
     <div>
       <Header />
-      <Player />
-      <Switch>
-        <Route path="/" exact component={Home} />
-        <Route path="/shows" exact component={Shows} />
-        <Route path="/shows/:showSlug" component={ShowBase} />
-        <Route component={NotFound} />
-      </Switch>
+      <div className="Page">
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route path="/shows" exact component={Shows} />
+          <Route path="/shows/:showSlug" component={ShowBase} />
+          <Route component={NotFound} />
+        </Switch>
+        <Player />
+      </div>
       <DevTool />
     </div>
   );
 }
-
 
 export default App;

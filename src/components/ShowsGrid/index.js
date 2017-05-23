@@ -16,5 +16,4 @@ function ShowsGrid({ shows }) {
   );
 }
 
-
 export default ShowsGrid;

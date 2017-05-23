@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 
 function ScheduleDayColumn(props) {
@@ -8,15 +9,14 @@ function ScheduleDayColumn(props) {
         <div className="ScheduleDayColumn__day" key={day}>
           {day}
         </div>
-        ),
-      )}
+      ))}
     </div>
   );
 }
 
 ScheduleDayColumn.propTypes = {
-  days: React.PropTypes.array.isRequired,
-  className: React.PropTypes.string,
+  days: PropTypes.array.isRequired,
+  className: PropTypes.string,
 };
 
 ScheduleDayColumn.defaultProps = {

@@ -11,16 +11,15 @@ function ShowsGridItem({ show }) {
         to={`/shows/${show.slug}`}
         style={{ backgroundColor: show.accentColor }}
       >
-        {show.logo ? (
-          <img className="ShowsGrid__logo" src="" alt={show.title} />
-        ) : (
-          <h1 className={cx('ShowsGrid__title', { 'srt': show.logo })}>{show.title}</h1>
-        )}
+        {show.logo
+          ? <img className="ShowsGrid__logo" src="" alt={show.title} />
+          : <h1 className={cx('ShowsGrid__title', { srt: show.logo })}>
+              {show.title}
+            </h1>}
       </Link>
       <p className="ShowsGrid__description">{show.description}</p>
     </li>
   );
 }
-
 
 export default ShowsGridItem;

@@ -6,4 +6,9 @@
 
   --show-tone-light: rgba(255, 255, 255, 1);
   --show-tone-dark: rgba(0, 0, 0, 1);
+  --header-height: 75px;
+  
+  
+  
+  --color__brand-red: #a31d21;
 }

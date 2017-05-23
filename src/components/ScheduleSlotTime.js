@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 import moment from 'moment';
 import OnAirBadge from './OnAirBadge';
@@ -12,7 +13,8 @@ function ScheduleSlotTime(props) {
   const fromElement = (
     <span
       className={cx('ScheduleSlot__time-item', {
-        'ScheduleSlot__time-item--continuation': slot.is_overnight && props.index === 0,
+        'ScheduleSlot__time-item--continuation': slot.is_overnight &&
+          props.index === 0,
       })}
     >
       {momentFrom.format(timeFormat)}
@@ -22,7 +24,8 @@ function ScheduleSlotTime(props) {
   const toElement = (
     <span
       className={cx('ScheduleSlot__time-item', {
-        'ScheduleSlot__time-item--continuation': slot.is_overnight && props.index !== 0,
+        'ScheduleSlot__time-item--continuation': slot.is_overnight &&
+          props.index !== 0,
       })}
     >
       {momentTo.format(timeFormat)}
@@ -38,9 +41,9 @@ function ScheduleSlotTime(props) {
 }
 
 ScheduleSlotTime.propTypes = {
-  slot: React.PropTypes.object.isRequired,
-  index: React.PropTypes.number.isRequired,
-  onAir: React.PropTypes.bool.isRequired,
+  slot: PropTypes.object.isRequired,
+  index: PropTypes.number.isRequired,
+  onAir: PropTypes.bool.isRequired,
 };
 
 export default ScheduleSlotTime;

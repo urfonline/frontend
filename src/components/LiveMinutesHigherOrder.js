@@ -9,20 +9,21 @@ function getMinutes() {
   return differenceInMinutes(now, midnight);
 }
 
-export default WrappedComponent => class LiveMinutesHigherOrder extends React.Component {
-  constructor(x, y) {
-    super(x, y);
+export default WrappedComponent =>
+  class LiveMinutesHigherOrder extends React.Component {
+    constructor(x, y) {
+      super(x, y);
 
-    this.state = {
-      minutes: getMinutes(),
-    };
-  }
+      this.state = {
+        minutes: getMinutes(),
+      };
+    }
 
-  componentDidMount() {
-    setInterval(() => this.setState({ minutes: getMinutes() }), 10000);
-  }
+    componentDidMount() {
+      setInterval(() => this.setState({ minutes: getMinutes() }), 10000);
+    }
 
-  render() {
-    return <WrappedComponent minutes={this.state.minutes} {...this.props} />;
-  }
-};
+    render() {
+      return <WrappedComponent minutes={this.state.minutes} {...this.props} />;
+    }
+  };

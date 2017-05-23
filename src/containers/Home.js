@@ -4,8 +4,8 @@ import Player from '../components/Player';
 
 function Home() {
   return (
-    <div>
-      <h1>Home</h1>
+    <div className="Container">
+      <h1 className="Page__heading">Home</h1>
       <Player />
     </div>
   );
@@ -14,9 +14,9 @@ function Home() {
 const HomeQuery = gql`
   query HomeQuery {
     allShows {
-      title
+      name
       slug
-      accentColor
+      brandColor
     }
   }
 `;

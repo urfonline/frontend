@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 import Link from './Link';
 import ScheduleSlotTime from './ScheduleSlotTime';
@@ -20,11 +21,14 @@ function ScheduleSlot(props) {
     {
       'ScheduleSlot--overnight': slot.is_overnight,
       'ScheduleSlot--on-air': props.onAir,
-    },
+    }
   );
 
   return (
-    <div className={scheduleSlotClasses} style={{ width: props.calculateWidth(slot.duration) }}>
+    <div
+      className={scheduleSlotClasses}
+      style={{ width: props.calculateWidth(slot.duration) }}
+    >
       <Link
         className="ScheduleSlot__inner"
         style={{ backgroundColor: show.accent }}
@@ -40,11 +44,11 @@ function ScheduleSlot(props) {
 }
 
 ScheduleSlot.propTypes = {
-  calculateWidth: React.PropTypes.func.isRequired,
-  onAir: React.PropTypes.bool.isRequired,
-  slot: React.PropTypes.object.isRequired,
-  index: React.PropTypes.number.isRequired,
-  shows: React.PropTypes.object.isRequired,
+  calculateWidth: PropTypes.func.isRequired,
+  onAir: PropTypes.bool.isRequired,
+  slot: PropTypes.object.isRequired,
+  index: PropTypes.number.isRequired,
+  shows: PropTypes.object.isRequired,
 };
 
 export default ScheduleSlot;
