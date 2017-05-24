@@ -4,9 +4,10 @@ import FullSchedule from '../components/FullSchedule';
 
 function Schedule({ data }) {
   return (
-    <div className="Container">
-      <h1 className="Page__heading">Schedule</h1>
-
+    <div>
+      <div className="Container">
+        <h1 className="Page__heading">Schedule</h1>
+      </div>
       <FullSchedule schedule={data} />
     </div>
   );
