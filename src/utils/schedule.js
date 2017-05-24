@@ -39,55 +39,72 @@ function createAutomationSlot(show, startDate, endDate) {
 export function chunkSlotsByDay(slots, automationShow) {
   const days = [[], [], [], [], [], [], []];
   let currentDate = startOfToday(new Date());
+  let currentDay = 0;
 
-  slots.forEach(slot => {
-    // slot times
-    const startDate = parseTime(slot.startTime);
-    const endDate = parseTime(slot.endTime);
+  const sortedSlots = slots.map(slot => {
+    return {
+      ...slot,
+      startDate: parseTime(slot.startTime),
+      endDate: parseTime(slot.endTime),
+    };
+  });
 
+  sortedSlots.sort((a, b) => {
+    if (a.day < b.day) {
+      return -1;
+    }
+    if (a.day > b.day) {
+      return 1;
+    }
+
+    if (a.day === b.day) {
+      return isBefore(a.startDate, b.startDate) ? -1 : 1;
+    }
+  });
+
+  sortedSlots.forEach(slot => {
+    if (currentDay !== slot.day) {
+      currentDate = startOfToday(new Date());
+      currentDay = slot.day;
+    }
     // add automation show if there is a gap before this show
-    if (currentDate !== startDate) {
+    if (currentDate !== slot.startDate) {
       days[slot.day].push(
-        createAutomationSlot(automationShow, currentDate, startDate)
+        createAutomationSlot(automationShow, currentDate, slot.startDate)
       );
+      currentDate = slot.startDate;
     }
 
     // add this show
-    if (isBefore(endDate, startDate)) {
+    if (isBefore(slot.endDate, slot.startDate)) {
       const diffMins = differenceInMinutes(
-        startOfTomorrow(startDate),
-        startDate
+        startOfTomorrow(slot.startDate),
+        slot.startDate
       );
       days[slot.day].push(
         Object.assign({}, slot, {
           duration: diffMins,
           type: 'pre-overnight',
-          startDate,
-          endDate,
         })
       );
 
       if (slot.day !== 6) {
-        const postMins = differenceInMinutes(startOfTomorrow(), endDate);
+        const postMins = differenceInMinutes(slot.endDate, startOfTomorrow());
         days[slot.day + 1].push(
           Object.assign({}, slot, {
             duration: postMins,
             type: 'post-overnight',
-            startDate,
-            endDate,
           })
         );
       }
     } else {
       days[slot.day].push({
         ...slot,
-        startDate,
-        endDate,
-        duration: differenceInMinutes(endDate, startDate),
+        duration: differenceInMinutes(slot.endDate, slot.startDate),
       });
     }
 
-    currentDate = endDate;
+    currentDate = slot.endDate;
   });
 
   const startDay = startOfToday();
