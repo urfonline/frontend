@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import dateFormat from 'date-fns/format';
 import OnAirBadge from './OnAirBadge';
+import { formatTime } from '../utils/schedule';
 
 function ScheduleSlotTime(props) {
   const { slot } = props;
-  const timeFormat = 'h:mma';
 
   const fromElement = (
     <span
@@ -15,7 +14,7 @@ function ScheduleSlotTime(props) {
           props.index === 0,
       })}
     >
-      {dateFormat(slot.startDate, timeFormat)}
+      {formatTime(slot.startDate)}
     </span>
   );
 
@@ -26,7 +25,7 @@ function ScheduleSlotTime(props) {
           props.index !== 0,
       })}
     >
-      {dateFormat(slot.endDate, timeFormat)}
+      {formatTime(slot.endDate)}
     </span>
   );
 

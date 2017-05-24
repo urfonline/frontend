@@ -7,6 +7,7 @@ import getHours from 'date-fns/get_hours';
 import setMinutes from 'date-fns/set_minutes';
 import getMinutes from 'date-fns/get_minutes';
 import getSeconds from 'date-fns/get_seconds';
+import format from 'date-fns/format';
 import subDays from 'date-fns/sub_days';
 import addDays from 'date-fns/add_days';
 import isBefore from 'date-fns/is_before';
@@ -16,7 +17,7 @@ import isWithinRange from 'date-fns/is_within_range';
 
 const shiftedDates = [6, 0, 1, 2, 3, 4, 5];
 
-function parseTime(timeString) {
+export function parseTime(timeString) {
   const [hours, minutes] = timeString.split(':');
 
   let date = new Date();
@@ -24,6 +25,13 @@ function parseTime(timeString) {
   date = setMinutes(date, parseInt(minutes, 10));
 
   return date;
+}
+
+export function formatTime(date) {
+  if (getMinutes(date) === 0) {
+    return format(date, 'ha');
+  }
+  return format(date, 'h:mma');
 }
 
 function createAutomationSlot(show, startDate, endDate) {

@@ -1,10 +1,80 @@
 import React from 'react';
+import cx from 'classnames';
+import Color from 'color';
 import { gql, graphql } from 'react-apollo';
+import Image from '../components/Image';
+import { formatTime, parseTime, TIME_FORMAT } from '../utils/schedule';
+
+// TODO: move to a utils thing or i18n file
+const DAYS_TEXT = [
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+  'Sunday',
+];
 
 function ShowBase({ data: { show, loading } }) {
+  let content;
+  if (loading) {
+    return (
+      <div className="Container">
+        <h2>Loading</h2>
+      </div>
+    );
+  }
+
+  const bgColor = Color(`#${show.brandColor}`)
+    .desaturate(0.1)
+    .lighten(0.1)
+    .rgb();
+
   return (
-    <div className="Container">
-      {loading ? <h2>Loading</h2> : <h1>{show.name}</h1>}
+    <div>
+      <div
+        className={cx(
+          'ShowHeader',
+          `ShowHeader--tone-${bgColor.light() ? 'dark' : 'light'}`
+        )}
+        style={{
+          backgroundColor: bgColor.string(),
+        }}
+      >
+        <div className="Container">
+          <div className="ShowHeader__container">
+            <div className="ShowHeader__cover">
+              <Image src={show.cover} />
+            </div>
+            <div className="ShowHeader__info">
+              <h1 className="ShowHeader__show-title">
+                {show.name} <span className="ShowHeader__members">
+                  With Rachel Example and John Ala
+                </span>
+              </h1>
+              <span className="ShowHeader__schedule-times">
+                {show.slots.map(slot => (
+                  <span>
+                    {DAYS_TEXT[slot.day]}s
+                    {' '}
+                    at
+                    {' '}
+                    {formatTime(parseTime(slot.startTime))}
+                  </span>
+                ))}
+              </span>
+              <div className="ShowHeader__short-description">
+                {show.shortDescription}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="Container">
+
+        <h1>Content here!</h1>
+      </div>
     </div>
   );
 }
@@ -15,7 +85,14 @@ const ShowBaseQuery = gql`
       id
       name
       slug
+      shortDescription
       brandColor
+      cover
+      banner
+      slots {
+        startTime
+        day
+      }
     }
   }
 `;
