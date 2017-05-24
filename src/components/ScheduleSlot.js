@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import ScheduleSlotTime from './ScheduleSlotTime';
+import { getShowBrandTone } from '../utils/shows';
 
 function ScheduleSlot(props) {
   const slot = props.slot;
@@ -10,7 +11,7 @@ function ScheduleSlot(props) {
 
   const scheduleSlotClasses = cx(
     'ScheduleSlot',
-    `ScheduleSlot--tone-${show.tone === 'dark' ? 'dark' : 'light'}`,
+    `ScheduleSlot--tone-${getShowBrandTone(show)}`,
     {
       'ScheduleSlot--overnight': slot.is_overnight,
       'ScheduleSlot--on-air': props.onAir,
