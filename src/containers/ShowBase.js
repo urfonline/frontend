@@ -54,7 +54,7 @@ function ShowBase({ data: { show, loading } }) {
             <div className="ShowHeader__info">
               <h1 className="ShowHeader__show-title">
                 {show.name} <span className="ShowHeader__members">
-                  With Rachel Example and John Ala
+                  with Rachel Example and John Ala
                 </span>
               </h1>
               <span className="ShowHeader__schedule-times">
