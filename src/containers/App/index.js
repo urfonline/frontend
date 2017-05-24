@@ -15,10 +15,12 @@ import Schedule from '../Schedule';
 import Shows from '../Shows';
 import ShowBase from '../ShowBase';
 import NotFound from '../NotFound';
+import { Helmet } from 'react-helmet';
 
 function App() {
   return (
     <div>
+      <Helmet titleTemplate="%s | URF" defaultTitle="URF" />
       <Header />
       <div className="Page">
         <Switch>

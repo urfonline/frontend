@@ -4,6 +4,7 @@ import Color from 'color';
 import { gql, graphql } from 'react-apollo';
 import Image from '../components/Image';
 import { formatTime, parseTime, TIME_FORMAT } from '../utils/schedule';
+import { Helmet } from 'react-helmet';
 
 // TODO: move to a utils thing or i18n file
 const DAYS_TEXT = [
@@ -33,6 +34,9 @@ function ShowBase({ data: { show, loading } }) {
 
   return (
     <div>
+      <Helmet>
+        <title>{show.name}</title>
+      </Helmet>
       <div
         className={cx(
           'ShowHeader',
