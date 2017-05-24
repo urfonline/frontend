@@ -6,6 +6,10 @@
     padding-bottom: 100px;
     padding-top: 200px;
   }
+  
+  &--loading {
+    background-color: #f4f4f4;
+  }
 
   &__container {
     display: flex;

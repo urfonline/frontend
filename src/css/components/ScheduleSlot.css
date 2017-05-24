@@ -26,9 +26,14 @@
     text-decoration: none;
     width: 100%;
   }
+  
+  &__show-name {
+    font-weight: 600;
+  }
 
   &__time {
     font-size: 0.9em;
+    margin-bottom: 0.2rem;
   }
 
   &__time-item {

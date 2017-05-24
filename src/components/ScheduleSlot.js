@@ -29,7 +29,7 @@ function ScheduleSlot(props) {
         to={`/shows/${show.slug}`}
       >
         <ScheduleSlotTime slot={slot} onAir={props.onAir} index={props.index} />
-        <div className="ScheduleSlot__title">
+        <div className="ScheduleSlot__show-name">
           {show.name}
         </div>
       </Link>

@@ -21,8 +21,16 @@ function ShowBase({ data: { show, loading } }) {
   let content;
   if (loading) {
     return (
-      <div className="Container">
-        <h2>Loading</h2>
+      <div>
+        <div className={cx('ShowHeader', 'ShowHeader--loading')}>
+          <div className="Container">
+            <div className="ShowHeader__container">
+              <div className="ShowHeader__cover" />
+              <div className="ShowHeader__info" />
+            </div>
+          </div>
+        </div>
+        <div className="Container" />
       </div>
     );
   }
