@@ -118,12 +118,20 @@ export function chunkSlotsByDay(slots, automationShow) {
   const startDay = startOfToday();
   const endDay = endOfToday();
   days.forEach(daySlots => {
+    // create a day length auto-slot if there is nothing on that day
     if (daySlots.length <= 0) {
       daySlots.push(createAutomationSlot(automationShow, startDay, endDay));
-    } else if (daySlots[daySlots.length - 1].endDate !== endDay) {
-      const lastSlot = daySlots[daySlots.length - 1];
+      return;
+    }
+
+    // if the last slot isn't overnight and doesn't end at midnight; add auto-slot to midnight
+    const lastSlotOfDay = daySlots[daySlots.length - 1];
+    if (
+      lastSlotOfDay.endDate !== endDay &&
+      isBefore(lastSlotOfDay.startDate, lastSlotOfDay.endDate)
+    ) {
       daySlots.push(
-        createAutomationSlot(automationShow, lastSlot.endDate, endDay)
+        createAutomationSlot(automationShow, lastSlotOfDay.endDate, endDay)
       );
     }
   });
@@ -147,29 +155,28 @@ export function getTodayDayMonday() {
   return shiftedDates[getDay(new Date())];
 }
 
-export function getOnAirSlot(slots) {
-  const byDay = chunkSlotsByDay(slots);
+export function getOnAirSlot(slotsByDay) {
   const now = new Date();
-  const todaySlots = byDay[shiftedDates[getDay(now)]];
+  const todaySlots = slotsByDay[shiftedDates[getDay(now)]];
 
   // eslint-disable-next-line
   for (const [index, slot] of todaySlots.entries()) {
-    let fromTime = parseDate(slot.from_time);
-    let toTime = parseDate(slot.to_time);
+    let fromTime = parseDate(slot.fromDate);
+    let toTime = parseDate(slot.toDate);
 
-    if (slot.is_overnight && index === 0) {
-      fromTime = subDays(fromTime, 1);
+    // if (
+    //   ((getHours(toTime) === 0 && getMinutes(toTime) === 0) ||
+    //     slot.is_overnight) &&
+    //   index === todaySlots.length - 1
+    // ) {
+    //   toTime = addDays(toTime, 1);
+    // }
+    let endDate = slot.endDate;
+    if (isBefore(slot.endDate, slot.startDate)) {
+      endDate = addDays(endDate, 1);
     }
 
-    if (
-      ((getHours(toTime) === 0 && getMinutes(toTime) === 0) ||
-        slot.is_overnight) &&
-      index === todaySlots.length - 1
-    ) {
-      toTime = addDays(toTime, 1);
-    }
-
-    if (isWithinRange(now, fromTime, toTime)) {
+    if (isWithinRange(now, slot.startDate, endDate)) {
       return slot;
     }
   }
@@ -211,6 +218,14 @@ export function getScrollPositionForSlot(slot) {
   const onAirStartTime = parseDate(slot.from_time);
   const startOfDay = startOfToday();
   const duration = differenceInMinutes(onAirStartTime, startOfDay);
+
+  return calculateWidth(duration, false);
+}
+
+export function getScrollPositionForNow() {
+  const now = new Date();
+  const startOfDay = startOfToday();
+  const duration = differenceInMinutes(now, startOfDay);
 
   return calculateWidth(duration, false);
 }

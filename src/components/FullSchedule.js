@@ -11,22 +11,23 @@ import {
   getTodayDayMonday,
   getScrollPositionForSlot,
   chunkSlotsByDay,
+  getScrollPositionForNow,
 } from '../utils/schedule';
 
 class FullSchedule extends React.Component {
   componentDidUpdate() {
+    this.updateScrollPositionToNow();
+  }
+
+  componentDidMount() {
+    this.updateScrollPositionToNow();
+  }
+
+  updateScrollPositionToNow() {
     const container = this.containerRef;
 
     if (container && container.scrollLeft === 0) {
-      const onAirSlot = getOnAirSlot(this.props.schedule.data.slots);
-      const slotStartedToday = onAirSlot.day === getTodayDayMonday();
-
-      if (onAirSlot.is_overnight && !slotStartedToday) {
-        container.scrollLeft = 0;
-        return;
-      }
-
-      const onAirPosition = getScrollPositionForSlot(onAirSlot) - 40;
+      const onAirPosition = getScrollPositionForNow() - 40;
       if (onAirPosition > 0) {
         container.scrollLeft = onAirPosition;
       }
@@ -34,15 +35,12 @@ class FullSchedule extends React.Component {
   }
 
   render() {
-    if (this.props.schedule.loading) {
+    const { isLoading, slotsByDay } = this.props.schedule;
+    if (isLoading) {
       return <Spinner />;
     }
 
     const days = ['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'];
-    const slotsByDay = chunkSlotsByDay(
-      this.props.schedule.allSlots,
-      this.props.schedule.automationShow
-    );
 
     return (
       <div className="Schedule">
@@ -77,4 +75,6 @@ FullSchedule.propTypes = {
   schedule: PropTypes.object.isRequired,
 };
 
-export default FullSchedule;
+export default connect(state => ({
+  schedule: state.schedule,
+}))(FullSchedule);

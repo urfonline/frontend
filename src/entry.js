@@ -10,8 +10,9 @@ import {
   ApolloClient,
   ApolloProvider,
   createNetworkInterface,
+  gql,
 } from 'react-apollo';
-import { loginRestoreAttempt } from './actions';
+import { loginRestoreAttempt, scheduleLoaded } from './actions';
 
 const networkInterface = createNetworkInterface({
   uri: process.env.NODE_ENV === 'production'
@@ -45,7 +46,43 @@ const store = createStore(undefined, {
   sagaMiddleware,
 });
 
+// try and re auth someone
 store.dispatch(loginRestoreAttempt());
+
+// load schedule
+// TODO: This really should not be here, disgusting!
+const ScheduleQuery = gql`
+  query ScheduleQuery {
+    currentSlate {
+      slots {
+        show {
+          name
+          slug
+          brandColor
+          cover {
+            resource
+          }
+        }
+        startTime
+        endTime
+        day
+      }
+    }
+    automationShow {
+      name
+      slug
+      brandColor
+      cover {
+        resource
+      }
+    }
+  }
+`;
+apolloClient
+  .query({
+    query: ScheduleQuery,
+  })
+  .then(res => store.dispatch(scheduleLoaded(res.data)));
 
 ReactDOM.render(
   <ApolloProvider store={store} client={apolloClient}>

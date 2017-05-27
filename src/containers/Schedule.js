@@ -12,29 +12,9 @@ function Schedule({ data }) {
       <div className="Container">
         <h1 className="Page__heading">Schedule</h1>
       </div>
-      <FullSchedule schedule={data} />
+      <FullSchedule />
     </div>
   );
 }
 
-const ScheduleQuery = gql`
-  query ScheduleQuery {
-    allSlots {
-      show {
-        name
-        slug
-        brandColor
-      }
-      startTime
-      endTime
-      day
-    }
-    automationShow {
-      name
-      slug
-      brandColor
-    }
-  }
-`;
-
-export default graphql(ScheduleQuery)(Schedule);
+export default Schedule;

@@ -27,6 +27,9 @@ export const loadSchedule = () => dispatch => {
       })
     );
 };
+export const scheduleLoaded = schedule => dispatch => {
+  dispatch({ type: LOAD_SCHEDULE_SUCCESS, payload: { schedule } });
+};
 
 export const playLive = () => ({ type: INITIATE_PLAY_LIVE });
 export const updateOnAirSlot = () => ({ type: UPDATE_ON_AIR_SLOT });

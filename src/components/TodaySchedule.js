@@ -6,25 +6,24 @@ import ScheduleDayRow from './ScheduleDayRow';
 import Spinner from './Spinner';
 import {
   calculateWidth,
-  getOnAirSlot,
-  getScrollPositionForSlot,
+  getScrollPositionForNow,
   getTodayDayMonday,
 } from '../utils/schedule';
 
 class TodaySchedule extends React.Component {
   componentDidUpdate() {
+    this.updateScrollPositionToNow();
+  }
+
+  componentDidMount() {
+    this.updateScrollPositionToNow();
+  }
+
+  updateScrollPositionToNow() {
     const container = this.containerRef;
 
     if (container && container.scrollLeft === 0) {
-      const onAirSlot = getOnAirSlot(this.props.schedule.data.slots);
-      const slotStartedToday = onAirSlot.day === getTodayDayMonday();
-
-      if (onAirSlot.is_overnight && !slotStartedToday) {
-        container.scrollLeft = 0;
-        return;
-      }
-
-      const onAirPosition = getScrollPositionForSlot(onAirSlot) - 40;
+      const onAirPosition = getScrollPositionForNow() - 40;
       if (onAirPosition > 0) {
         container.scrollLeft = onAirPosition;
       }
@@ -32,7 +31,7 @@ class TodaySchedule extends React.Component {
   }
 
   renderSchedule() {
-    const slotsByDay = this.props.schedule.chunked;
+    const slotsByDay = this.props.schedule.slotsByDay;
     const today = getTodayDayMonday();
 
     return (
@@ -47,7 +46,6 @@ class TodaySchedule extends React.Component {
           <div className="Schedule__day-row">
             <ScheduleDayRow
               day={today}
-              shows={this.props.schedule.data.shows}
               slots={slotsByDay[today]}
               calculateWidth={calculateWidth}
             />

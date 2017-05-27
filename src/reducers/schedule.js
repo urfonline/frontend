@@ -7,20 +7,11 @@ import {
 import { chunkSlotsByDay, getOnAirSlot } from '../utils/schedule';
 
 const initialState = {
-  isLoading: false,
+  isLoading: true,
   data: null,
   chunked: null,
   currentlyOnAir: null,
 };
-
-function getOnAirShowAndSlot(payload) {
-  const slot = getOnAirSlot(payload.slots);
-
-  return {
-    slot,
-    show: payload.shows[slot.show],
-  };
-}
 
 export default function scheduleReducer(state = initialState, action) {
   switch (action.type) {
@@ -31,12 +22,17 @@ export default function scheduleReducer(state = initialState, action) {
       };
     }
     case LOAD_SCHEDULE_SUCCESS: {
+      const slotsByDay = chunkSlotsByDay(
+        action.payload.schedule.currentSlate.slots,
+        action.payload.schedule.automationShow
+      );
+
       return {
         ...state,
         isLoading: false,
-        data: action.payload,
-        currentlyOnAir: getOnAirShowAndSlot(action.payload),
-        chunked: chunkSlotsByDay(action.payload.slots),
+        slotsByDay: slotsByDay,
+        automationShow: action.payload.schedule.automationShow,
+        currentlyOnAir: getOnAirSlot(slotsByDay),
       };
     }
     case LOAD_SCHEDULE_FAILURE: {
