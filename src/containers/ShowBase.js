@@ -57,7 +57,7 @@ function ShowBase({ data: { show, loading } }) {
         <div className="Container">
           <div className="ShowHeader__container">
             <div className="ShowHeader__cover">
-              <Image src={show.cover} />
+              <Image src={show.cover.resource} />
             </div>
             <div className="ShowHeader__info">
               <h1 className="ShowHeader__show-title">
@@ -99,8 +99,12 @@ const ShowBaseQuery = gql`
       slug
       shortDescription
       brandColor
-      cover
-      banner
+      cover {
+        resource
+      }
+      cover {
+        resource
+      }
       slots {
         startTime
         day

@@ -21,7 +21,7 @@ function ShowsGridItem({ show }) {
       )}
     >
       <Link className="ShowsGrid__anchor" to={`/shows/${show.slug}`}>
-        <Image className="ShowsGrid__cover" src={show.cover} />
+        <Image className="ShowsGrid__cover" src={show.cover.resource} />
         <h1
           className={cx('ShowsGrid__title')}
           style={{
