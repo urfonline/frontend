@@ -17,13 +17,14 @@
     "react-router-redux": "next",
     "redux": "^3.6.0",
     "redux-saga": "^0.15.3",
+    "redux-thunk": "^2.2.0",
     "unfetch": "^2.1.2",
     "webpack": "^2.6.0"
   },
   "scripts": {
     "prod": "export NODE_ENV=production && `npm bin`/webpack --config webpack.prod.config.js",
     "serve": "`npm bin`/webpack-dev-server --history-api-fallback --content-base=build --config webpack.dev.config --hot",
-    "format": "prettier --single-quote --trailing-comma es5 --write \"./src/**/*.js\"",
+    "format": "prettier --single-quote --print-width 80 --trailing-comma es5 --write \"./src/**/*.js\"",
     "test": "NODE_ENV=test && jest"
   },
   "devDependencies": {
