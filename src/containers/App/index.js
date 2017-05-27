@@ -15,6 +15,7 @@ import Schedule from '../Schedule';
 import Shows from '../Shows';
 import ShowBase from '../ShowBase';
 import NotFound from '../NotFound';
+import MembersApp from '../members/MembersApp';
 import { Helmet } from 'react-helmet';
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
           <Route path="/schedule" exact component={Schedule} />
           <Route path="/shows" exact component={Shows} />
           <Route path="/shows/:showSlug" component={ShowBase} />
+          <Route path="/members" component={MembersApp} />
           <Route component={NotFound} />
         </Switch>
         <Player />

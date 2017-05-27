@@ -1,29 +1,38 @@
 import './css/screen.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
 import createStore from './redux/configureStore';
 import App from './containers/App';
 import createHistory from 'history/createBrowserHistory';
-import { Route } from 'react-router';
-import {
-  ConnectedRouter,
-  routerReducer,
-  routerMiddleware,
-  push,
-} from 'react-router-redux';
+import { ConnectedRouter } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
 import {
   ApolloClient,
   ApolloProvider,
   createNetworkInterface,
 } from 'react-apollo';
+import { loginRestoreAttempt } from './actions';
 
 const networkInterface = createNetworkInterface({
   uri: process.env.NODE_ENV === 'production'
     ? 'https://api.urfonline.com/graphql'
     : 'http://localhost:8000/graphql',
 });
+
+networkInterface.use([
+  {
+    applyMiddleware(req, next) {
+      if (!req.options.headers) {
+        req.options.headers = {}; // Create the header object if needed.
+      }
+      // get the authentication token from local storage if it exists
+      const token = localStorage.getItem('token');
+      req.options.headers.authorization = token ? `Token ${token}` : null;
+      next();
+    },
+  },
+]);
+
 const apolloClient = new ApolloClient({
   networkInterface,
 });
@@ -35,6 +44,8 @@ const store = createStore(undefined, {
   history,
   sagaMiddleware,
 });
+
+store.dispatch(loginRestoreAttempt());
 
 ReactDOM.render(
   <ApolloProvider store={store} client={apolloClient}>
