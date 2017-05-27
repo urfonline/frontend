@@ -35,7 +35,7 @@ class FullSchedule extends React.Component {
   }
 
   render() {
-    const { isLoading, slotsByDay } = this.props.schedule;
+    const { isLoading, slotsByDay, currentlyOnAir } = this.props.schedule;
     if (isLoading) {
       return <Spinner />;
     }
@@ -58,6 +58,7 @@ class FullSchedule extends React.Component {
                 <ScheduleDayRow
                   title={day}
                   day={index}
+                  onAirSlotId={currentlyOnAir.slotId}
                   slots={slotsByDay[index]}
                   calculateWidth={calculateWidth}
                 />

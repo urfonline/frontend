@@ -34,8 +34,9 @@ export function formatTime(date) {
   return format(date, 'h:mma');
 }
 
-function createAutomationSlot(show, startDate, endDate) {
+function createAutomationSlot(slotId, show, startDate, endDate) {
   return {
+    slotId,
     startDate,
     endDate,
     automation: true,
@@ -45,6 +46,7 @@ function createAutomationSlot(show, startDate, endDate) {
 }
 
 export function chunkSlotsByDay(slots, automationShow) {
+  let slotId = 0;
   const days = [[], [], [], [], [], [], []];
   let currentDate = startOfToday(new Date());
   let currentDay = 0;
@@ -78,7 +80,12 @@ export function chunkSlotsByDay(slots, automationShow) {
     // add automation show if there is a gap before this show
     if (currentDate !== slot.startDate) {
       days[slot.day].push(
-        createAutomationSlot(automationShow, currentDate, slot.startDate)
+        createAutomationSlot(
+          slotId++,
+          automationShow,
+          currentDate,
+          slot.startDate
+        )
       );
       currentDate = slot.startDate;
     }
@@ -91,6 +98,7 @@ export function chunkSlotsByDay(slots, automationShow) {
       );
       days[slot.day].push(
         Object.assign({}, slot, {
+          slotId: slotId++,
           duration: diffMins,
           type: 'pre-overnight',
         })
@@ -100,6 +108,7 @@ export function chunkSlotsByDay(slots, automationShow) {
         const postMins = differenceInMinutes(slot.endDate, startOfTomorrow());
         days[slot.day + 1].push(
           Object.assign({}, slot, {
+            slotId: slotId++,
             duration: postMins,
             type: 'post-overnight',
           })
@@ -107,6 +116,7 @@ export function chunkSlotsByDay(slots, automationShow) {
       }
     } else {
       days[slot.day].push({
+        slotId: slotId++,
         ...slot,
         duration: differenceInMinutes(slot.endDate, slot.startDate),
       });
@@ -120,7 +130,9 @@ export function chunkSlotsByDay(slots, automationShow) {
   days.forEach(daySlots => {
     // create a day length auto-slot if there is nothing on that day
     if (daySlots.length <= 0) {
-      daySlots.push(createAutomationSlot(automationShow, startDay, endDay));
+      daySlots.push(
+        createAutomationSlot(slotId++, automationShow, startDay, endDay)
+      );
       return;
     }
 
@@ -131,7 +143,12 @@ export function chunkSlotsByDay(slots, automationShow) {
       isBefore(lastSlotOfDay.startDate, lastSlotOfDay.endDate)
     ) {
       daySlots.push(
-        createAutomationSlot(automationShow, lastSlotOfDay.endDate, endDay)
+        createAutomationSlot(
+          slotId++,
+          automationShow,
+          lastSlotOfDay.endDate,
+          endDay
+        )
       );
     }
   });

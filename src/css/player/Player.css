@@ -7,6 +7,7 @@
   background: #090d0f;
   color: #ffffff;
   box-shadow: 0 0 4px 0 rgba(30, 30, 30, 0.4);
+  z-index: var(--layer-player);
   
   &__audio {
     width: 100%;

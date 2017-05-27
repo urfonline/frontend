@@ -1,3 +1,7 @@
 .ScheduleRow {
-  overflow: hidden;
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
 }

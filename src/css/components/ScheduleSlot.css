@@ -44,8 +44,10 @@
   }
 
   &--on-air {
+    border: 0;
     position: relative;
     z-index: var(--layer-on-air);
+    box-shadow: 0 0 20px rgba(60, 60, 60, 0.4);
   }
 }
 

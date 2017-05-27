@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import Color from 'color';
 import { Link } from 'react-router-dom';
 import ScheduleSlotTime from './ScheduleSlotTime';
 import { getShowBrandTone } from '../utils/shows';
@@ -18,10 +19,17 @@ function ScheduleSlot(props) {
     }
   );
 
+  let onAirGlow = {};
+
+  if (props.onAir) {
+    const color = Color(`#${show.brandColor}`).rgb().array();
+    onAirGlow.boxShadow = `0 0 20px rgba(${color.join(',')}, 0.7)`;
+  }
+
   return (
     <div
       className={scheduleSlotClasses}
-      style={{ width: props.calculateWidth(slot.duration) }}
+      style={{ width: props.calculateWidth(slot.duration), ...onAirGlow }}
     >
       <Link
         className="ScheduleSlot__inner"

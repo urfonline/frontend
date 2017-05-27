@@ -7,7 +7,7 @@ import dateInterval from '../hoc/DateInterval';
 import { getTodayDayMonday, slotIsOnAt } from '../utils/schedule';
 
 function ScheduleDayRow(props) {
-  const { slots, calculateWidth } = props;
+  const { slots, calculateWidth, onAirSlotId } = props;
 
   if (slots === undefined) {
     return <div>Nothing is scheduled.</div>;
@@ -29,7 +29,7 @@ function ScheduleDayRow(props) {
                 key={timeKey}
                 slot={slot}
                 index={index}
-                onAir={isOnAir}
+                onAir={onAirSlotId === slot.slotId}
                 calculateWidth={calculateWidth}
               />
             );
@@ -46,6 +46,7 @@ ScheduleDayRow.propTypes = {
   day: PropTypes.number.isRequired,
   className: PropTypes.string,
   slots: PropTypes.array.isRequired,
+  onAirSlotId: PropTypes.number.isRequired,
 };
 
 ScheduleDayRow.defaultProps = {
