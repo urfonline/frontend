@@ -82,7 +82,11 @@ export function chunkSlotsByDay(slots, automationShow) {
     }
 
     // add automation show if there is a gap before this show
-    if (currentDate !== slot.startDate) {
+    if (
+      getHours(currentDate) !== getHours(slot.startDate) ||
+      getMinutes(currentDate) !== getMinutes(slot.startDate)
+    ) {
+      console.log(currentDate, slot.startDate);
       days[slot.day].push(
         createAutomationSlot(
           slotId++,
