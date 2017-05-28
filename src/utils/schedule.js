@@ -51,6 +51,7 @@ export function chunkSlotsByDay(slots, automationShow) {
   let currentDate = startOfToday(new Date());
   let currentDay = 0;
 
+  // parse the times to actual dates - all set to today
   const sortedSlots = slots.map(slot => {
     return {
       ...slot,
@@ -59,6 +60,7 @@ export function chunkSlotsByDay(slots, automationShow) {
     };
   });
 
+  // sort the slots by day and start time
   sortedSlots.sort((a, b) => {
     if (a.day < b.day) {
       return -1;
@@ -73,10 +75,12 @@ export function chunkSlotsByDay(slots, automationShow) {
   });
 
   sortedSlots.forEach(slot => {
+    // if slot is first of a new day, set the time to midnight
     if (currentDay !== slot.day) {
       currentDate = startOfToday(new Date());
       currentDay = slot.day;
     }
+
     // add automation show if there is a gap before this show
     if (currentDate !== slot.startDate) {
       days[slot.day].push(
@@ -90,7 +94,8 @@ export function chunkSlotsByDay(slots, automationShow) {
       currentDate = slot.startDate;
     }
 
-    // add this show
+    // add this slot
+    // if is overnight
     if (isBefore(slot.endDate, slot.startDate)) {
       const diffMins = differenceInMinutes(
         startOfTomorrow(slot.startDate),
@@ -108,6 +113,7 @@ export function chunkSlotsByDay(slots, automationShow) {
         const postMins = differenceInMinutes(slot.endDate, startOfTomorrow());
         days[slot.day + 1].push(
           Object.assign({}, slot, {
+            startDate: subDays(slot.startDate, 1),
             slotId: slotId++,
             duration: postMins,
             type: 'post-overnight',
@@ -153,6 +159,8 @@ export function chunkSlotsByDay(slots, automationShow) {
     }
   });
 
+  console.log(days);
+
   return days;
 }
 
@@ -189,11 +197,16 @@ export function getOnAirSlot(slotsByDay) {
     //   toTime = addDays(toTime, 1);
     // }
     let endDate = slot.endDate;
+    let startDate = slot.startDate;
     if (isBefore(slot.endDate, slot.startDate)) {
-      endDate = addDays(endDate, 1);
+      if (slot.type === 'pre-overnight') {
+        endDate = addDays(endDate, 1);
+      } else if (slot.type === 'post-overnight') {
+        startDate = subDays(startDate, 1);
+      }
     }
 
-    if (isWithinRange(now, slot.startDate, endDate)) {
+    if (isWithinRange(now, startDate, endDate)) {
       return slot;
     }
   }
