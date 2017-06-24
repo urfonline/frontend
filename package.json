@@ -25,9 +25,13 @@
     "prod": "export NODE_ENV=production && `npm bin`/webpack --config webpack.prod.config.js",
     "serve": "`npm bin`/webpack-dev-server --history-api-fallback --content-base=build --config webpack.dev.config --hot",
     "format": "prettier --single-quote --print-width 80 --trailing-comma es5 --write \"./src/**/*.js\"",
-    "test": "NODE_ENV=test && jest"
+    "test": "NODE_ENV=test && jest",
+    "storybook": "start-storybook -p 9001 -c .storybook",
+    "build-storybook": "build-storybook -c .storybook -o storybook-public"
   },
   "devDependencies": {
+    "@storybook/addon-info": "^3.1.5",
+    "@storybook/react": "^3.1.5",
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
     "babel-jest": "^20.0.3",

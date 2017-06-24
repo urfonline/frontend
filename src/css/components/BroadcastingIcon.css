@@ -10,7 +10,7 @@
 
 .Broadcasting {
   width: 100%;
-
+  
   &__left-end,
   &__right-end {
     animation: BroadcastingFade 1.2s infinite reverse 750ms;
