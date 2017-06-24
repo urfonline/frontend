@@ -7,7 +7,9 @@ storiesOf('MainNavigation', module)
   .addDecorator(story => (
     <MemoryRouter initialEntries={['/']}>{story()}</MemoryRouter>
   ))
-  .add('', () => <div>
-    <MainNavigation desktop />
-    <MainNavigation mobile />
-  </div>);
+  .add('', () => (
+    <div>
+      <MainNavigation desktop />
+      <MainNavigation mobile />
+    </div>
+  ));
