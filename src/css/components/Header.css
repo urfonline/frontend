@@ -14,28 +14,10 @@
   }
 
   &__menu {
+    left: -60px;
     padding-top: 1.6rem;
-    list-style: none;
-    font-size: 1.3rem;
-    position: relative;
-    left: -120px;
-    margin: 0;
-    font-weight: 600;
     float: left;
-  }
-  
-  &__menu-item {
-    display: inline-block;
-    margin: 0 0.8rem;
-    
-    & > a {
-      text-decoration: none;
-      color: #000000;
-      
-      &:hover {
-        border-bottom: 3px solid var(--color__brand-red);
-      }
-    }
+    position: relative;
   }
 
   &__logo {

@@ -2,6 +2,7 @@ import React from 'react';
 import Header from '../../components/Header';
 import Player from '../../components/Player';
 import DevTool from '../../components/DevTool';
+import MainNavigation from '../../components/MainNavigation';
 import {
   BrowserRouter as Router,
   Route,
@@ -24,6 +25,7 @@ function App() {
       <Helmet titleTemplate="%s | URF" defaultTitle="URF" />
       <Header />
       <div className="Page">
+        <MainNavigation mobile />
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/schedule" exact component={Schedule} />
