@@ -15,7 +15,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.svg|\.png|\.woff|\.json/,
+        test: /\.svg|\.jpg|\.png|\.woff|\.json/,
         use: 'url-loader?limit=10000',
       },
     ],
