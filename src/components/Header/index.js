@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import URFLogo from '../URFLogoHeader';
+import MainNavigation from '../MainNavigation';
 
 function Header() {
   return (
@@ -12,20 +13,9 @@ function Header() {
               <URFLogo />
             </Link>
           </h1>
-          <ul className="Header__menu">
-            <li className="Header__menu-item">
-              <Link to="/schedule">Schedule</Link>
-            </li>
-            <li className="Header__menu-item">
-              <Link to="/shows">Shows</Link>
-            </li>
-            <li className="Header__menu-item">
-              <Link to="/news-events">News & Events</Link>
-            </li>
-            <li className="Header__menu-item">
-              <Link to="/about">About</Link>
-            </li>
-          </ul>
+          <div className="Header__menu">
+            <MainNavigation desktop />
+          </div>
         </div>
       </div>
     </header>
