@@ -5,14 +5,18 @@ import testImage from './Temple_Island.jpg';
 
 function NewsItem(props) {
   return (
-    <div className={cx('NewsItem', {'NewsItem--featured':props.featured})}>
+    <div className={cx('NewsItem', { 'NewsItem--featured': props.featured })}>
       <div className="TileImage">
-        <img className='Image' src={testImage} />
+        <img className="NewsItem__image" src={testImage} />
       </div>
       <div className="TileDetails">
-        <div className = "Title"><h2 className="h-title">{props.title}</h2></div>
-        <div className= "Date"><small>{props.date}</small></div>
-        <div className= "Description"><p1>{props.description}</p1></div>
+        <div className="NewsItem__title">
+          <h2 className="NewsItem__titletext">{props.title}</h2>
+        </div>
+        <div className="NewsItem__date"><small>{props.date}</small></div>
+        <div className="NewsItem__description">
+          <p1>{props.description}</p1>
+        </div>
       </div>
     </div>
   );
