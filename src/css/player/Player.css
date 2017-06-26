@@ -22,9 +22,6 @@
   &__show-cover {
     width: 80px;
     height: 80px;
-    bottom: 0;
-    left: 0;
-    position: absolute;
     
     & > img {
       width: 100%;
@@ -34,5 +31,11 @@
   
   &__show-name {
     font-weight: 700;
+  }
+  
+  & button {
+    color: white;
+    display: block;
+    width: 50px;
   }
 }

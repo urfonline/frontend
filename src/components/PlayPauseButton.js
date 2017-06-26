@@ -1,17 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import PlayIcon from './PlayIcon';
 
-function PlayPauseButton(props) {
+function PlayPauseButton({ isPlaying, isLive, onChange }) {
   return (
-    <button onClick={props.onToggle}>
-      {props.isPlaying ? 'Stop' : 'Play'}
+    <button onClick={() => onChange(!isPlaying)}>
+      {isPlaying ? (isLive ? 'Stop' : 'Pause') : <PlayIcon tone="light" />}
     </button>
   );
 }
 
 PlayPauseButton.propTypes = {
-  onToggle: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
   isPlaying: PropTypes.bool.isRequired,
+  isLive: PropTypes.bool.isRequired,
 };
 
 export default PlayPauseButton;

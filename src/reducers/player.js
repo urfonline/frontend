@@ -1,7 +1,14 @@
-import { INITIATE_PLAY_LIVE, PLAYER_CHANGE } from '../actions';
+import {
+  INITIATE_PLAY_LIVE,
+  PLAYER_CHANGE,
+  PLAYER_USER_STATE_CHANGE,
+} from '../actions';
 
 const initialState = {
-  stream: null,
+  stream: 'live',
+  playerState: null,
+  userState: false,
+  audioSourceType: null,
 };
 
 export default function playerReducer(state = initialState, action) {
@@ -10,12 +17,19 @@ export default function playerReducer(state = initialState, action) {
       return {
         ...state,
         stream: 'live',
+        userState: 'PLAY',
       };
     }
     case PLAYER_CHANGE: {
       return {
         ...state,
         ...action.payload,
+      };
+    }
+    case PLAYER_USER_STATE_CHANGE: {
+      return {
+        ...state,
+        userState: action.payload.userState,
       };
     }
     default: {

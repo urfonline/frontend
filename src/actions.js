@@ -4,6 +4,7 @@ export const LOAD_SCHEDULE_SUCCESS = 'LOAD_SCHEDULE_SUCCESS';
 export const LOAD_SCHEDULE_FAILURE = 'LOAD_SCHEDULE_FAILURE';
 
 export const PLAYER_CHANGE = 'PLAYER_CHANGE';
+export const PLAYER_USER_STATE_CHANGE = 'PLAYER_USER_STATE_CHANGE';
 export const INITIATE_PLAY_LIVE = 'INITIATE_PLAY_LIVE';
 export const UPDATE_ON_AIR_SLOT = 'UPDATE_ON_AIR_SLOT';
 
@@ -62,4 +63,9 @@ export const loginRestoreAttempt = () => dispatch => {
 export const loginRestoreSuccess = token => ({
   type: LOGIN_RESTORE_SUCCESS,
   payload: { token },
+});
+
+export const playerUserStateChange = userState => ({
+  type: PLAYER_USER_STATE_CHANGE,
+  payload: { userState },
 });
