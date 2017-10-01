@@ -65,16 +65,17 @@ module.exports = {
       shorthands: true,
     }),
     new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', minChunks: Infinity }),
-    new ChunkManifestPlugin({
-      filename: 'manifest.json',
-      manifestVariable: 'chunkManifest',
-    }),
-    new webpack.optimize.CommonsChunkPlugin({ async: true, children: true, minChunks: 2 }),
+    // new ChunkManifestPlugin({
+    //   filename: 'manifest.json',
+    //   manifestVariable: 'chunkManifest',
+    // }),
     new DuplicatePackageCheckerPlugin(),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'src/index.html',
       alwaysWriteToDisk: true,
+      inject: true,
+      chunks: ['vendor', 'main'],
     }),
     new HtmlWebpackHarddiskPlugin(),
     extractCSS,
