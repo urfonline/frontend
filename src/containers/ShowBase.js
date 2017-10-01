@@ -60,12 +60,7 @@ function ShowBase({ data: { show, loading } }) {
               <Image src={show.cover.resource} />
             </div>
             <div className="ShowHeader__info">
-              <h1 className="ShowHeader__show-title">
-                {show.name}{' '}
-                <span className="ShowHeader__members">
-                  with Rachel Example and John Ala
-                </span>
-              </h1>
+              <h1 className="ShowHeader__show-title">{show.name}</h1>
               <span className="ShowHeader__schedule-times">
                 {show.slots.map(slot => (
                   <span>
@@ -74,15 +69,14 @@ function ShowBase({ data: { show, loading } }) {
                   </span>
                 ))}
               </span>
-              <div className="ShowHeader__short-description">
-                {show.shortDescription}
-              </div>
             </div>
           </div>
         </div>
       </div>
       <div className="Container">
-        <h1>Content here!</h1>
+        <div className="ShowHeader__short-description">
+          {show.shortDescription}
+        </div>
       </div>
     </div>
   );
