@@ -3,14 +3,16 @@ import { storiesOf } from '@storybook/react';
 import NewsItem from './index';
 
 const testProps = {
-  description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore...',
+  description:
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore...',
   date: '1 day ago',
 };
 
 const bestivalProps = {
   featured: true,
   title: 'Bestival Preview',
-  description: "This year URF is heading to Bestival for a festival of colour, here's what you can expect over the 4 days...",
+  description:
+    "This year URF is heading to Bestival for a festival of colour, here's what you can expect over the 4 days...",
   date: '3 days ago',
 };
 

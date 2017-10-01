@@ -7,7 +7,11 @@ const Link = props => {
     window.loadUrl(props.href);
   };
 
-  return <a onClick={click} href={props.href} {...props}>{props.children}</a>;
+  return (
+    <a onClick={click} href={props.href} {...props}>
+      {props.children}
+    </a>
+  );
 };
 
 Link.propTypes = {

@@ -13,7 +13,9 @@ function NewsItem(props) {
         <div className="NewsItem__title">
           <h2 className="NewsItem__titletext">{props.title}</h2>
         </div>
-        <div className="NewsItem__date"><small>{props.date}</small></div>
+        <div className="NewsItem__date">
+          <small>{props.date}</small>
+        </div>
         <div className="NewsItem__description">
           <p1>{props.description}</p1>
         </div>

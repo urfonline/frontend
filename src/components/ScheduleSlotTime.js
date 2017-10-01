@@ -13,8 +13,8 @@ function ScheduleSlotTime(props) {
   const fromElement = (
     <span
       className={cx('ScheduleSlot__time-item', {
-        'ScheduleSlot__time-item--continuation': isOvernight &&
-          props.index === 0,
+        'ScheduleSlot__time-item--continuation':
+          isOvernight && props.index === 0,
       })}
     >
       {formatTime(slot.startDate)}
@@ -24,8 +24,8 @@ function ScheduleSlotTime(props) {
   const toElement = (
     <span
       className={cx('ScheduleSlot__time-item', {
-        'ScheduleSlot__time-item--continuation': isOvernight &&
-          props.index !== 0,
+        'ScheduleSlot__time-item--continuation':
+          isOvernight && props.index !== 0,
       })}
     >
       {formatTime(slot.endDate)}

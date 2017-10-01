@@ -20,7 +20,10 @@ function ScheduleDayRow(props) {
       <div className="ScheduleRow__inner">
         <div className="ScheduleRow__slots">
           {slots.map((slot, index) => {
-            const timeKey = `${dateFormat(slot.startDate, 'hh:mm')}:${dateFormat(slot.endDate, 'hh:mm')}`;
+            const timeKey = `${dateFormat(
+              slot.startDate,
+              'hh:mm'
+            )}:${dateFormat(slot.endDate, 'hh:mm')}`;
             const isOnAir =
               isToday &&
               slotIsOnAt(slot, props.dateInterval, index / (slots.length - 1));

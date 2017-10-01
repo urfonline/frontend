@@ -5,7 +5,7 @@ import PlayIcon from './PlayIcon';
 function PlayPauseButton({ isPlaying, isLive, onChange }) {
   return (
     <button onClick={() => onChange(!isPlaying)}>
-      {isPlaying ? (isLive ? 'Stop' : 'Pause') : <PlayIcon tone="light" />}
+      {isPlaying ? isLive ? 'Stop' : 'Pause' : <PlayIcon tone="light" />}
     </button>
   );
 }

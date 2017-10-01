@@ -22,7 +22,9 @@ function ScheduleSlot(props) {
   let onAirGlow = {};
 
   if (props.onAir) {
-    const color = Color(`#${show.brandColor}`).rgb().array();
+    const color = Color(`#${show.brandColor}`)
+      .rgb()
+      .array();
     onAirGlow.boxShadow = `0 0 20px rgba(${color.join(',')}, 0.7)`;
   }
 
@@ -37,9 +39,7 @@ function ScheduleSlot(props) {
         to={`/shows/${show.slug}`}
       >
         <ScheduleSlotTime slot={slot} onAir={props.onAir} index={props.index} />
-        <div className="ScheduleSlot__show-name">
-          {show.name}
-        </div>
+        <div className="ScheduleSlot__show-name">{show.name}</div>
       </Link>
     </div>
   );

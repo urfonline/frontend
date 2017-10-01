@@ -15,9 +15,10 @@ import {
 import { loginRestoreAttempt, scheduleLoaded } from './actions';
 
 const networkInterface = createNetworkInterface({
-  uri: process.env.NODE_ENV === 'production'
-    ? 'https://api.urfonline.com/graphql'
-    : 'http://localhost:8000/graphql',
+  uri:
+    process.env.NODE_ENV === 'production'
+      ? 'https://api.urfonline.com/graphql'
+      : 'http://localhost:8000/graphql',
 });
 
 networkInterface.use([

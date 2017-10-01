@@ -76,12 +76,12 @@ class Login extends React.Component {
 }
 
 const LoginMutation = gql`
-mutation Login($username: String, $password: String) {
-  login(username: $username, password: $password) {
-    token
-    success
+  mutation Login($username: String, $password: String) {
+    login(username: $username, password: $password) {
+      token
+      success
+    }
   }
-}
 `;
 
 export default connect()(graphql(LoginMutation)(Login));
