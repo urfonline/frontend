@@ -34,7 +34,11 @@ storiesOf('NewsItem', module)
   ))
   .add('longer-title', () => (
     <div>
-      <NewsItem title="This is what happens when there is a longer title" featured={true} {...testProps} />
+      <NewsItem
+        title="This is what happens when there is a longer title"
+        featured={true}
+        {...testProps}
+      />
     </div>
   ));
 
