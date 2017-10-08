@@ -11,6 +11,24 @@ import {
 } from '../utils/schedule';
 
 class TodaySchedule extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isDragging: false,
+    };
+
+    this.handleDragStart = () => this.setState({ isDragging: true });
+    this.handleDragStop = () => this.setState({ isDragging: false });
+    this.handleMouseMove = event => {
+      if (!this.state.isDragging) {
+        return;
+      }
+
+      console.log(event);
+    };
+  }
+
   componentDidUpdate() {
     this.updateScrollPositionToNow();
   }
@@ -40,6 +58,9 @@ class TodaySchedule extends React.Component {
         ref={ref => {
           this.containerRef = ref;
         }}
+        onMouseDown={this.handleDragStart}
+        onMouseUp={this.handleDragStop}
+        onMouseMove={this.handleMouseMove}
       >
         <div className="Schedule__scroll">
           <ScheduleTimeline calculateWidth={calculateWidth} />

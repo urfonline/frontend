@@ -2,9 +2,9 @@ import React from 'react';
 import groupBy from 'lodash/groupBy';
 import ShowsGridItem from './ShowsGridItem';
 
-function ShowsGrid({ shows }) {
+function ShowsGrid({ shows, sortMethod }) {
   const showsByLetter = groupBy(shows, show => show.name[0]);
-  console.log(showsByLetter);
+
   return (
     <ul className="ShowsGrid">
       {Object.keys(showsByLetter)
