@@ -47,7 +47,7 @@ module.exports = {
       'node_modules',
       './src/images',
     ],
-    extensions: ['.js', '.svg'],
+    extensions: ['.tsx', '.ts', '.js', '.svg'],
   },
 
   plugins: [
@@ -94,6 +94,18 @@ module.exports = {
           fallback: 'style-loader',
           use: 'css-loader?importLoaders=1!postcss-loader',
         }),
+      },
+      {
+        test: /\.ts(x?)$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+          },
+          {
+            loader: 'ts-loader',
+          },
+        ],
       },
       {
         test: /\.svg|\.png|\.woff|\.json/,
