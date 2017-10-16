@@ -1,7 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-function VolumeControl(props) {
+interface IProps {
+  onChange(num: number): void;
+  value: number;
+}
+
+function VolumeControl(props: IProps) {
   return (
     <div>
       <input
@@ -11,16 +15,11 @@ function VolumeControl(props) {
         step="0.001"
         value={props.value}
         onChange={e => {
-          props.onChange(e.target.value);
+          props.onChange(parseInt(e.target.value, 10));
         }}
       />
     </div>
   );
 }
-
-VolumeControl.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  value: PropTypes.number.isRequired,
-};
 
 export default VolumeControl;

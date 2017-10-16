@@ -1,8 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import liveMinutesHigherOrder from './LiveMinutesHigherOrder';
 
-function ScheduleTimeline(props) {
+interface IProps {
+  calculateWidth(num: number): number;
+  minutes: number;
+}
+
+function ScheduleTimeline(props: IProps) {
   const hours = [
     'midnight',
     '1am',
@@ -50,9 +54,4 @@ function ScheduleTimeline(props) {
   );
 }
 
-ScheduleTimeline.propTypes = {
-  calculateWidth: PropTypes.func.isRequired,
-  minutes: PropTypes.number.isRequired,
-};
-
-export default liveMinutesHigherOrder(ScheduleTimeline);
+export default liveMinutesHigherOrder(ScheduleTimeline) as any;

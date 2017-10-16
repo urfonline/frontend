@@ -1,11 +1,31 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { connect } from 'react-redux';
 import PlayIcon from './PlayIcon';
+import {compose} from "recompose";
 
-class InlinePlayer extends React.Component {
-  constructor(props) {
+interface IProps {
+  player: any;
+  onAir?: {
+    show: {
+      title: string;
+      tone: string;
+      accent: string;
+    };
+  };
+  children?: any;
+}
+
+interface IState {
+  isPlaying: boolean;
+}
+
+class InlinePlayer extends React.Component<IProps, IState> {
+  public static defaultProps = {
+    onAir: null,
+  };
+
+  constructor(props: IProps) {
     super(props);
 
     this.state = {
@@ -36,16 +56,9 @@ class InlinePlayer extends React.Component {
   }
 }
 
-InlinePlayer.propTypes = {
-  player: PropTypes.object.isRequired,
-  onAir: PropTypes.object,
-};
-
-InlinePlayer.defaultProps = {
-  onAir: null,
-};
-
-export default connect(state => ({
-  player: state.player,
-  onAir: state.schedule.currentlyOnAir,
-}))(InlinePlayer);
+export default compose(
+  connect(state => ({
+    player: state.player,
+    onAir: state.schedule.currentlyOnAir,
+  }), {}))
+(InlinePlayer);

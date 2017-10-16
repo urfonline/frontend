@@ -1,11 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import cx from 'classnames';
 import OnAirBadge from './OnAirBadge';
 import { formatTime } from '../utils/schedule';
-import isBefore from 'date-fns/is_before';
+import isBefore from 'date-fns/isBefore';
 
-function ScheduleSlotTime(props) {
+interface IProps {
+  slot: any // todo
+  index: number,
+  onAir: boolean,
+
+}
+
+function ScheduleSlotTime(props: IProps) {
   const { slot } = props;
 
   const isOvernight = isBefore(slot.endDate, slot.startDate);
@@ -39,11 +45,5 @@ function ScheduleSlotTime(props) {
     </div>
   );
 }
-
-ScheduleSlotTime.propTypes = {
-  slot: PropTypes.object.isRequired,
-  index: PropTypes.number.isRequired,
-  onAir: PropTypes.bool.isRequired,
-};
 
 export default ScheduleSlotTime;

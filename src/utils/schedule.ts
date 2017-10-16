@@ -1,23 +1,35 @@
-import parseDate from 'date-fns/parse';
-import differenceInMinutes from 'date-fns/difference_in_minutes';
-import startOfTomorrow from 'date-fns/start_of_tomorrow';
-import getDay from 'date-fns/get_day';
-import setHours from 'date-fns/set_hours';
-import getHours from 'date-fns/get_hours';
-import setMinutes from 'date-fns/set_minutes';
-import getMinutes from 'date-fns/get_minutes';
-import getSeconds from 'date-fns/get_seconds';
+import differenceInMinutes from 'date-fns/differenceInMinutes';
+import getDay from 'date-fns/getDay';
+import setHours from 'date-fns/setHours';
+import getHours from 'date-fns/getHours';
+import setMinutes from 'date-fns/setMinutes';
+import getMinutes from 'date-fns/getMinutes';
 import format from 'date-fns/format';
-import subDays from 'date-fns/sub_days';
-import addDays from 'date-fns/add_days';
-import isBefore from 'date-fns/is_before';
-import startOfToday from 'date-fns/start_of_today';
-import endOfToday from 'date-fns/end_of_today';
-import isWithinRange from 'date-fns/is_within_range';
+import subDays from 'date-fns/subDays';
+import addDays from 'date-fns/addDays';
+import isBefore from 'date-fns/isBefore';
+import startOfDay from 'date-fns/startOfDay';
+import endOfDay from 'date-fns/endOfDay';
+import isWithinInterval from 'date-fns/isWithinInterval';
 
 const shiftedDates = [6, 0, 1, 2, 3, 4, 5];
 
-export function parseTime(timeString) {
+const NOW = new Date();
+const TOMORROW = addDays(new Date(), 1);
+const START_OF_TODAY = startOfDay(NOW);
+const END_OF_TODAY = endOfDay(NOW);
+const START_OF_TOMORROW = startOfDay(TOMORROW);
+
+interface Slot {
+  startDate: Date,
+  endDate: Date,
+  startTime: string,
+  endTime: string,
+  day: number;
+}
+
+
+export function parseTime(timeString: string) {
   const [hours, minutes] = timeString.split(':');
 
   let date = new Date();
@@ -27,14 +39,14 @@ export function parseTime(timeString) {
   return date;
 }
 
-export function formatTime(date) {
+export function formatTime(date: Date) {
   if (getMinutes(date) === 0) {
     return format(date, 'ha');
   }
   return format(date, 'h:mma');
 }
 
-function createAutomationSlot(slotId, show, startDate, endDate) {
+function createAutomationSlot(slotId: number, show: any, startDate: Date, endDate: Date) {/* todo */
   return {
     slotId,
     startDate,
@@ -45,14 +57,14 @@ function createAutomationSlot(slotId, show, startDate, endDate) {
   };
 }
 
-export function chunkSlotsByDay(slots, automationShow) {
+export function chunkSlotsByDay(slots: Array<Slot>, automationShow: Slot) {
   let slotId = 0;
-  const days = [[], [], [], [], [], [], []];
-  let currentDate = startOfToday(new Date());
+  const days: Array<Array<any>> = [[], [], [], [], [], [], []];
+  let currentDate = START_OF_TODAY;
   let currentDay = 0;
 
   // parse the times to actual dates - all set to today
-  const sortedSlots = slots.map(slot => {
+  const sortedSlots: Array<Slot> = slots.map(slot => {
     return {
       ...slot,
       startDate: parseTime(slot.startTime),
@@ -61,7 +73,7 @@ export function chunkSlotsByDay(slots, automationShow) {
   });
 
   // sort the slots by day and start time
-  sortedSlots.sort((a, b) => {
+  sortedSlots.sort((a: Slot, b: Slot) => {
     if (a.day < b.day) {
       return -1;
     }
@@ -72,12 +84,14 @@ export function chunkSlotsByDay(slots, automationShow) {
     if (a.day === b.day) {
       return isBefore(a.startDate, b.startDate) ? -1 : 1;
     }
+
+    return 0;
   });
 
   sortedSlots.forEach(slot => {
     // if slot is first of a new day, set the time to midnight
     if (currentDay !== slot.day) {
-      currentDate = startOfToday(new Date());
+      currentDate = START_OF_TODAY;
       currentDay = slot.day;
     }
 
@@ -87,14 +101,12 @@ export function chunkSlotsByDay(slots, automationShow) {
       getMinutes(currentDate) !== getMinutes(slot.startDate)
     ) {
       console.log(currentDate, slot.startDate);
-      days[slot.day].push(
-        createAutomationSlot(
-          slotId++,
-          automationShow,
-          currentDate,
-          slot.startDate
-        )
-      );
+      days[slot.day].push(createAutomationSlot(
+        slotId++,
+        automationShow,
+        currentDate,
+        slot.startDate
+      ));
       currentDate = slot.startDate;
     }
 
@@ -102,7 +114,7 @@ export function chunkSlotsByDay(slots, automationShow) {
     // if is overnight
     if (isBefore(slot.endDate, slot.startDate)) {
       const diffMins = differenceInMinutes(
-        startOfTomorrow(slot.startDate),
+        START_OF_TOMORROW,
         slot.startDate
       );
       days[slot.day].push(
@@ -114,7 +126,7 @@ export function chunkSlotsByDay(slots, automationShow) {
       );
 
       if (slot.day !== 6) {
-        const postMins = differenceInMinutes(slot.endDate, startOfTomorrow());
+        const postMins = differenceInMinutes(slot.endDate, START_OF_TOMORROW);
         days[slot.day + 1].push(
           Object.assign({}, slot, {
             startDate: subDays(slot.startDate, 1),
@@ -135,8 +147,8 @@ export function chunkSlotsByDay(slots, automationShow) {
     currentDate = slot.endDate;
   });
 
-  const startDay = startOfToday();
-  const endDay = endOfToday();
+  const startDay = START_OF_TODAY;
+  const endDay = END_OF_TODAY;
   days.forEach(daySlots => {
     // create a day length auto-slot if there is nothing on that day
     if (daySlots.length <= 0) {
@@ -168,38 +180,27 @@ export function chunkSlotsByDay(slots, automationShow) {
   return days;
 }
 
-export function calculateWidth(number, includeUnit = true) {
+export function calculateWidth(number: number) {
   const width = 3600;
   const totalMinutes = 24 * 60;
   const widthPerMinute = width / totalMinutes;
+  return number * widthPerMinute;
+}
 
-  if (!includeUnit) {
-    return number * widthPerMinute;
-  }
-
-  return `${Math.floor(number * widthPerMinute)}px`;
+export function calculateWidthWithUnit(number: number) {
+  return `${Math.floor(calculateWidth(number))}px`;
 }
 
 export function getTodayDayMonday() {
   return shiftedDates[getDay(new Date())];
 }
 
-export function getOnAirSlot(slotsByDay) {
+export function getOnAirSlot(slotsByDay: any) { // todo
   const now = new Date();
   const todaySlots = slotsByDay[shiftedDates[getDay(now)]];
 
   // eslint-disable-next-line
-  for (const [index, slot] of todaySlots.entries()) {
-    let fromTime = parseDate(slot.fromDate);
-    let toTime = parseDate(slot.toDate);
-
-    // if (
-    //   ((getHours(toTime) === 0 && getMinutes(toTime) === 0) ||
-    //     slot.is_overnight) &&
-    //   index === todaySlots.length - 1
-    // ) {
-    //   toTime = addDays(toTime, 1);
-    // }
+  for (const [_index, slot] of todaySlots.entries()) {
     let endDate = slot.endDate;
     let startDate = slot.startDate;
     if (isBefore(slot.endDate, slot.startDate)) {
@@ -210,7 +211,7 @@ export function getOnAirSlot(slotsByDay) {
       }
     }
 
-    if (isWithinRange(now, startDate, endDate)) {
+    if (isWithinInterval(now, { start: startDate, end: endDate })) {
       return slot;
     }
   }
@@ -218,48 +219,9 @@ export function getOnAirSlot(slotsByDay) {
   return null;
 }
 
-export function getSecondsToNextQuater() {
-  const d = new Date();
-  const mins = getMinutes(d);
-  return (15 - mins % 15) * 60 + (60 - getSeconds(d));
-}
-
-getSecondsToNextQuater();
-
-export function slotIsOnAt(slot, momentObject, listPosition) {
-  let fromTime = parseDate(slot.from_time);
-  let toTime = parseDate(slot.to_time);
-
-  if (slot.is_overnight && listPosition === 0) {
-    fromTime = subDays(fromTime, 1);
-  }
-
-  if (slot.is_overnight && listPosition === 1) {
-    toTime = addDays(toTime, 1);
-  } else {
-    console.log('X');
-  }
-
-  try {
-    return isWithinRange(new Date(), fromTime, toTime);
-  } catch (e) {
-    console.log(e, fromTime, toTime, listPosition, slot.is_overnight);
-    return false;
-  }
-}
-
-export function getScrollPositionForSlot(slot) {
-  const onAirStartTime = parseDate(slot.from_time);
-  const startOfDay = startOfToday();
-  const duration = differenceInMinutes(onAirStartTime, startOfDay);
-
-  return calculateWidth(duration, false);
-}
-
-export function getScrollPositionForNow() {
+export function getScrollPositionForNow(): number {
   const now = new Date();
-  const startOfDay = startOfToday();
-  const duration = differenceInMinutes(now, startOfDay);
+  const duration = differenceInMinutes(now, START_OF_TODAY);
 
-  return calculateWidth(duration, false);
+  return calculateWidth(duration);
 }

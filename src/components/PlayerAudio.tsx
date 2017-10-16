@@ -1,7 +1,15 @@
 import React from 'react';
 
-class PlayerAudio extends React.Component {
-  componentWillUpdate(nextProps) {
+interface IProps {
+  stream: string;
+  userState: any; // todo
+  onChange: any
+}
+
+class PlayerAudio extends React.Component<IProps> {
+  private audioEl: any;
+
+  componentWillUpdate(nextProps: IProps) {
     const { userState } = this.props;
 
     if (nextProps.userState !== userState) {

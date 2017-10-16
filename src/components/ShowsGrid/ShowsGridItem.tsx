@@ -2,9 +2,14 @@ import React from 'react';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import { getShowBrandTone } from '../../utils/shows';
+import { Show } from '../../utils/types';
+
+interface IProps {
+  show: Show;
+}
 
 // TODO: add style to anchor  style="{{ show.generate_branding_style }}"
-function ShowsGridItem({ show }) {
+function ShowsGridItem({ show }: IProps) {
   return (
     <li
       className={cx(

@@ -1,12 +1,18 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import BroadcastingIcon from '../components/BroadcastingIcon';
 import { getOnAirSlot } from '../utils/schedule';
 import { playLive } from '../actions';
 
-function NowAndNext({ schedule, player, playLiveAction }) {
+interface IProps {
+  schedule: any, // todo
+  player: any,
+  playLive: any,
+}
+
+function NowAndNext(props: IProps) {
+  const { schedule, player } = props;
+
   if (schedule.isLoading || player.stream !== null) {
     return null;
   }
@@ -15,7 +21,7 @@ function NowAndNext({ schedule, player, playLiveAction }) {
   const show = schedule.data.shows[slot.show];
 
   return (
-    <button className="NowAndNext" onClick={playLiveAction} href="">
+    <button className="NowAndNext" onClick={props.playLive}>
       <div className="NowAndNext__heading">
         <div className="NowAndNext__icon">
           <BroadcastingIcon animate />
@@ -27,22 +33,12 @@ function NowAndNext({ schedule, player, playLiveAction }) {
   );
 }
 
-NowAndNext.propTypes = {
-  schedule: PropTypes.object.isRequired,
-  player: PropTypes.object.isRequired,
-  playLiveAction: PropTypes.func.isRequired,
-};
-
 export default connect(
   state => ({
     schedule: state.schedule,
     player: state.player,
   }),
-  dispatch =>
-    bindActionCreators(
-      {
-        playLiveAction: playLive,
-      },
-      dispatch
-    )
+  {
+    playLive,
+  }
 )(NowAndNext);

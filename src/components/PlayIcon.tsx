@@ -1,6 +1,11 @@
 import React from 'react';
 /* eslint-disable */
-const PlayIcon = ({ tone }) => (
+
+interface IProps {
+  tone: string;
+}
+
+const PlayIcon = ({ tone }: IProps) => (
   <svg viewBox="0 0 18 23" version="1.1" xmlns="http://www.w3.org/2000/svg">
     <g
       id="Page-1"

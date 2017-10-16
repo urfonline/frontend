@@ -2,7 +2,12 @@ import React from 'react';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
 
-function MainNavigation({ desktop, mobile }) {
+interface IProps {
+  desktop?: boolean;
+  mobile?: boolean;
+}
+
+function MainNavigation({ desktop, mobile }: IProps) {
   return (
     <div
       className={cx('MainNavigation', {
@@ -18,7 +23,7 @@ function MainNavigation({ desktop, mobile }) {
           <Link to="/shows">Shows</Link>
         </li>
         <li className="MainNavigation__item">
-          <Link to="/news-events">News & Events</Link>
+          <Link to="/news-events">News {'&'} Events</Link>
         </li>
         <li className="MainNavigation__item">
           <Link to="/about">About</Link>

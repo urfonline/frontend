@@ -1,19 +1,24 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import cx from 'classnames';
 import dateFormat from 'date-fns/format';
 import ScheduleSlot from './ScheduleSlot';
 import dateInterval from '../hoc/DateInterval';
-import { getTodayDayMonday, slotIsOnAt } from '../utils/schedule';
 
-function ScheduleDayRow(props) {
+interface IProps {
+  dateInterval: object,
+  calculateWidth(number: number): number,
+  day: number,
+  className: string,
+  slots: Array<any>, // todo
+  onAirSlotId: number,
+}
+
+const ScheduleDayRow: React.SFC<IProps> = (props: IProps) => {
   const { slots, calculateWidth, onAirSlotId } = props;
 
   if (slots === undefined) {
     return <div>Nothing is scheduled.</div>;
   }
-
-  const isToday = props.day === getTodayDayMonday(props.dateInterval);
 
   return (
     <div className={cx('ScheduleRow', props.className)}>
@@ -24,9 +29,7 @@ function ScheduleDayRow(props) {
               slot.startDate,
               'hh:mm'
             )}:${dateFormat(slot.endDate, 'hh:mm')}`;
-            const isOnAir =
-              isToday &&
-              slotIsOnAt(slot, props.dateInterval, index / (slots.length - 1));
+
             return (
               <ScheduleSlot
                 key={timeKey}
@@ -43,17 +46,8 @@ function ScheduleDayRow(props) {
   );
 }
 
-ScheduleDayRow.propTypes = {
-  dateInterval: PropTypes.object.isRequired,
-  calculateWidth: PropTypes.func.isRequired,
-  day: PropTypes.number.isRequired,
-  className: PropTypes.string,
-  slots: PropTypes.array.isRequired,
-  onAirSlotId: PropTypes.number.isRequired,
-};
-
 ScheduleDayRow.defaultProps = {
   className: '',
 };
 
-export default dateInterval({ interval: 60000 }, ScheduleDayRow);
+export default dateInterval({ interval: 60000 }, ScheduleDayRow) as any;

@@ -1,12 +1,23 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Image from './Image';
 import PlayPauseButton from './PlayPauseButton';
 import PlayerAudio from './PlayerAudio';
 import { playerUserStateChange, playerAudioStateChange } from '../actions';
 
-function Player({ player, schedule, dispatch }) {
+interface IProps {
+  isLoading: boolean,
+  shows: any, // todo
+  slot: any,
+  player: any,
+  schedule: any,
+  playerUserStateChange: any,
+  playerAudioStateChange: any,
+}
+
+const Player: React.SFC<IProps> = (props: IProps) => {
+  const { player, schedule } = props;
+
   let content;
   if (schedule.isLoading) {
     return null;
@@ -23,7 +34,7 @@ function Player({ player, schedule, dispatch }) {
           <PlayPauseButton
             isPlaying={player.userState}
             isLive={player.audioSourceType === 'live'}
-            onChange={state => dispatch(playerUserStateChange(state))}
+            onChange={state => playerUserStateChange(state)}
           />
           <div className="Player__show-cover">
             <Image src={show.cover.resource} />
@@ -34,17 +45,10 @@ function Player({ player, schedule, dispatch }) {
       <PlayerAudio
         stream={player.stream}
         userState={player.userState}
-        onChange={state => dispatch(playerStateChange(state))}
+        onChange={(state: any) => playerAudioStateChange(state)}
       />
     </div>
   );
-}
-
-Player.propTypes = {
-  isLoading: PropTypes.bool,
-  shows: PropTypes.object,
-  slot: PropTypes.object,
-  player: PropTypes.object,
 };
 
 Player.defaultProps = {
@@ -54,6 +58,9 @@ Player.defaultProps = {
 };
 
 export default connect(state => ({
-  schedule: state.schedule,
   player: state.player,
-}))(Player);
+  schedule: state.schedule,
+}), {
+  playerUserStateChange,
+  playerAudioStateChange
+})(Player) as any;

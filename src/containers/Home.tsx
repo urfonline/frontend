@@ -1,6 +1,5 @@
 import React from 'react';
 import { gql, graphql } from 'react-apollo';
-import Player from '../components/Player';
 import TodaySchedule from '../components/TodaySchedule';
 
 function Home() {

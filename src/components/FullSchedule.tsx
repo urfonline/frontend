@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ScheduleTimeline from './ScheduleTimeline';
 import ScheduleDayRow from './ScheduleDayRow';
@@ -7,14 +6,16 @@ import ScheduleDayColumn from './ScheduleDayColumn';
 import Spinner from './Spinner';
 import {
   calculateWidth,
-  getOnAirSlot,
-  getTodayDayMonday,
-  getScrollPositionForSlot,
-  chunkSlotsByDay,
   getScrollPositionForNow,
 } from '../utils/schedule';
 
-class FullSchedule extends React.Component {
+interface IProps {
+  schedule: any,
+}
+
+
+class FullSchedule extends React.Component<IProps, any> {
+  private containerRef: any;
   componentDidUpdate() {
     this.updateScrollPositionToNow();
   }
@@ -71,10 +72,6 @@ class FullSchedule extends React.Component {
     );
   }
 }
-
-FullSchedule.propTypes = {
-  schedule: PropTypes.object.isRequired,
-};
 
 export default connect(state => ({
   schedule: state.schedule,

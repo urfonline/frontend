@@ -3,7 +3,7 @@ import cx from 'classnames';
 import Color from 'color';
 import { gql, graphql } from 'react-apollo';
 import Image from '../components/Image';
-import { formatTime, parseTime, TIME_FORMAT } from '../utils/schedule';
+import { formatTime, parseTime } from '../utils/schedule';
 import { Helmet } from 'react-helmet';
 
 // TODO: move to a utils thing or i18n file
@@ -17,8 +17,13 @@ const DAYS_TEXT = [
   'Sunday',
 ];
 
-function ShowBase({ data: { show, loading } }) {
-  let content;
+interface IProps {
+  data: any,
+}
+
+function ShowBase(props: IProps) {
+  const { data: { show, loading } } = props;
+
   if (loading) {
     return (
       <div>
@@ -62,7 +67,7 @@ function ShowBase({ data: { show, loading } }) {
             <div className="ShowHeader__info">
               <h1 className="ShowHeader__show-title">{show.name}</h1>
               <span className="ShowHeader__schedule-times">
-                {show.slots.map(slot => (
+                {show.slots.map((slot: any) => (
                   <span>
                     {DAYS_TEXT[slot.day]}s at{' '}
                     {formatTime(parseTime(slot.startTime))}
@@ -105,7 +110,7 @@ const ShowBaseQuery = gql`
 `;
 
 export default graphql(ShowBaseQuery, {
-  options: props => ({
+  options: (props: any) => ({
     variables: {
       showSlug: props.match.params.showSlug,
     },

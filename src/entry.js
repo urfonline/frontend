@@ -60,6 +60,11 @@ const ScheduleQuery = gql`
           name
           slug
           brandColor
+          category {
+            name
+            slug
+            color
+          }
           cover {
             resource
           }

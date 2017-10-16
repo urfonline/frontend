@@ -1,10 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import cx from 'classnames';
 
 /* eslint-disable */
 
-const BroadcastingIcon = ({ animate }) => (
+interface IProps {
+  animate: boolean;
+}
+
+const BroadcastingIcon: React.SFC<IProps> = ({ animate }: IProps) => (
   <svg
     className={cx('Broadcasting', { 'Broadcasting--animate': animate })}
     viewBox="0 0 27 18"
@@ -44,10 +47,6 @@ const BroadcastingIcon = ({ animate }) => (
   </svg>
 );
 /* eslint-enable */
-
-BroadcastingIcon.propTypes = {
-  animate: React.PropTypes.bool,
-};
 
 BroadcastingIcon.defaultProps = {
   animate: true,

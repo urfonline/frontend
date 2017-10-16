@@ -1,13 +1,18 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import cx from 'classnames';
-import testImage from './Temple_Island.jpg';
 
-function NewsItem(props) {
+interface IProps {
+  featured: boolean,
+  title: string,
+  date: string,
+  description: string,
+}
+
+function NewsItem(props: IProps) {
   return (
     <div className={cx('NewsItem', { 'NewsItem--featured': props.featured })}>
       <div className="TileImage">
-        <img className="NewsItem__image" src={testImage} />
+        <img className="NewsItem__image" />
       </div>
       <div className="TileDetails">
         <div className="NewsItem__title">
@@ -17,23 +22,11 @@ function NewsItem(props) {
           <small>{props.date}</small>
         </div>
         <div className="NewsItem__description">
-          <p1>{props.description}</p1>
+          <p>{props.description}</p>
         </div>
       </div>
     </div>
   );
 }
 
-NewsItem.propTypes = {
-  featured: PropTypes.bool,
-};
-
-NewsItem.defaultProps = {
-  featured: false,
-};
-
 export default NewsItem;
-
-/**
- * Created by Fin on 24/06/2017.
- */

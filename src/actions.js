@@ -69,3 +69,8 @@ export const playerUserStateChange = userState => ({
   type: PLAYER_USER_STATE_CHANGE,
   payload: { userState },
 });
+
+export const playerAudioStateChange = userState => ({
+  type: PLAYER_USER_STATE_CHANGE,
+  payload: { userState },
+});

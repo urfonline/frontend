@@ -1,9 +1,8 @@
 import React from 'react';
-import { gql, graphql } from 'react-apollo';
 import FullSchedule from '../components/FullSchedule';
 import { Helmet } from 'react-helmet';
 
-function Schedule({ data }) {
+function Schedule() {
   return (
     <div>
       <Helmet>

@@ -1,15 +1,8 @@
 import React from 'react';
 import Header from '../../components/Header';
 import Player from '../../components/Player';
-import DevTool from '../../components/DevTool';
 import MainNavigation from '../../components/MainNavigation';
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Switch,
-  Redirect,
-} from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import Home from '../Home';
 import Schedule from '../Schedule';
@@ -36,7 +29,6 @@ function App() {
         </Switch>
         <Player />
       </div>
-      <DevTool />
     </div>
   );
 }

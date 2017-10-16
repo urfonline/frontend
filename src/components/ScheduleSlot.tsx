@@ -1,12 +1,19 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import cx from 'classnames';
 import Color from 'color';
 import { Link } from 'react-router-dom';
 import ScheduleSlotTime from './ScheduleSlotTime';
 import { getShowBrandTone } from '../utils/shows';
 
-function ScheduleSlot(props) {
+interface IProps {
+  calculateWidth: any, // todo
+  onAir: boolean,
+  slot: any, // todo
+  index: number
+}
+
+
+function ScheduleSlot(props: IProps) {
   const slot = props.slot;
   const show = props.slot.show;
 
@@ -19,7 +26,7 @@ function ScheduleSlot(props) {
     }
   );
 
-  let onAirGlow = {};
+  let onAirGlow: { boxShadow?: string } = {};
 
   if (props.onAir) {
     const color = Color(`#${show.brandColor}`)
@@ -35,7 +42,7 @@ function ScheduleSlot(props) {
     >
       <Link
         className="ScheduleSlot__inner"
-        style={{ backgroundColor: `#${show.brandColor}` }}
+        style={{ backgroundColor: `#${show && show.category ? show.category.color : 'fff'}` }}
         to={`/shows/${show.slug}`}
       >
         <ScheduleSlotTime slot={slot} onAir={props.onAir} index={props.index} />
@@ -44,12 +51,5 @@ function ScheduleSlot(props) {
     </div>
   );
 }
-
-ScheduleSlot.propTypes = {
-  calculateWidth: PropTypes.func.isRequired,
-  onAir: PropTypes.bool.isRequired,
-  slot: PropTypes.object.isRequired,
-  index: PropTypes.number.isRequired,
-};
 
 export default ScheduleSlot;

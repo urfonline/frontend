@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ScheduleTimeline from './ScheduleTimeline';
 import ScheduleDayRow from './ScheduleDayRow';
@@ -10,23 +9,15 @@ import {
   getTodayDayMonday,
 } from '../utils/schedule';
 
-class TodaySchedule extends React.Component {
-  constructor(props) {
+interface IProps {
+  schedule: any // todo
+}
+
+class TodaySchedule extends React.Component<IProps> {
+  private containerRef: any;
+
+  constructor(props: IProps) {
     super(props);
-
-    this.state = {
-      isDragging: false,
-    };
-
-    this.handleDragStart = () => this.setState({ isDragging: true });
-    this.handleDragStop = () => this.setState({ isDragging: false });
-    this.handleMouseMove = event => {
-      if (!this.state.isDragging) {
-        return;
-      }
-
-      console.log(event);
-    };
   }
 
   componentDidUpdate() {
@@ -58,9 +49,6 @@ class TodaySchedule extends React.Component {
         ref={ref => {
           this.containerRef = ref;
         }}
-        onMouseDown={this.handleDragStart}
-        onMouseUp={this.handleDragStop}
-        onMouseMove={this.handleMouseMove}
       >
         <div className="Schedule__scroll">
           <ScheduleTimeline calculateWidth={calculateWidth} />
@@ -83,10 +71,6 @@ class TodaySchedule extends React.Component {
     );
   }
 }
-
-TodaySchedule.propTypes = {
-  schedule: PropTypes.object.isRequired,
-};
 
 export default connect(state => ({
   schedule: state.schedule,
