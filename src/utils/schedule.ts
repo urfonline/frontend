@@ -117,6 +117,7 @@ export function chunkSlotsByDay(slots: Array<Slot>, automationShow: Slot) {
         START_OF_TOMORROW,
         slot.startDate
       );
+
       days[slot.day].push(
         Object.assign({}, slot, {
           slotId: slotId++,
@@ -140,7 +141,7 @@ export function chunkSlotsByDay(slots: Array<Slot>, automationShow: Slot) {
       days[slot.day].push({
         slotId: slotId++,
         ...slot,
-        duration: differenceInMinutes(slot.endDate, slot.startDate),
+        duration: isBefore(slot.endDate, slot.startDate) ? differenceInMinutes(slot.endDate, subDays(slot.startDate, 1)) : differenceInMinutes(slot.endDate, slot.startDate),
       });
     }
 

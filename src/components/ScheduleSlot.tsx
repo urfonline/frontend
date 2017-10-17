@@ -39,7 +39,7 @@ function ScheduleSlot(props: IProps) {
   return (
     <div
       className={scheduleSlotClasses}
-      style={{ width: props.calculateWidth(slot.duration), ...onAirGlow }}
+      style={{ width: `${props.calculateWidth(slot.duration)}px`, ...onAirGlow }}
     >
       <Link
         className="ScheduleSlot__inner"

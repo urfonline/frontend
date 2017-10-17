@@ -3,7 +3,7 @@
   box-sizing: border-box;
   display: block;
   float: left;
-  height: 70px;
+  height: 76px;
   opacity: 0.9;
   position: relative;
 
@@ -26,18 +26,18 @@
     text-decoration: none;
     width: 100%;
   }
-  
+
   &__show-name {
     font-weight: 600;
+    font-size: 0.95rem;
   }
 
   &__time {
-    font-size: 0.9em;
+    font-size: 0.85em;
     margin-bottom: 0.2rem;
   }
 
   &__time-item {
-
     &--continuation {
       opacity: 0.6;
     }
