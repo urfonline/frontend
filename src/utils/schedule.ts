@@ -112,7 +112,7 @@ export function chunkSlotsByDay(slots: Array<Slot>, automationShow: Slot) {
 
     // add this slot
     // if is overnight
-    if (isBefore(slot.endDate, slot.startDate)) {
+    if (isBefore(slot.endDate, slot.startDate) && getHours(slot.endDate) !== 0 && getMinutes(slot.endDate) !== 0) {
       const diffMins = differenceInMinutes(
         START_OF_TOMORROW,
         slot.startDate
