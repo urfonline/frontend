@@ -6,3 +6,4 @@
 @custom-media --only-small (480px < width <= 768px);
 @custom-media --only-medium (768px < width <= 980px);
 @custom-media --only-large (980px < width <= 1100px);
+@custom-media --below-medium (width <= 768px);

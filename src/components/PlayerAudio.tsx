@@ -3,7 +3,7 @@ import React from 'react';
 interface IProps {
   stream: string;
   userState: any; // todo
-  onChange: any
+  onChange: any;
 }
 
 class PlayerAudio extends React.Component<IProps> {

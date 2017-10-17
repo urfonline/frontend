@@ -5,12 +5,12 @@ import ScheduleSlot from './ScheduleSlot';
 import dateInterval from '../hoc/DateInterval';
 
 interface IProps {
-  dateInterval: object,
-  calculateWidth(number: number): number,
-  day: number,
-  className: string,
-  slots: Array<any>, // todo
-  onAirSlotId: number,
+  dateInterval: object;
+  calculateWidth(number: number): number;
+  day: number;
+  className: string;
+  slots: Array<any>; // todo
+  onAirSlotId: number;
 }
 
 const ScheduleDayRow: React.SFC<IProps> = (props: IProps) => {
@@ -44,7 +44,7 @@ const ScheduleDayRow: React.SFC<IProps> = (props: IProps) => {
       </div>
     </div>
   );
-}
+};
 
 ScheduleDayRow.defaultProps = {
   className: '',

@@ -4,15 +4,11 @@ import ScheduleTimeline from './ScheduleTimeline';
 import ScheduleDayRow from './ScheduleDayRow';
 import ScheduleDayColumn from './ScheduleDayColumn';
 import Spinner from './Spinner';
-import {
-  calculateWidth,
-  getScrollPositionForNow,
-} from '../utils/schedule';
+import { calculateWidth, getScrollPositionForNow } from '../utils/schedule';
 
 interface IProps {
-  schedule: any,
+  schedule: any;
 }
-
 
 class FullSchedule extends React.Component<IProps, any> {
   private containerRef: any;

@@ -1,5 +1,5 @@
 import React from 'react';
-import PlayIcon from './PlayIcon';
+import PlayIcon from '../PlayIcon';
 
 interface IProps {
   onChange(isPlaying: boolean): void;
@@ -9,8 +9,8 @@ interface IProps {
 
 function PlayPauseButton({ isPlaying, isLive, onChange }: IProps) {
   return (
-    <button onClick={() => onChange(!isPlaying)}>
-      {isPlaying ? isLive ? 'Stop' : 'Pause' : <PlayIcon tone="light" />}
+    <button className="PlayPauseButton" onClick={() => onChange(!isPlaying)}>
+      {isPlaying ? isLive ? 'Stop' : <PlayIcon tone="pause" /> : <PlayIcon tone="light" />}
     </button>
   );
 }

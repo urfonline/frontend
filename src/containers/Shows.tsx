@@ -3,13 +3,13 @@ import { gql, graphql } from 'react-apollo';
 import ShowsGrid from '../components/ShowsGrid';
 import { Helmet } from 'react-helmet';
 import { compose, withState } from 'recompose';
-import {Show} from "../utils/types";
+import { Show } from '../utils/types';
 
 interface IProps {
   updateSortMethod: any; // todo
   data: any;
   currentSlate: {
-    shows: Array<Show>
+    shows: Array<Show>;
   };
   sortMethod: string;
   children?: any;
@@ -29,7 +29,11 @@ function Shows(props: IProps) {
         <button onClick={() => updateSortMethod('NAME')}>Name</button>
         <button onClick={() => updateSortMethod('CATEGORY')}>Category</button>
       </div>
-      {loading ? <h2>Loading</h2> : <ShowsGrid shows={currentSlate.shows} sortMethod={props.sortMethod} />}
+      {loading ? (
+        <h2>Loading</h2>
+      ) : (
+        <ShowsGrid shows={currentSlate.shows} sortMethod={props.sortMethod} />
+      )}
     </div>
   );
 }

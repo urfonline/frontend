@@ -2,7 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 import { connect } from 'react-redux';
 import PlayIcon from './PlayIcon';
-import {compose} from "recompose";
+import { compose } from 'recompose';
 
 interface IProps {
   player: any;
@@ -57,8 +57,11 @@ class InlinePlayer extends React.Component<IProps, IState> {
 }
 
 export default compose(
-  connect(state => ({
-    player: state.player,
-    onAir: state.schedule.currentlyOnAir,
-  }), {}))
-(InlinePlayer);
+  connect(
+    state => ({
+      player: state.player,
+      onAir: state.schedule.currentlyOnAir,
+    }),
+    {}
+  )
+)(InlinePlayer);

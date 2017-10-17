@@ -2,10 +2,10 @@ import React from 'react';
 import cx from 'classnames';
 
 interface IProps {
-  featured: boolean,
-  title: string,
-  date: string,
-  description: string,
+  featured: boolean;
+  title: string;
+  date: string;
+  description: string;
 }
 
 function NewsItem(props: IProps) {

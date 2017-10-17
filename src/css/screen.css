@@ -6,7 +6,8 @@
 
 /* player */
 
-@import './player/screen.css';
+@import './components/Player.css';
+@import './components/PlayPauseButton.css';
 
 /* components */
 

@@ -5,10 +5,9 @@ import { formatTime } from '../utils/schedule';
 import isBefore from 'date-fns/isBefore';
 
 interface IProps {
-  slot: any // todo
-  index: number,
-  onAir: boolean,
-
+  slot: any; // todo
+  index: number;
+  onAir: boolean;
 }
 
 function ScheduleSlotTime(props: IProps) {

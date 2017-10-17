@@ -18,7 +18,7 @@ const DAYS_TEXT = [
 ];
 
 interface IProps {
-  data: any,
+  data: any;
 }
 
 function ShowBase(props: IProps) {
@@ -62,7 +62,7 @@ function ShowBase(props: IProps) {
         <div className="Container">
           <div className="ShowHeader__container">
             <div className="ShowHeader__cover">
-              <Image src={show.cover.resource} />
+              <Image src={show.cover.resource} width={400} height={400} />
             </div>
             <div className="ShowHeader__info">
               <h1 className="ShowHeader__show-title">{show.name}</h1>

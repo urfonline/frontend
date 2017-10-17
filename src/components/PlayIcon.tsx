@@ -11,7 +11,7 @@ const PlayIcon = ({ tone }: IProps) => (
       id="Page-1"
       stroke="none"
       strokeWidth="1"
-      fill={tone === 'dark' ? '#000' : '#fff'}
+      fill={tone === 'pause' ? '#f00' : '#fff'}
       fillRule="evenodd"
     >
       <path

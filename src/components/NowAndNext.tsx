@@ -2,12 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import BroadcastingIcon from '../components/BroadcastingIcon';
 import { getOnAirSlot } from '../utils/schedule';
-import { playLive } from '../actions';
+import { playLive } from '../ducks/player';
 
 interface IProps {
-  schedule: any, // todo
-  player: any,
-  playLive: any,
+  schedule: any; // todo
+  player: any;
+  playLive: any;
 }
 
 function NowAndNext(props: IProps) {

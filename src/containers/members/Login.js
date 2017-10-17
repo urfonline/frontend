@@ -1,7 +1,7 @@
 import React from 'react';
 import { gql, graphql } from 'react-apollo';
 import { connect } from 'react-redux';
-import { loginSuccess } from '../../actions';
+import { loginSuccess } from '../../ducks/auth';
 
 class Login extends React.Component {
   constructor(props) {

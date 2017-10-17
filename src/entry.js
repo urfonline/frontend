@@ -10,15 +10,15 @@ import {
   ApolloClient,
   ApolloProvider,
   createNetworkInterface,
-  gql,
 } from 'react-apollo';
-import { loginRestoreAttempt, scheduleLoaded } from './actions';
+import { loginRestoreAttempt } from './ducks/auth';
+import loadSchedule from './utils/loadSchedule';
 
 const networkInterface = createNetworkInterface({
   uri:
     process.env.NODE_ENV === 'production'
       ? 'https://api.urfonline.com/graphql'
-      : 'http://localhost:8000/graphql',
+      : 'https://api.urfonline.com/graphql', // 'http://localhost:8000/graphql',
 });
 
 networkInterface.use([
@@ -50,45 +50,7 @@ const store = createStore(undefined, {
 // try and re auth someone
 store.dispatch(loginRestoreAttempt());
 
-// load schedule
-// TODO: This really should not be here, disgusting!
-const ScheduleQuery = gql`
-  query ScheduleQuery {
-    currentSlate {
-      slots {
-        show {
-          name
-          slug
-          brandColor
-          category {
-            name
-            slug
-            color
-          }
-          cover {
-            resource
-          }
-        }
-        startTime
-        endTime
-        day
-      }
-    }
-    automationShow {
-      name
-      slug
-      brandColor
-      cover {
-        resource
-      }
-    }
-  }
-`;
-apolloClient
-  .query({
-    query: ScheduleQuery,
-  })
-  .then(res => store.dispatch(scheduleLoaded(res.data)));
+loadSchedule(apolloClient, store);
 
 ReactDOM.render(
   <ApolloProvider store={store} client={apolloClient}>

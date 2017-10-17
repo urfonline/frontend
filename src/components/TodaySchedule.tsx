@@ -10,7 +10,7 @@ import {
 } from '../utils/schedule';
 
 interface IProps {
-  schedule: any // todo
+  schedule: any; // todo
 }
 
 class TodaySchedule extends React.Component<IProps> {

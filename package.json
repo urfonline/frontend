@@ -25,7 +25,7 @@
   "scripts": {
     "prod": "export NODE_ENV=production && `npm bin`/webpack --config webpack.prod.config.js",
     "serve": "`npm bin`/webpack-dev-server --history-api-fallback --content-base=build --config webpack.dev.config --hot",
-    "format": "prettier --single-quote --print-width 80 --trailing-comma es5 --write \"./src/**/*.tsx\"",
+    "format": "prettier --single-quote --print-width 80 --trailing-comma es5 --write \"./src/**/*.{tsx,js}\"",
     "test": "NODE_ENV=test && jest",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "build-storybook": "build-storybook -c .storybook -o storybook-public"

@@ -9,17 +9,13 @@ function getMinutes() {
   return differenceInMinutes(now, midnight);
 }
 
-
-interface IProps {
-
-}
+interface IProps {}
 
 interface IState {
-  minutes: number
+  minutes: number;
 }
 
 export default (WrappedComponent: any) => {
-
   class LiveMinutesHigherOrder extends React.Component<IProps, IState> {
     private interval: any;
 
@@ -33,7 +29,7 @@ export default (WrappedComponent: any) => {
 
     componentDidMount() {
       this.interval = setInterval(
-        () => this.setState({minutes: getMinutes()}),
+        () => this.setState({ minutes: getMinutes() }),
         10000
       );
     }
@@ -48,4 +44,4 @@ export default (WrappedComponent: any) => {
   }
 
   return LiveMinutesHigherOrder;
-}
+};

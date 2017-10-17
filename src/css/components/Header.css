@@ -17,6 +17,9 @@
     bottom: 0;
     z-index: var(--layer-header--side);
     display: flex;
+
+    display: none;
+
   }
 
   &__container {
