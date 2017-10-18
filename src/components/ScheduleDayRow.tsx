@@ -1,6 +1,5 @@
 import React from 'react';
 import cx from 'classnames';
-import dateFormat from 'date-fns/format';
 import ScheduleSlot from './ScheduleSlot';
 import dateInterval from '../hoc/DateInterval';
 
@@ -25,14 +24,9 @@ const ScheduleDayRow: React.SFC<IProps> = (props: IProps) => {
       <div className="ScheduleRow__inner">
         <div className="ScheduleRow__slots">
           {slots.map((slot, index) => {
-            const timeKey = `${dateFormat(
-              slot.startDate,
-              'hh:mm'
-            )}:${dateFormat(slot.endDate, 'hh:mm')}`;
-
             return (
               <ScheduleSlot
-                key={timeKey}
+                key={slot.slotId}
                 slot={slot}
                 index={index}
                 onAir={onAirSlotId === slot.slotId}
