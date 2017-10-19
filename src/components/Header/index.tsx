@@ -6,7 +6,7 @@ import MainNavigation from '../MainNavigation';
 function Header() {
   return (
     <header className="Header">
-      <div className="Container">
+      <div className="HeaderContainer">
         <div className="Header__container">
           <h1 className="Header__logo">
             <Link to="/">

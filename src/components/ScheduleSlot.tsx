@@ -27,19 +27,21 @@ function ScheduleSlot(props: IProps) {
     let color;
     try {
       color = Color(`#${showColor}`);
-    } catch(e) {
+    } catch (e) {
       color = Color('#ffffff');
     }
 
-      color = color.rgb()
-      .array();
+    color = color.rgb().array();
     onAirGlow.boxShadow = `0 0 20px rgba(${color.join(',')}, 0.7)`;
   }
 
   return (
     <div
       className={scheduleSlotClasses}
-      style={{ width: `${props.calculateWidth(slot.duration)}px`, ...onAirGlow }}
+      style={{
+        width: `${props.calculateWidth(slot.duration)}px`,
+        ...onAirGlow,
+      }}
     >
       <Link
         className="ScheduleSlot__inner"

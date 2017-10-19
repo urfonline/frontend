@@ -7,7 +7,7 @@ function NotFound() {
       <Helmet>
         <title>News {'&'} Events</title>
       </Helmet>
-      <h1>News {'&'} Events</h1>
+      <h1 className="Page__heading">News {'&'} Events</h1>
     </div>
   );
 }

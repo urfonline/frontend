@@ -10,7 +10,15 @@ interface IProps {
 function PlayPauseButton({ isPlaying, isLive, onChange }: IProps) {
   return (
     <button className="PlayPauseButton" onClick={() => onChange(!isPlaying)}>
-      {isPlaying ? isLive ? 'Stop' : <PlayIcon tone="pause" /> : <PlayIcon tone="light" />}
+      {isPlaying ? (
+        isLive ? (
+          'Stop'
+        ) : (
+          <PlayIcon tone="pause" />
+        )
+      ) : (
+        <PlayIcon tone="light" />
+      )}
     </button>
   );
 }

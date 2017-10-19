@@ -4,8 +4,8 @@ import Image from './Image';
 import PlayPauseButton from './PlayPauseButton';
 import PlayerAudio from './PlayerAudio';
 import { playerAudioStateChange, playerUserStateChange } from '../ducks/player';
-import {Link} from "react-router-dom";
-import minimalisticTimeRenderer from "../utils/minimalTime";
+import { Link } from 'react-router-dom';
+import minimalisticTimeRenderer from '../utils/minimalTime';
 
 interface IProps {
   isLoading: boolean;
@@ -31,22 +31,24 @@ const Player: React.SFC<IProps> = (props: IProps) => {
 
   return (
     <div className="Player">
-      <div className="Container BleedLeftOnMobile">
-        <div className="Player__container">
-          <div className="Player__show-cover">
-            <Image src={show.cover.resource} width={100} height={100} />
+      <div className="Player__container">
+        <div className="Player__show-cover">
+          <Image src={show.cover.resource} width={100} height={100} />
+        </div>
+        <div className="Player__content">
+          <div className="Player__button">
+            <PlayPauseButton
+              isPlaying={player.userState}
+              isLive={player.audioSourceType === 'live'}
+              onChange={state => props.playerUserStateChange(state)}
+            />
           </div>
-          <div className="Player__content">
-            <div className="Player__button">
-              <PlayPauseButton
-                isPlaying={player.userState}
-                isLive={player.audioSourceType === 'live'}
-                onChange={state => props.playerUserStateChange(state)}
-              />
-            </div>
-            <Link className="Player__show-name" to={`/shows/${show.slug}`}>{show.name}</Link>
-            <small>{minimalisticTimeRenderer(schedule.currentlyOnAir.startDate)}-{minimalisticTimeRenderer(schedule.currentlyOnAir.endDate)}</small>
-          </div>
+          <Link className="Player__show-name" to={`/shows/${show.slug}`}>
+            {show.name}
+          </Link>
+          <small>
+            {minimalisticTimeRenderer(schedule.currentlyOnAir.startDate)}-{minimalisticTimeRenderer(schedule.currentlyOnAir.endDate)}
+          </small>
         </div>
       </div>
       <PlayerAudio

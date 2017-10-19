@@ -9,7 +9,10 @@ interface IProps {
 }
 
 const PlayIcon = ({ tone }: IProps) => (
-  <img src={tone === 'pause' ? pauseIcon : playIcon} alt={tone === 'pause' ? 'Pause' : 'Play'} />
+  <img
+    src={tone === 'pause' ? pauseIcon : playIcon}
+    alt={tone === 'pause' ? 'Pause' : 'Play'}
+  />
 );
 /* eslint-enable */
 

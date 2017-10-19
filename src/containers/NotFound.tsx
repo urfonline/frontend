@@ -7,7 +7,7 @@ function NotFound() {
       <Helmet>
         <title>Not found</title>
       </Helmet>
-      <h1>Not Found</h1>
+      <h1 className="Page__heading">Not Found</h1>
     </div>
   );
 }

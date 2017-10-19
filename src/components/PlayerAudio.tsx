@@ -7,7 +7,7 @@ interface IProps {
 }
 
 interface IState {
-  cacheKey: number
+  cacheKey: number;
 }
 
 class PlayerAudio extends React.Component<IProps, IState> {
@@ -29,7 +29,7 @@ class PlayerAudio extends React.Component<IProps, IState> {
         this.audioEl.play();
       } else {
         this.audioEl.pause();
-        this.setState({ cacheKey: Math.random() })
+        this.setState({ cacheKey: Math.random() });
       }
     }
   }
@@ -41,7 +41,8 @@ class PlayerAudio extends React.Component<IProps, IState> {
       <audio
         src={
           stream === 'live'
-            ? `http://uk2.internet-radio.com:30764/stream?nocache=${this.state.cacheKey}`
+            ? `http://uk2.internet-radio.com:30764/stream?nocache=${this.state
+                .cacheKey}`
             : stream
         }
         ref={ref => (this.audioEl = ref)}

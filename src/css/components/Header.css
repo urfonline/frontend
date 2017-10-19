@@ -10,7 +10,7 @@
   height: var(--header-height);
 
   @media (--medium) {
-    width: 200px;
+    width: 180px;
     background: #000000;
     right: auto;
     height: auto;
