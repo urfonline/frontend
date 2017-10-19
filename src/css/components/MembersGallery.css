@@ -48,11 +48,15 @@
   }
 
   &__row--left {
-    animation: scroll-left 30s linear infinite;
+    animation: scroll-left 90s linear infinite;
+  }
+
+  &__row--left-faster {
+    animation: scroll-left 60s linear infinite;
   }
 
   &__row--right {
-    animation: scroll-right 30s linear infinite;
+    animation: scroll-right 90s linear infinite;
   }
 
   &__image {
