@@ -26,7 +26,7 @@ function MainNavigation({ desktop, mobile }: IProps) {
           <Link to="/news-events">News {'&'} Events</Link>
         </li>
         <li className="MainNavigation__item">
-          <Link to="/about">About</Link>
+          <Link to="/we-are-urf">About</Link>
         </li>
       </ul>
     </div>

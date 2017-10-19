@@ -108,7 +108,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.svg|\.png|\.woff|\.json/,
+        test: /\.svg|\.png|\.jpg|\.woff|\.json/,
         use: 'url-loader?limit=10000',
       },
     ],

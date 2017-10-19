@@ -1,0 +1,63 @@
+@keyframes scroll-left {
+  0% {
+    left: -1000px;
+  }
+
+  100% {
+    left: 0;
+  }
+}
+
+@keyframes scroll-right {
+  0% {
+    left: 0;
+  }
+
+  100% {
+    left: -1000px;
+  }
+}
+
+
+.MembersGallery {
+  overflow: hidden;
+  height: 315px;
+  position: relative;
+
+  &__title {
+    color: red;
+    font-size: 8vmax;
+    text-transform: uppercase;
+    font-weight: bold;
+    position: relative;
+    line-height: 315px;
+    text-align: center;
+    z-index: 10;
+    margin: 0;
+  }
+
+  &__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  &__row {
+    position: relative;
+    display: flex;
+  }
+
+  &__row--left {
+    animation: scroll-left 30s linear infinite;
+  }
+
+  &__row--right {
+    animation: scroll-right 30s linear infinite;
+  }
+
+  &__image {
+    width: 2800px;
+    display: block;
+    flex: none;
+  }
+}

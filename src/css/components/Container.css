@@ -2,10 +2,34 @@
   box-sizing: border-box;
   margin-left: auto;
   margin-right: auto;
-  max-width: 1280px;
   padding-left: 1rem;
   padding-right: 1rem;
   position: relative;
   width: 100%;
   clear: both;
+
+  @media (--medium) {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+
+.HeaderContainer {
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  position: relative;
+  width: 100%;
+  clear: both;
+}
+
+
+.ContainerProse {
+  margin: 0 auto;
+  padding: 0 1rem;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  max-width: 660px;
 }
