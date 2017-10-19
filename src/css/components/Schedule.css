@@ -11,6 +11,7 @@
 
   &__scroll-container {
     overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
     padding-bottom: 1.3rem;
   }
 }
