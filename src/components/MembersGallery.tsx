@@ -7,7 +7,7 @@ import membersThree from '../img/members_3.jpg';
 function MembersGallery() {
   return (
     <div className="MembersGallery">
-      <h1 className="MembersGallery__title">We are URF</h1>
+      <h1 className="MembersGallery__title">We. are. URF.</h1>
       <div className="MembersGallery__background">
         <div className="MembersGallery__row MembersGallery__row--left">
           <img className="MembersGallery__image" src={membersOne} />
