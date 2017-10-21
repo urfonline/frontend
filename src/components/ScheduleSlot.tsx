@@ -1,6 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
-import Color from 'color';
+// import Color from 'color';
 import { Link } from 'react-router-dom';
 import ScheduleSlotTime from './ScheduleSlotTime';
 
@@ -24,15 +24,15 @@ function ScheduleSlot(props: IProps) {
   let onAirGlow: { boxShadow?: string } = {};
 
   if (props.onAir) {
-    let color;
-    try {
-      color = Color(`#${showColor}`);
-    } catch (e) {
-      color = Color('#ffffff');
-    }
-
-    color = color.rgb().array();
-    onAirGlow.boxShadow = `0 0 20px rgba(${color.join(',')}, 0.7)`;
+    // let color;
+    // try {
+    //   color = Color(`#${showColor}`);
+    // } catch (e) {
+    //   color = Color('#ffffff');
+    // }
+    //
+    // color = color.rgb().array();
+    onAirGlow.boxShadow = `0 0 24px rgba(20, 20, 20, 0.3)`;
   }
 
   return (

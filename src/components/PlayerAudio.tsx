@@ -34,6 +34,22 @@ class PlayerAudio extends React.Component<IProps, IState> {
     }
   }
 
+  componentDidMount() {
+    function handleEvent(...args: any[]) {
+      console.log(args);
+    }
+
+    this.audioEl.addEventListener('stalled', handleEvent);
+    this.audioEl.addEventListener('ended', handleEvent);
+    this.audioEl.addEventListener('error', handleEvent);
+    this.audioEl.addEventListener('loadstart', handleEvent);
+    this.audioEl.addEventListener('playing', handleEvent);
+    this.audioEl.addEventListener('progress', handleEvent);
+    this.audioEl.addEventListener('stalled', handleEvent);
+    this.audioEl.addEventListener('suspend', handleEvent);
+    this.audioEl.addEventListener('waiting', handleEvent);
+  }
+
   render() {
     const { stream } = this.props;
 
