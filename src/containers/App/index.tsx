@@ -8,7 +8,7 @@ import Home from '../Home';
 import Schedule from '../Schedule';
 import Shows from '../Shows';
 import ShowBase from '../ShowBase';
-import NotFound from '../NotFound';
+import NotFound from '../NotFound/NotFound';
 import WeAreURF from '../WeAreURF';
 import NewsAndEvents from '../NewsAndEvents';
 import MembersApp from '../members/MembersApp';

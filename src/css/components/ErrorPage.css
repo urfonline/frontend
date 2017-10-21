@@ -1,0 +1,21 @@
+.ErrorPage {
+  text-align: center;
+
+  &__figure {
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  &__image {
+    width: 100%;
+    display: block;
+  }
+
+  &__caption {
+    font-family: Georgia, serif;
+    font-style: italic;
+    text-align: center;
+    color: grey;
+  }
+}
