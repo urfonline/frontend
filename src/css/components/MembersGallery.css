@@ -34,7 +34,7 @@
     text-align: center;
     z-index: 10;
     margin: 0;
-    text-shadow: 0 0 12px rgba(40, 40, 40, 0.3);
+    text-shadow: 0 0 32px rgba(255, 255, 255, 1);
   }
 
   &__background {
@@ -49,15 +49,15 @@
   }
 
   &__row--left {
-    animation: scroll-left 90s linear infinite;
+    animation: scroll-left 90s linear infinite alternate;
   }
 
   &__row--left-faster {
-    animation: scroll-left 60s linear infinite;
+    animation: scroll-left 60s linear infinite alternate;
   }
 
   &__row--right {
-    animation: scroll-right 90s linear infinite;
+    animation: scroll-right 90s linear infinite alternate;
   }
 
   &__image {

@@ -4,7 +4,7 @@
   display: block;
   float: left;
   height: 76px;
-  opacity: 0.9;
+  opacity: 1;
   position: relative;
 
   &--tone-light {
@@ -28,13 +28,14 @@
   }
 
   &__show-name {
-    font-weight: 600;
+    font-weight: 700;
     font-size: 0.95rem;
   }
 
   &__time {
-    font-size: 0.85em;
+    font-size: 0.8em;
     margin-bottom: 0.2rem;
+    font-weight: 400;
   }
 
   &__time-item {
@@ -47,10 +48,13 @@
     border: 0;
     position: relative;
     z-index: var(--layer-on-air);
-    box-shadow: 0 0 20px rgba(60, 60, 60, 0.4);
+    transform: scale(1.1);
   }
 }
 
+.ScheduleSlot--on-air .ScheduleSlot__inner {
+  font-size: 0.9em;
+}
 
 .ScheduleSlot--tone-light .ScheduleSlot__inner {
   color: var(--show-tone-light);

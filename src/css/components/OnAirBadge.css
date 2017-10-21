@@ -18,19 +18,20 @@
   color: #fff;
   display: inline-block;
   font-weight: 600;
-  margin-left: 1rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  margin-left: 0.6rem;
+  padding-left: 0.3rem;
+  padding-right: 0.3rem;
   text-transform: uppercase;
 
   &:after {
-    animation: pulsate 900ms ease-out 0 infinite;
+    animation: pulsate 900ms ease-out infinite;
     color: #fff;
-    content: '⬤';
+    content: '●';
     display: inline-block;
     font-size: 7px;
     position: relative;
     top: -3px;
+    font-family: sans-serif;
   }
 
   &__label {
