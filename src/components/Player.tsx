@@ -5,7 +5,7 @@ import PlayPauseButton from './PlayPauseButton';
 import PlayerAudio from './PlayerAudio';
 import { playerAudioStateChange, playerUserStateChange } from '../ducks/player';
 import { Link } from 'react-router-dom';
-import minimalisticTimeRenderer from '../utils/minimalTime';
+import {formatTime} from "../utils/schedule";
 
 interface IProps {
   isLoading: boolean;
@@ -47,7 +47,7 @@ const Player: React.SFC<IProps> = (props: IProps) => {
             {show.name}
           </Link>
           <small>
-            {minimalisticTimeRenderer(schedule.currentlyOnAir.startDate)}-{minimalisticTimeRenderer(schedule.currentlyOnAir.endDate)}
+            {formatTime(schedule.currentlyOnAir.startDate)}-{formatTime(schedule.currentlyOnAir.endDate)}
           </small>
         </div>
       </div>
