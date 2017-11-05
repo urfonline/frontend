@@ -1,7 +1,8 @@
 import React from 'react';
 import cx from 'classnames';
 import formatDistance from 'date-fns/formatDistance';
-import { gql, graphql } from 'react-apollo';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import Image from '../components/Image';
 import { Helmet } from 'react-helmet';
 import convert from 'htmr';

@@ -1,7 +1,8 @@
 import React from 'react';
 import cx from 'classnames';
 import Color from 'color';
-import { gql, graphql } from 'react-apollo';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import Image from '../components/Image';
 import { formatTime, parseTime } from '../utils/schedule';
 import { Helmet } from 'react-helmet';

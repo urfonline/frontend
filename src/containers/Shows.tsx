@@ -1,5 +1,6 @@
 import React from 'react';
-import { gql, graphql } from 'react-apollo';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import ShowsGrid from '../components/ShowsGrid';
 import { Helmet } from 'react-helmet';
 import { compose, withState } from 'recompose';

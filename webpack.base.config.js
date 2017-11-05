@@ -31,7 +31,7 @@ module.exports = {
 
   entry: {
     vendor: ['react', 'react-dom', 'unfetch'],
-    main: './src/entry.js',
+    main: './src/entry.tsx',
   },
 
   output: {

@@ -1,5 +1,5 @@
 import { Store } from 'redux';
-import { gql, ApolloClient } from 'react-apollo';
+import gql from 'graphql-tag';
 import { scheduleLoaded } from "../ducks/schedule"
 
 const ScheduleQuery = gql`
@@ -35,10 +35,10 @@ const ScheduleQuery = gql`
   }
 `;
 
-export default function(apolloClient: ApolloClient, store: Store<any>) {
+export default function(apolloClient: any, store: Store<any>) {
   apolloClient
     .query({
       query: ScheduleQuery,
     })
-    .then(res => store.dispatch(scheduleLoaded(res.data)));
+    .then((res: any) => store.dispatch(scheduleLoaded(res.data)));
 }
