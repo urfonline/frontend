@@ -1,10 +1,22 @@
 import React from 'react';
 import { gql, graphql } from 'react-apollo';
 import { connect } from 'react-redux';
-import { loginSuccess } from '../../ducks/auth';
+import * as authActions from '../../ducks/auth';
+import {compose} from "recompose";
 
-class Login extends React.Component {
-  constructor(props) {
+interface IProps {
+  mutate: any,
+  loginSuccess: any,
+}
+
+interface IState {
+  username: string,
+  password: string,
+  error: string | null,
+}
+
+class Login extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
 
     this.state = {
@@ -18,15 +30,15 @@ class Login extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleUsernameUpdate(e) {
-    this.setState({ username: e.target.value });
+  handleUsernameUpdate(e: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({ username: e.currentTarget.value });
   }
 
-  handlePasswordUpdate(e) {
-    this.setState({ password: e.target.value });
+  handlePasswordUpdate(e: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({ password: e.currentTarget.value });
   }
 
-  handleSubmit(e) {
+  handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     this.props
       .mutate({
@@ -35,10 +47,10 @@ class Login extends React.Component {
           password: this.state.password,
         },
       })
-      .then(({ data }) => {
+      .then(({ data }: any) => {
         console.log(data);
         if (data.login.success) {
-          this.props.dispatch(loginSuccess(data.login.token));
+          this.props.loginSuccess(data.login.token);
         } else {
           this.setState({ error: 'Login failed' });
         }
@@ -84,4 +96,9 @@ const LoginMutation = gql`
   }
 `;
 
-export default connect()(graphql(LoginMutation)(Login));
+export default compose(
+  connect(null, {
+    loginSuccess: authActions.loginSuccess
+  }),
+  graphql(LoginMutation),
+)(Login);

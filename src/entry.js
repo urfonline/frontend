@@ -18,7 +18,7 @@ const networkInterface = createNetworkInterface({
   uri:
     process.env.NODE_ENV === 'production'
       ? 'https://api.urfonline.com/graphql'
-      : 'https://api.urfonline.com/graphql', // 'http://localhost:8000/graphql',
+      : 'http://localhost:8000/graphql', // 'http://localhost:8000/graphql',
 });
 
 networkInterface.use([

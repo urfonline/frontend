@@ -21,7 +21,7 @@
 
 .MembersGallery {
   overflow: hidden;
-  height: 315px;
+  height: 345px;
   position: relative;
 
   &__title {
@@ -46,6 +46,7 @@
   &__row {
     position: relative;
     display: flex;
+    will-change: left;
   }
 
   &__row--left {
@@ -64,5 +65,6 @@
     width: 2800px;
     display: block;
     flex: none;
+    height: 115px;
   }
 }

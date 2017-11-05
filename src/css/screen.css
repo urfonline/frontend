@@ -47,6 +47,12 @@
 @import './components/ScheduleTimeline.css';
 @import './components/OnAirBadge.css';
 
+/* news/events */
+@import './components/Article.css';
+
+/* members area */
+@import './components/MembersBar.css';
+
 /* utils */
 
 @import './components/srt.css';
