@@ -1,6 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 interface IProps {
   desktop?: boolean;
@@ -17,16 +17,16 @@ function MainNavigation({ desktop, mobile }: IProps) {
     >
       <ul className="MainNavigation__list">
         <li className="MainNavigation__item">
-          <Link to="/schedule">Schedule</Link>
+          <NavLink to="/schedule">Schedule</NavLink>
         </li>
         <li className="MainNavigation__item">
-          <Link to="/shows">Shows</Link>
+          <NavLink to="/shows">Shows</NavLink>
         </li>
         <li className="MainNavigation__item">
-          <Link to="/news-events">News {'&'} Events</Link>
+          <NavLink to="/news-events">News {'&'} Events</NavLink>
         </li>
         <li className="MainNavigation__item">
-          <Link to="/we-are-urf">About</Link>
+          <NavLink to="/we-are-urf">About</NavLink>
         </li>
       </ul>
     </div>

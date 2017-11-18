@@ -10,6 +10,7 @@
     "eslint-plugin-prettier": "^2.1.1",
     "graphql": "^0.11.7",
     "graphql-tag": "^2.5.0",
+    "grid-emotion": "^2.1.0",
     "htmr": "^0.4.1",
     "lodash": "^4.17.4",
     "prop-types": "^15.5.10",

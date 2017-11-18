@@ -9,6 +9,7 @@
   padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: rgb(26, 24, 24);
 
   &__content {
     display: flex;

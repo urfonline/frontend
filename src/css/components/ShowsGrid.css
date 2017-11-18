@@ -21,6 +21,10 @@
       gg: columns(1/4 1/4 1/4 1/4);
     }
 
+    @media screen and (min-width: 1660px) {
+      gg: columns(1/5 1/5 1/5 1/5 1/5);
+    }
+
   }
 
   &__item {

@@ -6,25 +6,7 @@ import { Helmet } from 'react-helmet';
 import convert from 'htmr';
 import { elementMap } from '../components/Prose';
 import styled from "react-emotion";
-import Imgix from 'react-imgix';
-
-const Headline = styled.h1`
-    font-size: 2em;
-    margin: 0;
-    color: #ffffff;
-    text-shadow: 0 1px 2px rgba(30, 30, 30, 0.3);
-    padding-bottom: 1rem;
-`;
-
-const FeaturedImageContainer = styled(Imgix)`
-  height: 40vh;
-  min-height: 200px;
-  display: flex;
-  
-  & .Container {
-    margin-top: auto;
-  }
-`;
+import {ImageHeader} from "../components/ImageHeader";
 
 const Content = styled.div`
   font-weight: 400;
@@ -67,11 +49,7 @@ function Article(props: IProps) {
       <div>
         <article className="Article">
           <Header>
-            <FeaturedImageContainer type="bg" src={`https://urf.imgix.net/${article.featuredImage.resource}`}>
-              <div className="Container">
-                <Headline>{article.title}</Headline>
-              </div>
-            </FeaturedImageContainer>
+            <ImageHeader title={article.title} image={article.featuredImage} />
             <div className="Container">
               <Byline>
                 By{' '}

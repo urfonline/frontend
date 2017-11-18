@@ -11,7 +11,7 @@
 
   @media (--medium) {
     width: 180px;
-    background: #000000;
+    background: rgb(26, 24, 24);
     right: auto;
     height: auto;
     bottom: 0;
