@@ -5,8 +5,8 @@ import gql from 'graphql-tag';
 import { Helmet } from 'react-helmet';
 import convert from 'htmr';
 import { elementMap } from '../components/Prose';
-import styled from "react-emotion";
-import {ImageHeader} from "../components/ImageHeader";
+import styled from 'react-emotion';
+import { ImageHeader } from '../components/ImageHeader';
 
 const Content = styled.div`
   font-weight: 400;
@@ -26,7 +26,6 @@ const Header = styled.header`
   font-size: 1.2rem;
 `;
 
-
 interface IProps {
   data: any;
 }
@@ -35,11 +34,7 @@ function Article(props: IProps) {
   const { data: { article, loading } } = props;
   console.log(props);
   if (loading) {
-    return (
-      <div>
-        loading
-      </div>
-    );
+    return <div>loading</div>;
   }
   return (
     <div>

@@ -5,7 +5,7 @@ import ShowsGrid from '../components/ShowsGrid';
 import { Helmet } from 'react-helmet';
 import { withState } from 'recompose';
 import { Show } from '../utils/types';
-import {compose} from 'redux';
+import { compose } from 'redux';
 
 interface IProps {
   updateSortMethod: any; // todo

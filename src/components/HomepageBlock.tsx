@@ -1,7 +1,10 @@
 import React from 'react';
 import styled from 'react-emotion';
-import {Link, LinkProps} from "react-router-dom";
+import { Link, LinkProps } from 'react-router-dom';
 import Imgix from 'react-imgix';
+import { ImageResource } from '../types';
+import { ConditionalWrap } from './CondittionalWrap';
+import { css } from 'emotion';
 
 const BoxLink = styled<LinkProps, { backgroundColor: string }>(Link)`
   box-shadow: 0 1px 2px rgba(30, 30, 30, 0.1);
@@ -31,44 +34,87 @@ const Description = styled.div`
 
 interface IProps {
   block: any;
+  size: 1 | 2 | 3;
 }
 
-function renderArticle(block: any) {
-  const article = block.object;
+interface IBlockProps {
+  className?: string;
+  innerClassName?: string;
+  link: string;
+  backgroundColor: string;
+  image?: ImageResource;
+  kicker: string;
+  title: string;
+  description?: string;
+}
+
+function Block(props: IBlockProps) {
   return (
-    <BoxLink to={`/article/${article.slug}-${block.object.articleId}`} backgroundColor={'#fff'}>
-      <Imgix type="bg" src={`https://urf.imgix.net/${article.featuredImage.resource}`}>
-        <BoxInner>
-          <Kicker>{article.tone}</Kicker>
-          <BlockTitle>{article.title}</BlockTitle>
+    <BoxLink
+      to={props.link}
+      backgroundColor={props.backgroundColor}
+      className={props.className}
+    >
+      <ConditionalWrap
+        condition={!!props.image}
+        wrap={(children: any) => (
+          <Imgix
+            type="bg"
+            src={`https://urf.imgix.net/${props.image && props.image.resource}`}
+          >
+            {children}
+          </Imgix>
+        )}
+      >
+        <BoxInner className={props.innerClassName}>
+          <Kicker>{props.kicker}</Kicker>
+          <BlockTitle>{props.title}</BlockTitle>
+          {props.description && <Description>{props.description}</Description>}
         </BoxInner>
-      </Imgix>
+      </ConditionalWrap>
     </BoxLink>
   );
 }
 
-function renderShow(block: any) {
-  const show = block.object;
+const articleStyles = css`
+  padding-top: 8rem;
+`;
+
+function renderArticle(props: IProps) {
+  const article = props.block.object;
   return (
-    <BoxLink to={`/shows/${show.slug}`} backgroundColor={`#${show.brandColor}`}>
-      <BoxInner>
-        <Kicker>Show</Kicker>
-        <BlockTitle>{show.name}</BlockTitle>
-        <Description>{show.shortDescription}</Description>
-      </BoxInner>
-    </BoxLink>
+    <Block
+      innerClassName={articleStyles}
+      link={`/article/${article.slug}-${article.articleId}`}
+      backgroundColor={'#fff'}
+      kicker={article.tone}
+      title={article.title}
+      image={article.featuredImage}
+    />
   );
 }
 
+function renderShow(props: IProps) {
+  const show = props.block.object;
+  return (
+    <Block
+      link={`/shows/${show.slug}`}
+      backgroundColor={`#${show.brandColor}`}
+      kicker={'Show'}
+      title={show.name}
+      description={show.shortDescription}
+    />
+  );
+}
 
 export function HomepageBlock(props: IProps) {
   if (props.block.object.__typename === 'Article') {
-    return renderArticle(props.block);
+    return renderArticle(props);
   }
 
   if (props.block.object.__typename === 'Show') {
-    return renderShow(props.block);
+    return renderShow(props);
   }
 
-  return <div>missing type</div>
+  return <div>missing type</div>;
 }

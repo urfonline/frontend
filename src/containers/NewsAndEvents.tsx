@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Link } from 'react-router-dom';
-import {compose} from "redux";
+import { compose } from 'redux';
 
 interface IProps {
   updateSortMethod: any; // todo

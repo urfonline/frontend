@@ -16,12 +16,12 @@ import MembersApp from '../members/MembersApp';
 import { Helmet } from 'react-helmet';
 import Login from '../members/Login';
 import { Redirect } from 'react-router';
-import {loginRestoreAttempt} from "../../ducks/auth";
-import { scheduleLoaded, updateOnAirSlot } from "../../ducks/schedule";
-import {connect} from "react-redux";
-import gql from "graphql-tag";
-import {graphql} from 'react-apollo';
-import {compose} from 'redux';
+import { loginRestoreAttempt } from '../../ducks/auth';
+import { scheduleLoaded, updateOnAirSlot } from '../../ducks/schedule';
+import { connect } from 'react-redux';
+import gql from 'graphql-tag';
+import { graphql } from 'react-apollo';
+import { compose } from 'redux';
 
 interface IDispatchProps {
   loginRestoreAttempt(): void;
@@ -46,10 +46,7 @@ class App extends React.Component<IProps> {
   }
 
   componentWillReceiveProps(nextProps: IAppProps) {
-    const {
-      loading,
-      data
-    } = nextProps;
+    const { loading, data } = nextProps;
     if (!loading && data) {
       this.props.scheduleLoaded(data);
     }

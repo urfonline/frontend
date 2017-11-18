@@ -3,7 +3,7 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { connect } from 'react-redux';
 import * as authActions from '../../ducks/auth';
-import {compose} from 'redux';
+import { compose } from 'redux';
 
 interface IProps {
   mutate: any;

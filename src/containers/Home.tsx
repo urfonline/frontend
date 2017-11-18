@@ -3,8 +3,8 @@ import styled from 'react-emotion';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import TodaySchedule from '../components/TodaySchedule';
-import {HomepageBlock} from "../components/HomepageBlock";
-import {keyBy} from 'lodash';
+import { HomepageBlock } from '../components/HomepageBlock';
+import { keyBy } from 'lodash';
 import { Flex, Box } from 'grid-emotion';
 
 interface IProps {
@@ -12,7 +12,7 @@ interface IProps {
 }
 
 const BlockContainer = styled.div`
-  max-width: 1280px;
+  max-width: 1440px;
 `;
 
 function renderBlocks(props: IProps) {
@@ -25,21 +25,46 @@ function renderBlocks(props: IProps) {
   }
   const byPosition = keyBy(props.data.homepage, 'position');
 
+  const hasHero = byPosition.hasOwnProperty('HERO');
+  const hasSecondary =
+    byPosition.hasOwnProperty('SEC_1') && byPosition.hasOwnProperty('SEC_2');
+  const hasThirds =
+    byPosition.hasOwnProperty('THIRD_1') &&
+    byPosition.hasOwnProperty('THIRD_2') &&
+    byPosition.hasOwnProperty('THIRD_3');
+
   return (
     <BlockContainer>
-      <Flex mb={3}>
-        <Box width={1}>
-          <HomepageBlock block={byPosition.HERO} />
-        </Box>
-      </Flex>
-      <Flex mx={-3}>
-        <Box width={1/2} px={3}>
-          <HomepageBlock block={byPosition.SEC_1} />
-        </Box>
-        <Box width={1/2} px={3}>
-          <HomepageBlock block={byPosition.SEC_2} />
-        </Box>
-      </Flex>
+      {hasHero && (
+        <Flex mb={2}>
+          <Box width={1}>
+            <HomepageBlock block={byPosition.HERO} size={1} />
+          </Box>
+        </Flex>
+      )}
+      {hasSecondary && (
+        <Flex mx={-2}>
+          <Box width={1 / 2} px={2}>
+            <HomepageBlock block={byPosition.SEC_1} size={2} />
+          </Box>
+          <Box width={1 / 2} px={2}>
+            <HomepageBlock block={byPosition.SEC_2} size={2} />
+          </Box>
+        </Flex>
+      )}
+      {hasThirds && (
+        <Flex mx={-2}>
+          <Box width={1 / 3} px={2}>
+            <HomepageBlock block={byPosition.THIRD_1} size={3} />
+          </Box>
+          <Box width={1 / 3} px={2}>
+            <HomepageBlock block={byPosition.THIRD_2} size={3} />
+          </Box>
+          <Box width={1 / 3} px={2}>
+            <HomepageBlock block={byPosition.THIRD_3} size={3} />
+          </Box>
+        </Flex>
+      )}
     </BlockContainer>
   );
 }
@@ -105,6 +130,6 @@ interface QueryResponse {
   data: any;
 }
 
-type WrappedProps = QueryResponse & {}
+type WrappedProps = QueryResponse & {};
 
-export default graphql<QueryResponse, {},  WrappedProps>(HomeQuery)(Home);
+export default graphql<QueryResponse, {}, WrappedProps>(HomeQuery)(Home);
