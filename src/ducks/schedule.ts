@@ -64,9 +64,13 @@ export default function scheduleReducer(state = initialState, action: any) {
       };
     }
     case UPDATE_ON_AIR_SLOT: {
+      if (state.isLoading) {
+        return state;
+      }
+
       return {
         ...state,
-        currentlyOnAir: state.data ? getOnAirSlot(state.slotsByDay) : null,
+        currentlyOnAir: getOnAirSlot(state.slotsByDay),
       };
     }
     default: {

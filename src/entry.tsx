@@ -5,8 +5,6 @@ import createStore from './redux/configureStore';
 import App from './containers/App';
 import { ApolloProvider } from 'react-apollo';
 import { HttpLink, ApolloClient, InMemoryCache } from 'apollo-client-preset';
-import { loginRestoreAttempt } from './ducks/auth';
-import loadSchedule from './utils/loadSchedule';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
@@ -39,11 +37,6 @@ const apolloClient = new ApolloClient({
 }) as any;
 
 const store = createStore(undefined);
-
-// try and re auth someone
-store.dispatch(loginRestoreAttempt());
-
-loadSchedule(apolloClient, store);
 
 ReactDOM.render(
   <ApolloProvider client={apolloClient}>
