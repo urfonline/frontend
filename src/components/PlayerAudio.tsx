@@ -57,8 +57,9 @@ class PlayerAudio extends React.Component<IProps, IState> {
       <audio
         src={
           stream === 'live'
-            ? `http://uk2.internet-radio.com:30764/stream?nocache=${this.state
-                .cacheKey}`
+            ? `http://uk2.internet-radio.com:30764/stream?nocache=${
+                this.state.cacheKey
+              }`
             : stream
         }
         ref={ref => (this.audioEl = ref)}

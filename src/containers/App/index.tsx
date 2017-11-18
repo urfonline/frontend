@@ -14,8 +14,8 @@ import Article from '../Article';
 import NewsAndEvents from '../NewsAndEvents';
 import MembersApp from '../members/MembersApp';
 import { Helmet } from 'react-helmet';
-import Login from "../members/Login";
-import {Redirect} from "react-router";
+import Login from '../members/Login';
+import { Redirect } from 'react-router';
 
 function App() {
   return (
@@ -27,7 +27,7 @@ function App() {
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/schedule" exact component={Schedule} />
-          <Route path="/shows" exact component={Shows} />
+          <Route path="/shows" exact component={Shows as any} />
           <Route path="/news-events" exact component={NewsAndEvents} />
           <Route path="/we-are-urf" exact component={WeAreURF} />
           <Route path="/shows/:showSlug" component={ShowBase} />

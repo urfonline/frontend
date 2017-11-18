@@ -8,6 +8,7 @@ import {
   getScrollPositionForNow,
   getTodayDayMonday,
 } from '../utils/schedule';
+import { RootState } from '../types';
 
 interface IProps {
   schedule: any; // todo
@@ -72,6 +73,6 @@ class TodaySchedule extends React.Component<IProps> {
   }
 }
 
-export default connect(state => ({
+export default connect((state: RootState) => ({
   schedule: state.schedule,
 }))(TodaySchedule);

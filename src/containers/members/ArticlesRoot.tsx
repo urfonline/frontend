@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {Route, Switch} from "react-router-dom";
-import ArticleEditor from "./ArticleEditor";
-import ArticleList from "./ArticleList";
+import { Route, Switch } from 'react-router-dom';
+import ArticleEditor from './ArticleEditor';
+import ArticleList from './ArticleList';
+import { RootState } from '../../types';
 
 interface IProps {
-  auth: any // todo
+  auth: any; // todo
 }
 
 function ArticlesRoot(_props: IProps) {
@@ -20,6 +21,6 @@ function ArticlesRoot(_props: IProps) {
   );
 }
 
-export default connect(state => ({
+export default connect((state: RootState) => ({
   auth: state.auth,
 }))(ArticlesRoot);

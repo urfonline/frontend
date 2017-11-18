@@ -1,8 +1,9 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
+import { RootState } from '../../types';
 
 interface IProps {
-  auth: any // todo
+  auth: any; // todo
 }
 
 function ArticleEditor(_props: IProps) {
@@ -18,6 +19,6 @@ function ArticleEditor(_props: IProps) {
   );
 }
 
-export default connect(state => ({
+export default connect((state: RootState) => ({
   auth: state.auth,
 }))(ArticleEditor);

@@ -1,16 +1,13 @@
 import React from 'react';
-import {
-  Route,
-  Switch,
-  Redirect, NavLink,
-} from 'react-router-dom';
+import { Route, Switch, Redirect, NavLink } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import Dashboard from './Dashboard';
 import { connect } from 'react-redux';
-import ArticlesRoot from "./ArticlesRoot";
+import ArticlesRoot from './ArticlesRoot';
+import { RootState } from '../../types';
 
 interface IProps {
-  auth: any // todo
+  auth: any; // todo
 }
 
 function MembersApp(props: IProps) {
@@ -27,10 +24,23 @@ function MembersApp(props: IProps) {
 
             <ul className="MembersBar__menu">
               <li>
-                <NavLink className="MembersBar__menu-item" activeClassName="MembersBar__menu-item--active" to="/members" exact>Dashboard</NavLink>
+                <NavLink
+                  className="MembersBar__menu-item"
+                  activeClassName="MembersBar__menu-item--active"
+                  to="/members"
+                  exact
+                >
+                  Dashboard
+                </NavLink>
               </li>
               <li>
-                <NavLink className="MembersBar__menu-item" activeClassName="MembersBar__menu-item--active" to="/members/articles">Articles</NavLink>
+                <NavLink
+                  className="MembersBar__menu-item"
+                  activeClassName="MembersBar__menu-item--active"
+                  to="/members/articles"
+                >
+                  Articles
+                </NavLink>
               </li>
             </ul>
           </div>
@@ -47,6 +57,6 @@ function MembersApp(props: IProps) {
   );
 }
 
-export default connect(state => ({
+export default connect((state: RootState) => ({
   auth: state.auth,
 }))(MembersApp);

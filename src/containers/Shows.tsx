@@ -3,8 +3,9 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import ShowsGrid from '../components/ShowsGrid';
 import { Helmet } from 'react-helmet';
-import { compose, withState } from 'recompose';
+import { withState } from 'recompose';
 import { Show } from '../utils/types';
+import {compose} from 'redux';
 
 interface IProps {
   updateSortMethod: any; // todo
@@ -61,6 +62,6 @@ const HomeQuery = gql`
 `;
 
 export default compose(
-  graphql(HomeQuery),
+  graphql<{}, {}, any>(HomeQuery),
   withState('sortMethod', 'updateSortMethod', 'NAME')
 )(Shows);

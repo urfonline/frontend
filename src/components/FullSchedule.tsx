@@ -5,6 +5,7 @@ import ScheduleDayRow from './ScheduleDayRow';
 import ScheduleDayColumn from './ScheduleDayColumn';
 import Spinner from './Spinner';
 import { calculateWidth, getScrollPositionForNow } from '../utils/schedule';
+import { RootState } from '../types';
 
 interface IProps {
   schedule: any;
@@ -69,6 +70,6 @@ class FullSchedule extends React.Component<IProps, any> {
   }
 }
 
-export default connect(state => ({
+export default connect((state: RootState) => ({
   schedule: state.schedule,
 }))(FullSchedule);

@@ -3,17 +3,17 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { connect } from 'react-redux';
 import * as authActions from '../../ducks/auth';
-import {compose} from "recompose";
+import {compose} from 'redux';
 
 interface IProps {
-  mutate: any,
-  loginSuccess: any,
+  mutate: any;
+  loginSuccess: any;
 }
 
 interface IState {
-  username: string,
-  password: string,
-  error: string | null,
+  username: string;
+  password: string;
+  error: string | null;
 }
 
 class Login extends React.Component<IProps, IState> {
@@ -99,7 +99,7 @@ const LoginMutation = gql`
 
 export default compose(
   connect(null, {
-    loginSuccess: authActions.loginSuccess
+    loginSuccess: authActions.loginSuccess,
   }),
-  graphql(LoginMutation),
-)(Login);
+  graphql<{}, {}, IProps>(LoginMutation)
+)(Login) as any;

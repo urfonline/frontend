@@ -2,8 +2,8 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { compose } from 'recompose';
-import {Link} from "react-router-dom";
+import { Link } from 'react-router-dom';
+import {compose} from "redux";
 
 interface IProps {
   updateSortMethod: any; // todo
@@ -19,20 +19,17 @@ interface Article {
 }
 
 interface ArticleEdge {
-  node: Article
+  node: Article;
 }
 
-function getArticleUrl(article: { slug: string, articleId: number }) {
-  return `/article/${article.slug}-${article.articleId}`
+function getArticleUrl(article: { slug: string; articleId: number }) {
+  return `/article/${article.slug}-${article.articleId}`;
 }
 
 function ArticleBlock(props: { article: Article }) {
-
   return (
     <li>
-      <Link to={getArticleUrl(props.article)}>
-        {props.article.title}
-      </Link>
+      <Link to={getArticleUrl(props.article)}>{props.article.title}</Link>
     </li>
   );
 }
@@ -49,14 +46,15 @@ function renderContent(props: IProps) {
   return (
     <div>
       <ul>
-        {props.data.allArticles.edges.map((edge: ArticleEdge) => <ArticleBlock article={edge.node} />)}
+        {props.data.allArticles.edges.map((edge: ArticleEdge) => (
+          <ArticleBlock article={edge.node} />
+        ))}
       </ul>
     </div>
   );
 }
 
-
-function NewsAndEvents(props: IProps ) {
+function NewsAndEvents(props: IProps) {
   return (
     <div className="Container">
       <Helmet>
@@ -84,13 +82,10 @@ const NewsAndEventsQuery = gql`
       edges {
         node {
           eventId
-          
         }
       }
     }
   }
 `;
 
-export default compose(
-  graphql(NewsAndEventsQuery),
-)(NewsAndEvents);
+export default compose(graphql<{}, {}, any>(NewsAndEventsQuery))(NewsAndEvents);

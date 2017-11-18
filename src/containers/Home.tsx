@@ -7,7 +7,6 @@ interface IProps {
   data: any;
 }
 
-
 function renderBlocks(props: IProps) {
   if (props.data.loading) {
     return <div>loading</div>;
@@ -17,10 +16,13 @@ function renderBlocks(props: IProps) {
     return <div>error</div>;
   }
 
-
   return (
     <div>
-      {props.data.homepage.map((block: any) => <div>{block.position}: {block.object.__typename}, {block.object.name}</div>)}
+      {props.data.homepage.map((block: any) => (
+        <div>
+          {block.position}: {block.object.__typename}, {block.object.name}
+        </div>
+      ))}
     </div>
   );
 }
@@ -57,4 +59,10 @@ const HomeQuery = gql`
   }
 `;
 
-export default graphql(HomeQuery)(Home);
+interface QueryResponse {
+  data: any;
+}
+
+type WrappedProps = QueryResponse & {}
+
+export default graphql<QueryResponse, {},  WrappedProps>(HomeQuery)(Home);

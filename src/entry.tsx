@@ -3,14 +3,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import createStore from './redux/configureStore';
 import App from './containers/App';
-import {
-  ApolloProvider,
-} from 'react-apollo';
-import { HttpLink, ApolloClient, InMemoryCache } from 'apollo-client-preset'
+import { ApolloProvider } from 'react-apollo';
+import { HttpLink, ApolloClient, InMemoryCache } from 'apollo-client-preset';
 import { loginRestoreAttempt } from './ducks/auth';
 import loadSchedule from './utils/loadSchedule';
-import {BrowserRouter} from 'react-router-dom';
-import {Provider} from "react-redux";
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
 
 const link = new HttpLink({
   uri:
@@ -33,9 +31,11 @@ const link = new HttpLink({
 //   },
 // ]);
 
+const cache: any = new InMemoryCache();
+
 const apolloClient = new ApolloClient({
   link,
-  cache: new InMemoryCache(),
+  cache,
 }) as any;
 
 const store = createStore(undefined);

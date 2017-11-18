@@ -6,7 +6,7 @@ import gql from 'graphql-tag';
 import Image from '../components/Image';
 import { Helmet } from 'react-helmet';
 import convert from 'htmr';
-import {elementMap} from "../components/Prose/index";
+import { elementMap } from '../components/Prose/index';
 
 interface IProps {
   data: any;
@@ -39,7 +39,13 @@ function Article(props: IProps) {
         <article className="Article">
           <header className="Article__header">
             <h1 className="Article__title">{article.title}</h1>
-            <div className="Article__byline">By {article.authors.map((author: any) => <span>{author.name ? author.name : author.username}</span>)}, published {formatDistance(new Date(), new Date(article.publishedAt))} ago</div>
+            <div className="Article__byline">
+              By{' '}
+              {article.authors.map((author: any) => (
+                <span>{author.name ? author.name : author.username}</span>
+              ))}, published{' '}
+              {formatDistance(new Date(), new Date(article.publishedAt))} ago
+            </div>
             <div className="Article__featured-image">
               <Image src={article.featuredImage.resource} />
             </div>

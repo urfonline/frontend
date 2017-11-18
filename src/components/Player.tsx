@@ -5,7 +5,8 @@ import PlayPauseButton from './PlayPauseButton';
 import PlayerAudio from './PlayerAudio';
 import { playerAudioStateChange, playerUserStateChange } from '../ducks/player';
 import { Link } from 'react-router-dom';
-import {formatTime} from "../utils/schedule";
+import { formatTime } from '../utils/schedule';
+import { RootState } from '../types';
 
 interface IProps {
   isLoading: boolean;
@@ -20,11 +21,8 @@ interface IProps {
 const Player: React.SFC<IProps> = (props: IProps) => {
   const { player, schedule } = props;
 
-  let content;
   if (schedule.isLoading) {
     return null;
-  } else {
-    content = schedule.currentlyOnAir.show.name;
   }
 
   const show = schedule.currentlyOnAir.show;
@@ -47,7 +45,9 @@ const Player: React.SFC<IProps> = (props: IProps) => {
             {show.name}
           </Link>
           <small>
-            {formatTime(schedule.currentlyOnAir.startDate)}-{formatTime(schedule.currentlyOnAir.endDate)}
+            {formatTime(schedule.currentlyOnAir.startDate)}-{formatTime(
+              schedule.currentlyOnAir.endDate
+            )}
           </small>
         </div>
       </div>
@@ -67,7 +67,7 @@ Player.defaultProps = {
 };
 
 export default connect(
-  state => ({
+  (state: RootState) => ({
     player: state.player,
     schedule: state.schedule,
   }),

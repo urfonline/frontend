@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import BroadcastingIcon from '../components/BroadcastingIcon';
 import { getOnAirSlot } from '../utils/schedule';
 import { playLive } from '../ducks/player';
+import { RootState } from '../types';
 
 interface IProps {
   schedule: any; // todo
@@ -34,7 +35,7 @@ function NowAndNext(props: IProps) {
 }
 
 export default connect(
-  state => ({
+  (state: RootState) => ({
     schedule: state.schedule,
     player: state.player,
   }),

@@ -1,9 +1,10 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
+import { RootState } from '../../types';
 
 interface IProps {
-  auth: any // todo
+  auth: any; // todo
 }
 
 function Dashboard(_props: IProps) {
@@ -16,6 +17,6 @@ function Dashboard(_props: IProps) {
   );
 }
 
-export default connect(state => ({
+export default connect((state: RootState) => ({
   auth: state.auth,
 }))(Dashboard);
