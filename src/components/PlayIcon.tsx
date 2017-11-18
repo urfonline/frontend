@@ -1,8 +1,8 @@
 import React from 'react';
 /* eslint-disable */
 
-import playIcon from '../img/play-broadcasting.svg';
-import pauseIcon from '../img/pause-broadcasting.svg';
+import playIcon from '../img/play.svg';
+import pauseIcon from '../img/pause.svg';
 
 interface IProps {
   tone: string;
