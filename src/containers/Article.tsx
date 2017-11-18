@@ -1,12 +1,49 @@
 import React from 'react';
-import cx from 'classnames';
 import formatDistance from 'date-fns/formatDistance';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import Image from '../components/Image';
 import { Helmet } from 'react-helmet';
 import convert from 'htmr';
-import { elementMap } from '../components/Prose/index';
+import { elementMap } from '../components/Prose';
+import styled from "react-emotion";
+import Imgix from 'react-imgix';
+
+const Headline = styled.h1`
+    font-size: 2em;
+    margin: 0;
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(30, 30, 30, 0.3);
+    padding-bottom: 1rem;
+`;
+
+const FeaturedImageContainer = styled(Imgix)`
+  height: 40vh;
+  min-height: 200px;
+  display: flex;
+  
+  & .Container {
+    margin-top: auto;
+  }
+`;
+
+const Content = styled.div`
+  font-weight: 400;
+  max-width: 660px;
+  line-height: 1.5;
+  font-size: 1.2em;
+`;
+
+const Byline = styled.div`
+  padding-top: 0.4rem;
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: #545454;
+`;
+
+const Header = styled.header`
+  font-size: 1.2rem;
+`;
+
 
 interface IProps {
   data: any;
@@ -18,15 +55,7 @@ function Article(props: IProps) {
   if (loading) {
     return (
       <div>
-        <div className={cx('ShowHeader', 'ShowHeader--loading')}>
-          <div className="Container">
-            <div className="ShowHeader__container">
-              <div className="ShowHeader__cover" />
-              <div className="ShowHeader__info" />
-            </div>
-          </div>
-        </div>
-        <div className="Container" />
+        loading
       </div>
     );
   }
@@ -35,23 +64,28 @@ function Article(props: IProps) {
       <Helmet>
         <title>{article.title}</title>
       </Helmet>
-      <div className="Container">
+      <div>
         <article className="Article">
-          <header className="Article__header">
-            <h1 className="Article__title">{article.title}</h1>
-            <div className="Article__byline">
-              By{' '}
-              {article.authors.map((author: any) => (
-                <span>{author.name ? author.name : author.username}</span>
-              ))}, published{' '}
-              {formatDistance(new Date(), new Date(article.publishedAt))} ago
+          <Header>
+            <FeaturedImageContainer type="bg" src={`https://urf.imgix.net/${article.featuredImage.resource}`}>
+              <div className="Container">
+                <Headline>{article.title}</Headline>
+              </div>
+            </FeaturedImageContainer>
+            <div className="Container">
+              <Byline>
+                By{' '}
+                {article.authors.map((author: any) => (
+                  <span>{author.name ? author.name : author.username}</span>
+                ))}, published{' '}
+                {formatDistance(new Date(), new Date(article.publishedAt))} ago
+              </Byline>
             </div>
-            <div className="Article__featured-image">
-              <Image src={article.featuredImage.resource} />
-            </div>
-          </header>
-          <div className="Article__content Prose">
-            {convert(article.bodyHtml, elementMap)}
+          </Header>
+          <div className="Container">
+            <Content className="Prose">
+              {convert(article.bodyHtml, elementMap)}
+            </Content>
           </div>
         </article>
       </div>
