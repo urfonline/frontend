@@ -57,7 +57,7 @@ function renderBlocks(props: IProps) {
     <BlockContainer>
       {hasHero && (
         <Flex mx={-2} mb={2}>
-          <Box width={400} px={2}>
+          <Box width={[1, 400]} px={2}>
             <OnAirBlock />
           </Box>
           <Box width={1} px={2}>
@@ -67,23 +67,23 @@ function renderBlocks(props: IProps) {
       )}
       {hasSecondary && (
         <Flex mx={-2} mb={2}>
-          <Box width={1 / 2} px={2}>
+          <Box width={[1, 1 / 2]} px={2}>
             <HomepageBlock block={byPosition.SEC_1} size={2} />
           </Box>
-          <Box width={1 / 2} px={2}>
+          <Box width={[1, 1 / 2]} px={2}>
             <HomepageBlock block={byPosition.SEC_2} size={2} />
           </Box>
         </Flex>
       )}
       {hasThirds && (
         <Flex mx={-2} mb={2}>
-          <Box width={1 / 3} px={2}>
+          <Box width={[1, 1 / 3]} px={2}>
             <HomepageBlock block={byPosition.THIRD_1} size={3} />
           </Box>
-          <Box width={1 / 3} px={2}>
+          <Box width={[1, 1 / 3]} px={2}>
             <HomepageBlock block={byPosition.THIRD_2} size={3} />
           </Box>
-          <Box width={1 / 3} px={2}>
+          <Box width={[1, 1 / 3]} px={2}>
             <HomepageBlock block={byPosition.THIRD_3} size={3} />
           </Box>
         </Flex>

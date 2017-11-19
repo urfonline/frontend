@@ -11,6 +11,7 @@ import ShowBase from '../ShowBase';
 import NotFound from '../NotFound/NotFound';
 import WeAreURF from '../WeAreURF';
 import Article from '../Article';
+import Event from '../Event';
 import NewsAndEvents from '../NewsAndEvents';
 import MembersApp from '../members/MembersApp';
 import { Helmet } from 'react-helmet';
@@ -69,6 +70,7 @@ class App extends React.Component<IProps> {
             <Route path="/auth/login" component={Login} exact />
             <Route path="/members" component={MembersApp} />
             <Route path="/article/**-:articleId" component={Article} exact />
+            <Route path="/event/**-:eventId" component={Event} exact />
             <Redirect path="/article" to="/news-events" exact />
             <Route component={NotFound} />
           </Switch>

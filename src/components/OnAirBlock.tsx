@@ -27,6 +27,7 @@ export function OnAirBlockComponent(props:  IProps) {
 
   return (
     <Block
+      size={1}
       className={onAirStyles}
       backgroundColor={'rgb(177, 34, 32)'}
       kicker={player.userState ? 'Playing live' : 'On Air - click to play'}

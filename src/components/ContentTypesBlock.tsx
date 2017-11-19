@@ -21,6 +21,7 @@ function renderArticle(props: IProps) {
   const article = props.block.object;
   return (
     <Block
+      size={props.size}
       innerClassName={articleStyles}
       link={`/article/${article.slug}-${article.articleId}`}
       backgroundColor={'#fff'}
@@ -35,6 +36,7 @@ function renderShow(props: IProps) {
   const show = props.block.object;
   return (
     <Block
+      size={props.size}
       link={`/shows/${show.slug}`}
       backgroundColor={`#${show.brandColor}`}
       kicker={props.block.overrideKicker || 'Show'}
@@ -48,6 +50,7 @@ function renderEvent(props: IProps) {
   const event = props.block.object;
   return (
     <Block
+      size={props.size}
       link={`/event/${event.slug}-${event.eventId}`}
       backgroundColor={`grey`}
       kicker={props.block.overrideKicker || 'Event'}
