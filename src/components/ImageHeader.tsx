@@ -13,8 +13,7 @@ const Headline = styled.h1`
 `;
 
 const containerStyles = css`
-  height: 40vh;
-  min-height: 200px;
+  min-height: 40vh;
   display: flex;
   
   & .Container {

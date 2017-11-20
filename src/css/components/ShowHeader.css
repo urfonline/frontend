@@ -2,6 +2,7 @@
   position: relative;
   margin-bottom: 60px;
   box-shadow: 0 0 5px rgba(40, 40, 40, 0.2);
+  transition: background ease 300ms;
 
   &--has-cover {
     padding-bottom: 100px;
