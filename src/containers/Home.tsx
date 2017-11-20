@@ -60,7 +60,7 @@ function renderBlocks(props: IProps) {
           <Box width={[1, 400]} px={2} mb={2}>
             <OnAirBlock />
           </Box>
-          <Box width={1} px={2} mb={2}>
+          <Box width={1} px={2} mb={2} flex="1 1 0">
             <HomepageBlock block={byPosition.HERO} size={1} />
           </Box>
         </Flex>
