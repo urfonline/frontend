@@ -5,8 +5,8 @@ import gql from 'graphql-tag';
 import TodaySchedule from '../components/TodaySchedule';
 import { keyBy } from 'lodash';
 import { Flex, Box } from 'grid-emotion';
-import {HomepageBlock} from "../components/ContentTypesBlock";
-import {OnAirBlock} from "../components/OnAirBlock";
+import { HomepageBlock } from '../components/ContentTypesBlock';
+import { OnAirBlock } from '../components/OnAirBlock';
 
 interface IProps {
   data: any;
@@ -17,13 +17,13 @@ const WelcomeHeading = styled.h1`
   margin: 0;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  
+
   @media (min-width: 960px) {
     font-size: 2.8rem;
     padding-top: 2rem;
     padding-bottom: 2rem;
   }
-  
+
   @media (min-width: 1440px) {
     font-size: 4.1rem;
     padding-top: 3rem;

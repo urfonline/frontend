@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from 'emotion';
-import {Block} from "./HomepageBlock";
+import { Block } from './HomepageBlock';
 
 interface IProps {
   block: {

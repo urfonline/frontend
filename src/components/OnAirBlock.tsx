@@ -1,9 +1,9 @@
 import React from 'react';
-import {Block} from "./HomepageBlock";
-import {css} from "emotion";
-import {connect} from "react-redux";
-import {RootState} from "../types";
-import * as PlayerActions from "../ducks/player";
+import { Block } from './HomepageBlock';
+import { css } from 'emotion';
+import { connect } from 'react-redux';
+import { RootState } from '../types';
+import * as PlayerActions from '../ducks/player';
 
 const onAirStyles = css`
   color: white;
@@ -16,7 +16,7 @@ interface IProps {
   playerUserStateChange: any; // todo
 }
 
-export function OnAirBlockComponent(props:  IProps) {
+export function OnAirBlockComponent(props: IProps) {
   const { player, schedule } = props;
 
   if (schedule.isLoading) {
@@ -34,12 +34,15 @@ export function OnAirBlockComponent(props:  IProps) {
       title={show.name}
       onClick={() => props.playerUserStateChange(true)}
     />
-  )
+  );
 }
 
-export const OnAirBlock = connect((store: RootState) => ({
-  player: store.player,
-  schedule: store.schedule,
-}), {
-  playerUserStateChange: PlayerActions.playerUserStateChange
-})(OnAirBlockComponent);
+export const OnAirBlock = connect(
+  (store: RootState) => ({
+    player: store.player,
+    schedule: store.schedule,
+  }),
+  {
+    playerUserStateChange: PlayerActions.playerUserStateChange,
+  }
+)(OnAirBlockComponent);

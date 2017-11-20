@@ -45,9 +45,7 @@ function Event(props: IProps) {
           <Header>
             <ImageHeader title={event.title} image={event.featuredImage} />
             <div className="Container">
-              <Byline>
-                {event.location}
-              </Byline>
+              <Byline>{event.location}</Byline>
             </div>
           </Header>
           <div className="Container">

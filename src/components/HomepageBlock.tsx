@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Imgix from 'react-imgix';
 import { ImageResource } from '../types';
 import { ConditionalWrap } from './CondittionalWrap';
-import {css, cx} from "emotion";
+import { css, cx } from 'emotion';
 
 const Box = styled.div`
   box-shadow: 0 1px 2px rgba(30, 30, 30, 0.1);
@@ -110,5 +110,5 @@ export function Block(props: IBlockProps) {
     >
       {inner}
     </Box>
-  )
+  );
 }
