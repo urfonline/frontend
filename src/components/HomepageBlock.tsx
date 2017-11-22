@@ -1,16 +1,14 @@
 import React from 'react';
 import styled from 'react-emotion';
 import { Link } from 'react-router-dom';
-import Imgix from 'react-imgix';
 import { ImageResource } from '../types';
-import { ConditionalWrap } from './CondittionalWrap';
 import { css, cx } from 'emotion';
+import Image from "./Image";
 
 const Box = styled.div`
   box-shadow: 0 1px 2px rgba(30, 30, 30, 0.1);
   display: block;
   background-color: ${(props: any) => props.backgroundColor};
-  color: #ffffff;
   text-decoration: none;
   height: 100%;
 `;
@@ -21,21 +19,26 @@ const BoxInner = styled.div`
   padding: 1rem;
 `;
 
-const BlockTitle = styled.h1`
-  font-size: 2em;
+export const BlockTitle = styled.h1`
+  font-size: 1.6em;
   line-height: 1;
   margin: 0 0 0.4rem;
 `;
 
-const Kicker = styled.div`
+export const BlockKicker = styled.div`
   font-size: 0.8em;
   font-weight: 600;
   text-transform: uppercase;
   padding-bottom: 0.2rem;
 `;
 
-const Description = styled.div`
-  font-size: 1em;
+export const BlockDescription = styled.div`
+  font-size: 0.85em;
+`;
+
+const imageScaleStyle = css`
+  width: 100%;
+  height: auto;
 `;
 
 const oneSizingStyle = css`
@@ -57,10 +60,11 @@ interface IBlockProps {
   onClick?(e: React.MouseEvent<HTMLDivElement>): void;
   backgroundColor: string;
   image?: ImageResource;
-  kicker: string;
-  title: string;
+  kicker?: string;
+  title?: string;
   description?: string;
   size: 1 | 2 | 3;
+  children?: any;
 }
 
 export function Block(props: IBlockProps) {
@@ -71,23 +75,17 @@ export function Block(props: IBlockProps) {
   });
 
   const inner = (
-    <ConditionalWrap
-      condition={!!props.image}
-      wrap={(children: any) => (
-        <Imgix
-          type="bg"
-          src={`https://urf.imgix.net/${props.image && props.image.resource}`}
-        >
-          {children}
-        </Imgix>
+    <Box>
+      {props.image && (
+        <Image className={imageScaleStyle} src={props.image.resource} width={16 * 50} height={6 * 50} />
       )}
-    >
       <BoxInner className={props.innerClassName}>
-        <Kicker>{props.kicker}</Kicker>
-        <BlockTitle>{props.title}</BlockTitle>
-        {props.description && <Description>{props.description}</Description>}
+        {props.kicker && <BlockKicker>{props.kicker}</BlockKicker>}
+        {props.title && <BlockTitle>{props.title}</BlockTitle>}
+        {props.description && <BlockDescription>{props.description}</BlockDescription>}
+        {props.children && props.children}
       </BoxInner>
-    </ConditionalWrap>
+    </Box>
   );
 
   if (props.link) {

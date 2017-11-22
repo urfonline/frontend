@@ -12,27 +12,9 @@ interface IProps {
   data: any;
 }
 
-const WelcomeHeading = styled.h1`
-  font-size: 1.6rem;
-  margin: 0;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-
-  @media (min-width: 960px) {
-    font-size: 2.8rem;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-  }
-
-  @media (min-width: 1440px) {
-    font-size: 4.1rem;
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-  }
-`;
-
 const BlockContainer = styled.div`
   max-width: 1440px;
+  padding-top: 2rem;
 `;
 
 function renderBlocks(props: IProps) {
@@ -80,10 +62,10 @@ function renderBlocks(props: IProps) {
           <Box width={[1, 1 / 3]} px={2} mb={2}>
             <HomepageBlock block={byPosition.THIRD_1} size={3} />
           </Box>
-          <Box width={[1, 1 / 3]} px={2}>
+          <Box width={[1, 1 / 3]} px={2} mb={2}>
             <HomepageBlock block={byPosition.THIRD_2} size={3} />
           </Box>
-          <Box width={[1, 1 / 3]} px={2}>
+          <Box width={[1, 1 / 3]} px={2} mb={2}>
             <HomepageBlock block={byPosition.THIRD_3} size={3} />
           </Box>
         </Flex>
@@ -96,15 +78,14 @@ function Home(props: IProps) {
   return (
     <div>
       <div className="Container">
-        <WelcomeHeading>The Soundtrack to Sussex Since 1976</WelcomeHeading>
         {renderBlocks(props)}
 
         <h2>Today's schedule</h2>
       </div>
       <TodaySchedule />
-      <div className="Container">
-        <h2>Feed</h2>
-      </div>
+      {/*<div className="Container">*/}
+        {/*<h2>Feed</h2>*/}
+      {/*</div>*/}
     </div>
   );
 }
@@ -125,10 +106,12 @@ const HomeQuery = gql`
           name
           brandColor
           shortDescription
+          cover {
+            resource
+          }
           slots {
             day
             startTime
-            endTime
           }
         }
         ... on Article {
@@ -138,6 +121,7 @@ const HomeQuery = gql`
           slug
           tone
           publishedAt
+          shortDescription
           authors {
             name
           }

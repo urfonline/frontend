@@ -4,6 +4,14 @@ import { css } from 'emotion';
 import { connect } from 'react-redux';
 import { RootState } from '../types';
 import * as PlayerActions from '../ducks/player';
+import Image from "./Image";
+
+const coverStyles = css`
+  width: 80%;
+  height: 80%;
+  display: block;
+  margin: 0 auto;
+`;
 
 const onAirStyles = css`
   color: white;
@@ -33,7 +41,9 @@ export function OnAirBlockComponent(props: IProps) {
       kicker={player.userState ? 'Playing live' : 'On Air - click to play'}
       title={show.name}
       onClick={() => props.playerUserStateChange(true)}
-    />
+    >
+      <Image className={coverStyles} src={show.cover.resource} width={128} height={128} />
+    </Block>
   );
 }
 
