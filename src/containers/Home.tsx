@@ -34,6 +34,11 @@ function renderBlocks(props: IProps) {
     byPosition.hasOwnProperty('THIRD_1') &&
     byPosition.hasOwnProperty('THIRD_2') &&
     byPosition.hasOwnProperty('THIRD_3');
+  const hasQuarters =
+    byPosition.hasOwnProperty('FOURTH_1') &&
+    byPosition.hasOwnProperty('FOURTH_2') &&
+    byPosition.hasOwnProperty('FOURTH_3') &&
+    byPosition.hasOwnProperty('FOURTH_4');
 
   return (
     <BlockContainer>
@@ -67,6 +72,22 @@ function renderBlocks(props: IProps) {
           </Box>
           <Box width={[1, 1 / 3]} px={2} mb={2}>
             <HomepageBlock block={byPosition.THIRD_3} size={3} />
+          </Box>
+        </Flex>
+      )}
+      {hasQuarters && (
+        <Flex mx={-2} wrap>
+          <Box width={[1, 1 / 2, 1 / 4]} px={2} mb={2}>
+            <HomepageBlock block={byPosition.FOURTH_1} size={3} />
+          </Box>
+          <Box width={[1, 1 / 2, 1 / 4]} px={2} mb={2}>
+            <HomepageBlock block={byPosition.FOURTH_2} size={3} />
+          </Box>
+          <Box width={[1, 1 / 2, 1 / 4]} px={2} mb={2}>
+            <HomepageBlock block={byPosition.FOURTH_3} size={3} />
+          </Box>
+          <Box width={[1, 1 / 2, 1 / 4]} px={2} mb={2}>
+            <HomepageBlock block={byPosition.FOURTH_4} size={3} />
           </Box>
         </Flex>
       )}
