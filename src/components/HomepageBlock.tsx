@@ -3,14 +3,21 @@ import styled from 'react-emotion';
 import { Link } from 'react-router-dom';
 import { ImageResource } from '../types';
 import { css, cx } from 'emotion';
-import Image from "./Image";
+import Image from './Image';
 
 const Box = styled.div`
-  box-shadow: 0 1px 2px rgba(30, 30, 30, 0.1);
+  box-shadow: 0 1px 6px rgba(30, 30, 30, 0.1);
   display: block;
-  background-color: ${(props: any) => props.backgroundColor};
+  ${(props: any) => props.accentColor && `border-top: 6px solid ${props.accentColor};`};
   text-decoration: none;
   height: 100%;
+  background-color: #ffffff;
+  border-radius: 1px;
+  transition: box-shadow 300ms ease;
+  
+  &:hover {
+    box-shadow: 0 1px 9px rgba(30, 30, 30, 0.15);  
+  }
 `;
 
 const BoxLink = Box.withComponent(Link);
@@ -58,7 +65,7 @@ interface IBlockProps {
   innerClassName?: string;
   link?: string;
   onClick?(e: React.MouseEvent<HTMLDivElement>): void;
-  backgroundColor: string;
+  backgroundColor?: string;
   image?: ImageResource;
   kicker?: string;
   title?: string;
@@ -75,24 +82,31 @@ export function Block(props: IBlockProps) {
   });
 
   const inner = (
-    <Box>
+    <div>
       {props.image && (
-        <Image className={imageScaleStyle} src={props.image.resource} width={16 * 50} height={6 * 50} />
+        <Image
+          className={imageScaleStyle}
+          src={props.image.resource}
+          width={16 * 50}
+          height={6 * 50}
+        />
       )}
       <BoxInner className={props.innerClassName}>
         {props.kicker && <BlockKicker>{props.kicker}</BlockKicker>}
         {props.title && <BlockTitle>{props.title}</BlockTitle>}
-        {props.description && <BlockDescription>{props.description}</BlockDescription>}
+        {props.description && (
+          <BlockDescription>{props.description}</BlockDescription>
+        )}
         {props.children && props.children}
       </BoxInner>
-    </Box>
+    </div>
   );
 
   if (props.link) {
     return (
       <BoxLink
         to={props.link}
-        backgroundColor={props.backgroundColor}
+        accentColor={props.backgroundColor}
         className={classNames}
       >
         {inner}
@@ -103,7 +117,7 @@ export function Block(props: IBlockProps) {
   return (
     <Box
       onClick={props.onClick}
-      backgroundColor={props.backgroundColor}
+      accentColor={props.backgroundColor}
       className={classNames}
     >
       {inner}

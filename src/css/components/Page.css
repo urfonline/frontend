@@ -1,5 +1,5 @@
 .Page {
-  background-color: #ffffff;
+  background-color: #f6f1f1;
   position: relative;
   z-index: var(--layer-page);
   margin-top: var(--header-height);

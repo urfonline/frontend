@@ -44,49 +44,49 @@ function renderBlocks(props: IProps) {
     <BlockContainer>
       {hasHero && (
         <Flex mx={-2} wrap>
-          <Box width={[1, 400]} px={2} mb={2}>
+          <Box width={[1, 400]} px={2} mb={3}>
             <OnAirBlock />
           </Box>
-          <Box width={1} px={2} mb={2} flex="1 1 0">
+          <Box width={1} px={2} mb={3} flex="1 1 0">
             <HomepageBlock block={byPosition.HERO} size={1} />
           </Box>
         </Flex>
       )}
       {hasSecondary && (
         <Flex mx={-2} wrap>
-          <Box width={[1, 1 / 2]} px={2} mb={2}>
+          <Box width={[1, 1 / 2]} px={2} mb={3}>
             <HomepageBlock block={byPosition.SEC_1} size={2} />
           </Box>
-          <Box width={[1, 1 / 2]} px={2} mb={2}>
+          <Box width={[1, 1 / 2]} px={2} mb={3}>
             <HomepageBlock block={byPosition.SEC_2} size={2} />
           </Box>
         </Flex>
       )}
       {hasThirds && (
         <Flex mx={-2} wrap>
-          <Box width={[1, 1 / 3]} px={2} mb={2}>
+          <Box width={[1, 1 / 3]} px={2} mb={3}>
             <HomepageBlock block={byPosition.THIRD_1} size={3} />
           </Box>
-          <Box width={[1, 1 / 3]} px={2} mb={2}>
+          <Box width={[1, 1 / 3]} px={2} mb={3}>
             <HomepageBlock block={byPosition.THIRD_2} size={3} />
           </Box>
-          <Box width={[1, 1 / 3]} px={2} mb={2}>
+          <Box width={[1, 1 / 3]} px={2} mb={3}>
             <HomepageBlock block={byPosition.THIRD_3} size={3} />
           </Box>
         </Flex>
       )}
       {hasQuarters && (
         <Flex mx={-2} wrap>
-          <Box width={[1, 1 / 2, 1 / 4]} px={2} mb={2}>
+          <Box width={[1, 1 / 2, 1 / 4]} px={2} mb={3}>
             <HomepageBlock block={byPosition.FOURTH_1} size={3} />
           </Box>
-          <Box width={[1, 1 / 2, 1 / 4]} px={2} mb={2}>
+          <Box width={[1, 1 / 2, 1 / 4]} px={2} mb={3}>
             <HomepageBlock block={byPosition.FOURTH_2} size={3} />
           </Box>
-          <Box width={[1, 1 / 2, 1 / 4]} px={2} mb={2}>
+          <Box width={[1, 1 / 2, 1 / 4]} px={2} mb={3}>
             <HomepageBlock block={byPosition.FOURTH_3} size={3} />
           </Box>
-          <Box width={[1, 1 / 2, 1 / 4]} px={2} mb={2}>
+          <Box width={[1, 1 / 2, 1 / 4]} px={2} mb={3}>
             <HomepageBlock block={byPosition.FOURTH_4} size={3} />
           </Box>
         </Flex>
@@ -105,7 +105,7 @@ function Home(props: IProps) {
       </div>
       <TodaySchedule />
       {/*<div className="Container">*/}
-        {/*<h2>Feed</h2>*/}
+      {/*<h2>Feed</h2>*/}
       {/*</div>*/}
     </div>
   );

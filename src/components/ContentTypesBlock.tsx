@@ -1,10 +1,14 @@
 import React from 'react';
-import {css, cx} from 'emotion';
-import {Block, BlockTitle, BlockKicker, BlockDescription} from './HomepageBlock';
-import {getShowBrandTone} from "../utils/shows";
-import Image from "./Image";
-import styled from "react-emotion";
-import {formatTime, parseTime} from "../utils/schedule";
+import { css } from 'emotion';
+import {
+  Block,
+  BlockTitle,
+  BlockKicker,
+  BlockDescription,
+} from './HomepageBlock';
+import Image from './Image';
+import styled from 'react-emotion';
+import { formatTime, parseTime } from '../utils/schedule';
 
 interface IProps {
   block: {
@@ -30,13 +34,19 @@ const DAYS_TEXT = [
 
 const ShowBlockContainer = styled.div`
   display: flex;
+  ${(props: any) => props.size > 2 && 'flex-direction: column;'}
+`;
+
+const sideBySideStyles = css`
+  margin-right: 1em;
+  width: 40%;
+  max-width: 100px;
+
 `;
 
 const ShowCover = styled.div`
-  width: 40%;
-  max-width: 100px;
-  margin-right: 1em;
-  
+  ${(props: any) => props.size <= 2 && sideBySideStyles}
+
   & img {
     width: 100%;
     height: auto;
@@ -51,13 +61,6 @@ const articleStyles = css`
   color: black;
 `;
 
-const toneDarkStyles = css`
-  color: black;
-`;
-
-const toneLightStyles = css`
-  color: white;
-`;
 
 function renderArticle(props: IProps) {
   const article = props.block.object;
@@ -66,7 +69,6 @@ function renderArticle(props: IProps) {
       size={props.size}
       innerClassName={articleStyles}
       link={`/article/${article.slug}-${article.articleId}`}
-      backgroundColor={'#fff'}
       kicker={props.block.overrideKicker || article.tone}
       title={props.block.overrideTitle || article.title}
       image={article.featuredImage}
@@ -77,17 +79,16 @@ function renderArticle(props: IProps) {
 
 function renderShow(props: IProps) {
   const show = props.block.object;
-  const tone = getShowBrandTone(show);
   return (
     <Block
-      className={cx({ [toneDarkStyles]: tone === 'dark', [toneLightStyles]: tone === 'light', })}
       size={props.size}
+      innerClassName={articleStyles}
       link={`/shows/${show.slug}`}
       backgroundColor={`#${show.brandColor}`}
     >
-      <ShowBlockContainer>
-        <ShowCover>
-          <Image src={show.cover.resource} width={60} height={60} />
+      <ShowBlockContainer size={props.size}>
+        <ShowCover size={props.size}>
+          <Image src={show.cover.resource} width={220} height={220} />
         </ShowCover>
         <div>
           <BlockKicker>{props.block.overrideKicker || 'Show'}</BlockKicker>
@@ -95,12 +96,14 @@ function renderShow(props: IProps) {
           <div>
             {show.slots.map((slot: any) => (
               <span>
-                    {DAYS_TEXT[slot.day]}s at{' '}
+                {DAYS_TEXT[slot.day]}s at{' '}
                 {formatTime(parseTime(slot.startTime))}
-                  </span>
+              </span>
             ))}
           </div>
-          <BlockDescription>{props.block.overrideDescription || show.shortDescription}</BlockDescription>
+          <BlockDescription>
+            {props.block.overrideDescription || show.shortDescription}
+          </BlockDescription>
         </div>
       </ShowBlockContainer>
     </Block>
@@ -115,7 +118,6 @@ function renderEvent(props: IProps) {
       innerClassName={eventStyles}
       size={props.size}
       link={`/event/${event.slug}-${event.eventId}`}
-      backgroundColor={'#fff'}
       kicker={props.block.overrideKicker || 'Event'}
       title={props.block.overrideTitle || event.title}
       description={props.block.overrideDescription || event.shortDescription}
