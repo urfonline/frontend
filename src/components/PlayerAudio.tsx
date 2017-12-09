@@ -26,10 +26,11 @@ class PlayerAudio extends React.Component<IProps, IState> {
 
     if (nextProps.userState !== userState) {
       if (nextProps.userState) {
-        this.audioEl.play();
+        this.setState({ cacheKey: Math.random() }, () => {
+          this.audioEl.play();
+        });
       } else {
-        this.audioEl.pause();
-        this.setState({ cacheKey: Math.random() });
+        // this.audioEl.pause();
       }
     }
   }
@@ -51,17 +52,18 @@ class PlayerAudio extends React.Component<IProps, IState> {
   }
 
   render() {
-    const { stream } = this.props;
+    const { userState, stream } = this.props;
 
     return (
       <audio
-        src={
-          stream === 'live'
+        src={userState ?
+          (stream === 'live'
             ? `http://uk2.internet-radio.com:30764/stream?nocache=${
                 this.state.cacheKey
               }`
-            : stream
+            : stream) :  ''
         }
+        autoPlay
         ref={ref => (this.audioEl = ref)}
       />
     );
