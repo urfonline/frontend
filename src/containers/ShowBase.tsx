@@ -19,7 +19,7 @@ const DAYS_TEXT = [
 ];
 
 interface IProps {
-  data: any;
+  data?: any;
 }
 
 function ShowBase(props: IProps) {

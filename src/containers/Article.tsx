@@ -27,7 +27,7 @@ const Header = styled.header`
 `;
 
 interface IProps {
-  data: any;
+  data?: any;
 }
 
 function Article(props: IProps) {
