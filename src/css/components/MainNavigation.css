@@ -12,7 +12,7 @@
   &--mobile {
     overflow-x: scroll;
     -webkit-overflow-scrolling: touch;
-    background-color: #000000;
+    background-color: rgb(26, 24, 24);
     padding: 0.3rem 0.5rem;
     font-size: 1.2rem;
     box-shadow: 2px 0 5px rgba(30, 30, 30, 0.6);
