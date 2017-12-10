@@ -26,7 +26,7 @@ function Shows(props: IProps) {
         <title>Shows</title>
       </Helmet>
       <h1 className="Page__heading">Shows</h1>
-      <div>
+      <div style={{ display: 'none' }}>
         Sort by
         <button onClick={() => updateSortMethod('NAME')}>Name</button>
         <button onClick={() => updateSortMethod('CATEGORY')}>Category</button>
