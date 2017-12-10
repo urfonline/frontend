@@ -11,7 +11,7 @@ const Content = styled.div`
   font-weight: 400;
   max-width: 660px;
   line-height: 1.5;
-  font-size: 1.2em;
+  font-size: 1em;
   
   & img {
     max-width: 100%;
