@@ -11,13 +11,13 @@ function buildPage(title, meta) {
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
     <link href="${assetsManifest.main.css}" rel="stylesheet">
     <title>${title} | URF</title>
     ${meta}
   </head>
   <body class="Core">
     <div class="js__app"></div>
+    <script type="text/javascript" src="${assetsManifest.vendor.js}"></script>  
     <script type="text/javascript" src="${assetsManifest.main.js}"></script>  
   </body>  
 </html>
@@ -66,7 +66,10 @@ query StaticSiteRenderer {
 
   await Promise.all(resources.shows.map(show => savePage(`shows/${show.slug}`,
     buildPage(show.name, `
-      <meta type="og:image" />
+      <meta property="og:description" content="${show.shortDescription}" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image" content="https://urf.imgix.net/${show.cover.resource}?w=1200&height=630&crop=faces&fit=crop" />
     `)
   )))
 
