@@ -47,8 +47,10 @@
       display: block;
       transition: transform 400ms ease;
 
-      &:hover {
-        transform: rotate(6deg);
+      @media (--large) {
+        &:hover {
+          transform: rotate(6deg);
+        }
       }
     }
 

@@ -8,17 +8,6 @@
     display: flex;
   }
 
-  &__logo {
-    background-image: url('../img/logotype.svg');
-    background-repeat: no-repeat;
-    background-size: contain;
-    display: block;
-    height: 50px;
-    margin-right: 2rem;
-    margin-top: 10px;
-    width: 100px;
-  }
-
   &__nav {
     flex: auto;
     gg: columns(1/1);
