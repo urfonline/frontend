@@ -25,7 +25,7 @@ class FullSchedule extends React.Component<IProps, any> {
     const container = this.containerRef;
 
     if (container && container.scrollLeft === 0) {
-      const onAirPosition = getScrollPositionForNow() - 40;
+      const onAirPosition = getScrollPositionForNow() - 75;
       if (onAirPosition > 0) {
         container.scrollLeft = onAirPosition;
       }
