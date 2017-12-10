@@ -35,6 +35,13 @@ const ShowSidebar = styled.div`
   `}
 `;
 
+const MixCloudButton = styled.a`
+  background-color: #52aad8;
+  color: #ffffff;
+  text-shadow: 0 1px rgba(30, 30, 30, 0.3);
+  padding: 0.2rem;
+`;
+
 const ShowMenu = styled.ul`
   list-style: none;
   
@@ -49,7 +56,6 @@ const ShowMenu = styled.ul`
   }
   
   & a {
-    color: #6d6d6d;
     text-decoration: none;
     font-size: 1.2rem;
   }
@@ -126,7 +132,7 @@ function ShowBase(props: IProps) {
             <NavLink to={`/shows/${show.slug}/`}>About</NavLink>
           </li>
           <li>
-            {show.socialMixcloudHandle && <a href={`https://mixcloud.com/${show.socialMixcloudHandle}`}>Listen back on Mixcloud</a>}
+            {show.socialMixcloudHandle && <MixCloudButton href={`https://mixcloud.com/${show.socialMixcloudHandle}`}>Listen back</MixCloudButton>}
           </li>
         </ShowMenu>
       </div>
