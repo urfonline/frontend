@@ -7,6 +7,12 @@ import { ApolloProvider } from 'react-apollo';
 import { HttpLink, ApolloClient, InMemoryCache } from 'apollo-client-preset';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
+import introspectionQueryResultData from '../fragmentTypes.json';
+
+const fragmentMatcher = new IntrospectionFragmentMatcher({
+  introspectionQueryResultData
+});
 
 const link = new HttpLink({
   uri:
@@ -29,7 +35,9 @@ const link = new HttpLink({
 //   },
 // ]);
 
-const cache: any = new InMemoryCache();
+const cache: any = new InMemoryCache({
+  fragmentMatcher,
+});
 
 const apolloClient = new ApolloClient({
   link,

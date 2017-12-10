@@ -20,7 +20,7 @@ const env = {
   test: NODE_ENV === 'test',
   development: NODE_ENV === 'development' || typeof NODE_ENV === 'undefined',
 };
-env['build'] = (env.production || env.staging)
+env['build'] = (env.production || env.staging);
 const extractCSS = new ExtractTextPlugin({
   filename: isProduction ? 'urf.[contenthash].[name].css' : 'style.[name].css',
   allChunks: false,
@@ -108,7 +108,16 @@ module.exports = {
         ],
       },
       {
-        test: /\.svg|\.png|\.jpg|\.woff|\.json/,
+        test: /\.svg/,
+        use: ['babel-loader', {loader: 'svgr/webpack',         options: {
+            svgo: false,
+          },}],
+      },
+      {
+        test: /\.json/,
+        use: 'json-loader',
+      },      {
+        test: /\.png|\.jpg|\.woff/,
         use: 'url-loader?limit=10000',
       },
     ],
