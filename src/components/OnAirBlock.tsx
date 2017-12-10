@@ -1,6 +1,6 @@
 import React from 'react';
-import { Block } from './HomepageBlock';
-import { css } from 'emotion';
+import {Block, BlockTitle} from './HomepageBlock';
+import {css, cx} from 'emotion';
 import { connect } from 'react-redux';
 import { RootState } from '../types';
 import * as PlayerActions from '../ducks/player';
@@ -13,6 +13,18 @@ const coverStyles = css`
   height: 80%;
   display: block;
   margin: 0 auto;
+  box-shadow: 0 4px 12px rgba(30, 30, 30, 0.2);
+  transition: box-shadow 300ms ease;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+`;
+
+const onAirCoverStyles = css`
+  box-shadow: 0 4px 18px rgba(30, 30, 30, 0.2);
+`;
+
+const centeredStyles = css`
+  text-align: center;
 `;
 
 const onAirStyles = css`
@@ -51,18 +63,20 @@ export function OnAirBlockComponent(props: IProps) {
       className={onAirStyles}
       backgroundColor={'rgb(177, 34, 32)'}
       kicker={player.userState ? 'Playing live' : 'On Air - click to play'}
-      title={show.name}
       onClick={() => props.playerUserStateChange(true)}
     >
-      <div>
-        {formatTime(schedule.currentlyOnAir.startDate)}-{formatTime(schedule.currentlyOnAir.endDate)}
+      <div className={centeredStyles}>
+        <Image
+          className={cx(coverStyles, { [onAirCoverStyles]: player.userState })}
+          src={show.cover.resource}
+          width={128}
+          height={128}
+        />
+        <BlockTitle>{show.name}</BlockTitle>
+        <div>
+          {formatTime(schedule.currentlyOnAir.startDate)}-{formatTime(schedule.currentlyOnAir.endDate)}
+        </div>
       </div>
-      <Image
-        className={coverStyles}
-        src={show.cover.resource}
-        width={128}
-        height={128}
-      />
     </Block>
   );
 }

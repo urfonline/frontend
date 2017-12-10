@@ -6,6 +6,7 @@
   height: 86px;
   opacity: 1;
   position: relative;
+  backface-visibility: hidden;
 
   &--tone-light {
     color: var(--show-tone-dark);
@@ -48,8 +49,9 @@
     border: 0;
     position: relative;
     z-index: var(--layer-on-air);
-    transform: scale(1.1);
-  }
+    transform: scale(1.1) translateZ(0);
+    backface-visibility: hidden;
+   }
 }
 
 .ScheduleSlot--on-air .ScheduleSlot__inner {
