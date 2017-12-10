@@ -1,4 +1,7 @@
 {
+  "engines": {
+    "node": "9.x.x"
+  },
   "dependencies": {
     "apollo-client-preset": "^1.0.5",
     "awesome-typescript-loader": "^3.4.1",
@@ -52,6 +55,7 @@
     "@types/react-router-dom": "^4.2.3",
     "@types/recompose": "^0.24.2",
     "@types/webpack-env": "^1.13.3",
+    "assets-webpack-plugin": "^3.5.1",
     "babel-core": "^6.24.1",
     "babel-eslint": "^8.0.3",
     "babel-jest": "^21.2.0",
