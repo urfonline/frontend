@@ -14,13 +14,14 @@ const coverStyles = css`
   display: block;
   margin: 0 auto;
   box-shadow: 0 4px 12px rgba(30, 30, 30, 0.2);
-  transition: box-shadow 300ms ease;
+  transition: box-shadow 300ms ease, transform 300ms ease;
   margin-bottom: 1rem;
   margin-top: 1rem;
 `;
 
 const onAirCoverStyles = css`
   box-shadow: 0 4px 18px rgba(30, 30, 30, 0.2);
+  transform: scale(1.03);
 `;
 
 const centeredStyles = css`
@@ -63,7 +64,7 @@ export function OnAirBlockComponent(props: IProps) {
       className={onAirStyles}
       backgroundColor={'rgb(177, 34, 32)'}
       kicker={player.userState ? 'Playing live' : 'On Air - click to play'}
-      onClick={() => props.playerUserStateChange(true)}
+      onClick={() => props.playerUserStateChange(!player.userState)}
     >
       <div className={centeredStyles}>
         <Image
