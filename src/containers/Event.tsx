@@ -12,6 +12,12 @@ const Content = styled.div`
   max-width: 660px;
   line-height: 1.5;
   font-size: 1.2em;
+  
+  & img {
+    max-width: 100%;
+    width: auto;
+    height: auto;
+  }
 `;
 
 const Byline = styled.div`

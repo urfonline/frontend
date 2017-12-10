@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { RootState } from '../types';
 import * as PlayerActions from '../ducks/player';
 import Image from './Image';
+import {queries} from "../css/mq";
+import {formatTime} from "../utils/schedule";
 
 const coverStyles = css`
   width: 80%;
@@ -16,6 +18,16 @@ const coverStyles = css`
 const onAirStyles = css`
   color: rgb(177, 34, 32);
   cursor: pointer;
+  
+  & img {
+    display: none;
+  }
+  
+  ${queries.large`
+    & img {
+      display: block;
+    }
+  `}
 `;
 
 interface IProps {
@@ -42,6 +54,9 @@ export function OnAirBlockComponent(props: IProps) {
       title={show.name}
       onClick={() => props.playerUserStateChange(true)}
     >
+      <div>
+        {formatTime(schedule.currentlyOnAir.startDate)}-{formatTime(schedule.currentlyOnAir.endDate)}
+      </div>
       <Image
         className={coverStyles}
         src={show.cover.resource}
