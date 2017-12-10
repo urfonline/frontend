@@ -7,6 +7,7 @@ import { keyBy } from 'lodash';
 import { Flex, Box } from 'grid-emotion';
 import { HomepageBlock } from '../components/ContentTypesBlock';
 import { OnAirBlock } from '../components/OnAirBlock';
+import Spinner from "../components/Spinner";
 
 interface IProps {
   data: any;
@@ -19,7 +20,7 @@ const BlockContainer = styled.div`
 
 function renderBlocks(props: IProps) {
   if (props.data.loading) {
-    return <div>loading</div>;
+    return <Spinner />;
   }
 
   if (props.data.error) {

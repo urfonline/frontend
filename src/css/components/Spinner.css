@@ -10,16 +10,16 @@
 .Spinner {
   animation: three-sixty 1.4s infinite linear;
   border-radius: 50%;
-  font-size: 10px;
+  font-size: 6px;
   height: 11em;
-  margin: 0 auto;
+  margin: 2rem auto;
   position: relative;
   text-indent: -9999em;
   transform: translateZ(0);
   width: 11em;
 
   &:before {
-    background: #b3b3b3;
+    background: #b02727;
     border-radius: 100% 0 0 0;
     content: '';
     height: 50%;

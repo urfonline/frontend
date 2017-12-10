@@ -4,6 +4,7 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Link } from 'react-router-dom';
 import { compose } from 'redux';
+import Spinner from "../components/Spinner";
 
 interface IProps {
   updateSortMethod: any; // todo
@@ -36,7 +37,7 @@ function ArticleBlock(props: { article: Article }) {
 
 function renderContent(props: IProps) {
   if (props.data.loading) {
-    return <div>loading</div>;
+    return <Spinner />;
   }
 
   if (props.data.error) {

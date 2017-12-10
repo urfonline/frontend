@@ -6,6 +6,7 @@ import convert from 'htmr';
 import { elementMap } from '../components/Prose';
 import styled from 'react-emotion';
 import { ImageHeader } from '../components/ImageHeader';
+import Spinner from "../components/Spinner";
 
 const Content = styled.div`
   font-weight: 400;
@@ -39,7 +40,7 @@ function Event(props: IProps) {
   const { data: { event, loading } } = props;
   console.log(props);
   if (loading) {
-    return <div>loading</div>;
+    return <Spinner />;
   }
   return (
     <div>

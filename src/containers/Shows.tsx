@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet';
 import { withState } from 'recompose';
 import { Show } from '../utils/types';
 import { compose } from 'redux';
+import Spinner from "../components/Spinner";
 
 interface IProps {
   updateSortMethod: any; // todo
@@ -32,7 +33,7 @@ function Shows(props: IProps) {
         <button onClick={() => updateSortMethod('CATEGORY')}>Category</button>
       </div>
       {loading ? (
-        <h2>Loading</h2>
+        <Spinner />
       ) : (
         <ShowsGrid shows={currentSlate.shows} sortMethod={props.sortMethod} />
       )}

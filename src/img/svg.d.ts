@@ -1,5 +1,5 @@
 declare module '*.svg' {
-  export = string;
+  export = any;
 }
 
 declare module '*.jpg' {
