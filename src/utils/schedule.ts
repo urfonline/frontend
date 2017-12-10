@@ -194,7 +194,18 @@ export function chunkSlotsByDay(slotsUnsorted: Array<Slot>, automationShow: Slot
      }*/
   });
 
-  console.log(days);
+  // ✨ Sunday wrap around ✨
+  const lastSundaySlot = days[6][days[6].length - 1];
+  if (!isSameDay(lastSundaySlot.startDate, lastSundaySlot.endDate)) {
+    const mondaySlot = { ...lastSundaySlot };
+    const endOfSunday = startOfDay(addDays(lastSundaySlot.startDate, 1));
+    const durationDuringSunday = differenceInMinutes(endOfSunday, lastSundaySlot.startDate);
+    const durationDuringMonday = lastSundaySlot.duration - durationDuringSunday;
+    lastSundaySlot.duration = durationDuringSunday;
+    mondaySlot.duration = durationDuringMonday;
+    days[0][0].duration = days[0][0].duration - mondaySlot.duration;
+    days[0].unshift(mondaySlot);
+  }
 
   return days;
 }
