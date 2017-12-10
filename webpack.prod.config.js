@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const config = require('./webpack.base.config.js');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const AssetsPlugin = require('assets-webpack-plugin');
 
 config.bail = true;
 config.profile = false;
@@ -14,6 +15,7 @@ config.output = {
 };
 
 config.plugins = config.plugins.concat([
+  new AssetsPlugin(),
   new webpack.LoaderOptionsPlugin({
     minimize: true,
   }),
