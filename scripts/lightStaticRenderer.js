@@ -16,6 +16,8 @@ function buildPage(title, meta) {
     <script type="text/javascript">
       window.webpackManifest = ${JSON.stringify(chunkManifest)};
     </script>
+    <meta property="og:title" content="${title}" />
+    <meta property="fb:app_id" content="307366706435125" />
     ${meta}
   </head>
   <body class="Core">
@@ -95,6 +97,7 @@ query StaticSiteRenderer {
 
   await Promise.all(resources.articles.map(article => savePage(`article/${article.slug}-${article.articleId}`,
     buildPage(standardTitle(article.title), `
+      <meta property="og:type" content="article" />
       <meta property="og:description" content="${article.shortDescription}" />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
