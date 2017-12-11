@@ -37,13 +37,14 @@ const ShowSidebar = styled.div`
 
 const MixCloudButton = styled.a`
   background-color: #52aad8;
-  color: #ffffff;
+  color: #ffffff !important;
   text-shadow: 0 1px rgba(30, 30, 30, 0.3);
   padding: 0.2rem;
 `;
 
 const ShowMenu = styled.ul`
   list-style: none;
+  padding: 0;
   
   ${queries.large`
     padding-left: calc(200px + 2rem);
@@ -58,6 +59,7 @@ const ShowMenu = styled.ul`
   & a {
     text-decoration: none;
     font-size: 1.2rem;
+    color: #757575;
   }
   
   & a.active {

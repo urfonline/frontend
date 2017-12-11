@@ -8,7 +8,7 @@ import Image from './Image';
 const Box = styled.div`
   box-shadow: 0 1px 6px rgba(30, 30, 30, 0.1);
   display: block;
-  ${(props: any) => props.accentColor && `border-top: 6px solid ${props.accentColor};`};
+  ${(props: any) => props.accentColor ? `border-top: 6px solid ${props.accentColor};` : `padding-bottom: 6px;`};
   text-decoration: none;
   height: 100%;
   background-color: #ffffff;

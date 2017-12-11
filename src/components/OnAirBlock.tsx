@@ -1,5 +1,5 @@
 import React from 'react';
-import {Block, BlockTitle} from './HomepageBlock';
+import {Block, BlockKicker, BlockTitle} from './HomepageBlock';
 import {css, cx} from 'emotion';
 import { connect } from 'react-redux';
 import { RootState } from '../types';
@@ -63,10 +63,10 @@ export function OnAirBlockComponent(props: IProps) {
       size={1}
       className={onAirStyles}
       backgroundColor={'rgb(177, 34, 32)'}
-      kicker={player.userState ? 'Playing live' : 'On Air - click to play'}
       onClick={() => props.playerUserStateChange(!player.userState)}
     >
       <div className={centeredStyles}>
+        <BlockKicker>{player.userState ? 'Playing live' : 'On Air - click to play'}</BlockKicker>
         <Image
           className={cx(coverStyles, { [onAirCoverStyles]: player.userState })}
           src={show.cover.resource}
