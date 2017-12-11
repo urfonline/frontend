@@ -12,7 +12,7 @@ function buildPage(title, meta) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="${assetsManifest.main.css}" rel="stylesheet">
-    <title>${title} | URF</title>
+    <title>${title}</title>
     ${meta}
   </head>
   <body class="Core">
@@ -28,9 +28,20 @@ async function savePage(urlPath, html) {
   await fse.outputFile(path.join(__dirname, `../dist/${urlPath}/index.html`), html);
 }
 
+function standardTitle(title) {
+  return `${title} | URF`
+}
+
 const apolloFetch = createApolloFetch({
   uri: 'https://api.urfonline.com/graphql'
 });
+
+const buildSimplePage = (title, description, image) => buildPage(standardTitle(title), `
+      <meta property="og:description" content="${description}" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image" content="https://urf.imgix.net/${image}?w=1200&height=630&crop=faces&fit=crop" />
+`);
 
 async function generate() {
   const { data } = await apolloFetch({
@@ -47,12 +58,16 @@ query StaticSiteRenderer {
     }
     events {
       title
+      shortDescription
+      slug
       featuredImage {
         resource
       }
     }
     articles {
       title
+      shortDescription
+      slug
       featuredImage {
         resource
       }
@@ -65,14 +80,50 @@ query StaticSiteRenderer {
   const resources = data.staticSitePayload;
 
   await Promise.all(resources.shows.map(show => savePage(`shows/${show.slug}`,
-    buildPage(show.name, `
+    buildPage(standardTitle(show.name), `
       <meta property="og:description" content="${show.shortDescription}" />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:image" content="https://urf.imgix.net/${show.cover.resource}?w=1200&height=630&crop=faces&fit=crop" />
     `)
-  )))
+  )));
 
+  await Promise.all(resources.articles.map(article => savePage(`article/${article.slug}`,
+    buildPage(standardTitle(article.title), `
+      <meta property="og:description" content="${article.shortDescription}" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image" content="https://urf.imgix.net/${article.featuredImage.resource}?w=1200&height=630&crop=faces&fit=crop" />
+    `)
+  )));
+
+  await Promise.all(resources.events.map(event => savePage(`event/${event.slug}`,
+    buildPage(standardTitle(event.title), `
+      <meta property="og:description" content="${event.shortDescription}" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image" content="https://urf.imgix.net/${event.featuredImage.resource}?w=1200&height=630&crop=faces&fit=crop" />
+    `)
+  )));
+
+
+  await savePage('', buildSimplePage(
+    'University Radio Falmer',
+    'Student radio at the University of Sussex, broadcasting online and on DAB across Brighton',
+    'original_images/facebook_image_1.jpg'
+  ));
+
+  await savePage('schedule', buildSimplePage(
+    standardTitle('Schedule'),
+    'Broadcasting 7 days a week, see what is on URF',
+    'original_images/facebook_image_1.jpg'
+  ));
+
+  await savePage('news-events', buildSimplePage(
+    standardTitle('News & Events'),
+    'Student radio at the University of Sussex, broadcasting online and on DAB across Brighton',
+    'original_images/facebook_image_1.jpg'
+  ));
 }
 
 generate();
