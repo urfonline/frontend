@@ -22,7 +22,7 @@ config.output = {
   path: path.resolve('./build'),
   publicPath: '/assets/',
   filename: '[name].js',
-  chunkFilename: '[id].chunk.js',
+  chunkFilename: '[name].js',
 };
 
 config.devtool = 'inline-source-map';

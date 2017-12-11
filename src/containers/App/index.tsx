@@ -3,26 +3,74 @@ import Header from '../../components/Header';
 import Player from '../../components/Player';
 import MainNavigation from '../../components/MainNavigation';
 import { Route, Switch, withRouter } from 'react-router-dom';
-
-import Home from '../Home';
-import Schedule from '../Schedule';
-import Shows from '../Shows';
-import ShowBase from '../ShowBase';
-import NotFound from '../NotFound/NotFound';
-import WeAreURF from '../WeAreURF';
-import Article from '../Article';
-import Event from '../Event';
-import NewsAndEvents from '../NewsAndEvents';
-import MembersApp from '../members/MembersApp';
 import { Helmet } from 'react-helmet';
-import Login from '../members/Login';
 import { Redirect } from 'react-router';
 import { loginRestoreAttempt } from '../../ducks/auth';
 import { scheduleLoaded, updateOnAirSlot } from '../../ducks/schedule';
 import { connect } from 'react-redux';
+import Loadable from 'react-loadable'
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import { compose } from 'redux';
+import { LoadableSpinner } from "../../components/LoadableSpinner";
+
+const LoadableShowPage = Loadable({
+  loader: () => import(/* webpackChunkName: "ShowBase" */'../ShowBase'),
+  loading: LoadableSpinner,
+});
+
+const LoadableHome = Loadable({
+  loader: () => import(/* webpackChunkName: "Home" */'../Home'),
+  loading: LoadableSpinner,
+});
+
+const LoadableSchedule = Loadable({
+  loader: () => import(/* webpackChunkName: "Schedule" */'../Schedule'),
+  loading: LoadableSpinner,
+});
+
+const LoadableShows = Loadable({
+  loader: () => import(/* webpackChunkName: "Shows" */'../Shows') as any,
+  loading: LoadableSpinner,
+});
+
+const LoadableWeAreURF = Loadable({
+  loader: () => import(/* webpackChunkName: "WeAreURF" */'../WeAreURF'),
+  loading: LoadableSpinner,
+});
+
+const LoadableNotFound = Loadable({
+  loader: () => import(/* webpackChunkName: "NotFound" */'../NotFound/NotFound'),
+  loading: LoadableSpinner,
+});
+
+const LoadableArticle = Loadable({
+  loader: () => import(/* webpackChunkName: "Article" */'../Article'),
+  loading: LoadableSpinner,
+});
+
+const LoadableEvent = Loadable({
+  loader: () => import(/* webpackChunkName: "Event" */'../Event'),
+  loading: LoadableSpinner,
+});
+
+const LoadableNewsAndEvents = Loadable({
+  loader: () => import(/* webpackChunkName: "NewsAndEvents" */'../NewsAndEvents'),
+  loading: LoadableSpinner,
+});
+
+const LoadableMembersApp = Loadable({
+  loader: () => import(/* webpackChunkName: "MembersApp" */'../members/MembersApp'),
+  loading: LoadableSpinner,
+});
+
+const LoadableLogin = Loadable({
+  loader: () => import(/* webpackChunkName: "Loading" */'../members/Login'),
+  loading: LoadableSpinner,
+});
+
+
+
 
 interface IDispatchProps {
   loginRestoreAttempt(): void;
@@ -61,18 +109,18 @@ class App extends React.Component<IProps> {
         <div className="Page">
           <MainNavigation mobile />
           <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/schedule" exact component={Schedule} />
-            <Route path="/shows" exact component={Shows as any} />
-            <Route path="/news-events" exact component={NewsAndEvents} />
-            <Route path="/we-are-urf" exact component={WeAreURF} />
-            <Route path="/shows/:showSlug" component={ShowBase} />
-            <Route path="/auth/login" component={Login} exact />
-            <Route path="/members" component={MembersApp} />
-            <Route path="/article/**-:articleId" component={Article} exact />
-            <Route path="/event/**-:eventId" component={Event} exact />
+            <Route path="/" exact component={LoadableHome} />
+            <Route path="/schedule" exact component={LoadableSchedule} />
+            <Route path="/shows" exact component={LoadableShows} />
+            <Route path="/news-events" exact component={LoadableNewsAndEvents} />
+            <Route path="/we-are-urf" exact component={LoadableWeAreURF} />
+            <Route path="/shows/:showSlug" component={LoadableShowPage} />
+            <Route path="/auth/login" component={LoadableLogin} exact />
+            <Route path="/members" component={LoadableMembersApp} />
+            <Route path="/article/**-:articleId" component={LoadableArticle} exact />
+            <Route path="/event/**-:eventId" component={LoadableEvent} exact />
             <Redirect path="/article" to="/news-events" exact />
-            <Route component={NotFound} />
+            <Route component={LoadableNotFound} />
           </Switch>
           <Player />
         </div>

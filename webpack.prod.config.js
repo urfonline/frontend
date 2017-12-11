@@ -12,6 +12,7 @@ config.output = {
   path: path.resolve(__dirname, 'dist'),
   publicPath: '/',
   filename: 'urf.[name].[hash].js',
+  chunkFilename: 'urf.[name].[chunkhash].js',
 };
 
 config.plugins = config.plugins.concat([

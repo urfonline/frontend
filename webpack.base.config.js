@@ -38,7 +38,7 @@ module.exports = {
     path: path.resolve(path.join(__dirname, 'build')),
     publicPath: '/assets',
     filename: '[name].js',
-    chunkFilename: '[id].chunk.js',
+    chunkFilename: '[chunkName].chunk.js',
   },
 
   resolve: {

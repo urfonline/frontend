@@ -8,8 +8,8 @@
       "es2016"
     ],
     "jsx": "preserve",
-    "target": "es2016",
-    "module": "es2015",
+    "target": "es2015",
+    "module": "esnext",
     "moduleResolution": "node",
     "strict": true,
     "noImplicitAny": true,
