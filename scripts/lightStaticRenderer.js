@@ -43,7 +43,7 @@ const buildSimplePage = (title, description, image) => buildPage(standardTitle(t
       <meta property="og:description" content="${description}" />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
-      <meta property="og:image" content="https://urf.imgix.net/${image}?w=1200&height=630&crop=faces&fit=crop" />
+      <meta property="og:image" content="https://urf.imgix.net/${image}?w=1200&h=630&crop=faces&fit=crop" />
 `);
 
 async function generate() {
@@ -89,7 +89,7 @@ query StaticSiteRenderer {
       <meta property="og:description" content="${show.shortDescription}" />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
-      <meta property="og:image" content="https://urf.imgix.net/${show.cover.resource}?w=1200&height=630&crop=faces&fit=crop" />
+      <meta property="og:image" content="https://urf.imgix.net/${show.cover.resource}?w=1200&h=630&crop=faces&fit=crop" />
     `)
   )));
 
@@ -98,7 +98,7 @@ query StaticSiteRenderer {
       <meta property="og:description" content="${article.shortDescription}" />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
-      <meta property="og:image" content="https://urf.imgix.net/${article.featuredImage.resource}?w=1200&height=630&crop=faces&fit=crop" />
+      <meta property="og:image" content="https://urf.imgix.net/${article.featuredImage.resource}?w=1200&h=630&crop=faces&fit=crop" />
     `)
   )));
 
@@ -107,7 +107,7 @@ query StaticSiteRenderer {
       <meta property="og:description" content="${event.shortDescription}" />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
-      <meta property="og:image" content="https://urf.imgix.net/${event.featuredImage.resource}?w=1200&height=630&crop=faces&fit=crop" />
+      <meta property="og:image" content="https://urf.imgix.net/${event.featuredImage.resource}?w=1200&h=630&crop=faces&fit=crop" />
     `)
   )));
 
