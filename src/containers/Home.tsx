@@ -3,7 +3,7 @@ import styled from 'react-emotion';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import TodaySchedule from '../components/TodaySchedule';
-import { keyBy } from 'lodash';
+import keyBy from 'lodash/keyBy';
 import { Flex, Box } from 'grid-emotion';
 import { HomepageBlock } from '../components/ContentTypesBlock';
 import { OnAirBlock } from '../components/OnAirBlock';

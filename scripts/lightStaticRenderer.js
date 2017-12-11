@@ -1,8 +1,8 @@
-const promisify = require('util').promisify;
 const fse = require('fs-extra');
 const path = require('path');
 const createApolloFetch = require('apollo-fetch').createApolloFetch;
 const assetsManifest = require(path.join(__dirname, '../webpack-assets.json'));
+const chunkManifest = require(path.join(__dirname, '../dist/manifest.json'));
 
 function buildPage(title, meta) {
   return `
@@ -13,6 +13,9 @@ function buildPage(title, meta) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="${assetsManifest.main.css}" rel="stylesheet">
     <title>${title}</title>
+    <script type="text/javascript">
+      window.webpackManifest = ${JSON.stringify(chunkManifest)};
+    </script>
     ${meta}
   </head>
   <body class="Core">

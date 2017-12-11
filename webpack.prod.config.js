@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const config = require('./webpack.base.config.js');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
 const AssetsPlugin = require('assets-webpack-plugin');
 
 config.bail = true;
@@ -16,10 +17,15 @@ config.output = {
 };
 
 config.plugins = config.plugins.concat([
-  new AssetsPlugin(),
-  new webpack.LoaderOptionsPlugin({
-    minimize: true,
+  new webpack.optimize.CommonsChunkPlugin({
+    children: true,
   }),
+  new ChunkManifestPlugin({
+    filename: 'manifest.json',
+    manifestVariable: 'webpackManifest',
+    inlineManifest: false
+  }),
+  new AssetsPlugin(),
   new CopyWebpackPlugin([
     { from: './src/root', to: './'}
   ]),

@@ -51,7 +51,7 @@ module.exports = {
   },
 
   plugins: [
-    // new BundleAnalyzerPlugin({ analyzerPort: 3999 }),
+    new BundleAnalyzerPlugin({ analyzerPort: 3999 }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(NODE_ENV),
