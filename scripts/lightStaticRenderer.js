@@ -57,6 +57,7 @@ query StaticSiteRenderer {
       name
     }
     events {
+      eventId
       title
       shortDescription
       slug
@@ -65,6 +66,7 @@ query StaticSiteRenderer {
       }
     }
     articles {
+      articleId
       title
       shortDescription
       slug
@@ -88,7 +90,7 @@ query StaticSiteRenderer {
     `)
   )));
 
-  await Promise.all(resources.articles.map(article => savePage(`article/${article.slug}`,
+  await Promise.all(resources.articles.map(article => savePage(`article/${article.slug}-${article.articleId}`,
     buildPage(standardTitle(article.title), `
       <meta property="og:description" content="${article.shortDescription}" />
       <meta property="og:image:width" content="1200" />
@@ -97,7 +99,7 @@ query StaticSiteRenderer {
     `)
   )));
 
-  await Promise.all(resources.events.map(event => savePage(`event/${event.slug}`,
+  await Promise.all(resources.events.map(event => savePage(`event/${event.slug}-${event.eventId}`,
     buildPage(standardTitle(event.title), `
       <meta property="og:description" content="${event.shortDescription}" />
       <meta property="og:image:width" content="1200" />
