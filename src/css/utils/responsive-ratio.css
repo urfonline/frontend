@@ -1,0 +1,64 @@
+.u-responsive-ratio {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+
+  &--wide {
+    padding-bottom: 60%;
+  }
+
+  &--ultra-wide,
+  &--r20by9 {
+    padding-bottom: 45%;
+  }
+
+  &--r1by1,
+  &--square {
+    padding-bottom: 100%;
+  }
+
+  &--r16by9 {
+    padding-bottom: 56.25%;
+  }
+
+  &--43,
+  &--r4by3 {
+    padding-bottom: 75%;
+  }
+
+  &--rPanovision70 {
+    padding-bottom: 36.101083%;
+  }
+
+  & > img,
+  .ImagePlaceholder {
+    width: 100% !important;
+    height: 100% !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+  }
+}
+
+.u-responsive-fit {
+  position: relative;
+  overflow: hidden;
+
+  & > img,
+  .ImagePlaceholder {
+    width: 100% !important;
+    height: 100% !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+  }
+}
+
+.lazyload,
+.lazyloading {
+  opacity: 0;
+}
+.lazyloaded {
+  opacity: 1;
+  transition: opacity 300ms;
+}

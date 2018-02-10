@@ -30,7 +30,7 @@ module.exports = {
   target: 'web',
 
   entry: {
-    vendor: ['react', 'react-dom', 'unfetch'],
+    vendor: ['react', 'react-dom', 'unfetch', './src/utils/lazysizesEntry.ts'],
     main: './src/entry.tsx',
   },
 

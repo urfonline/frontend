@@ -4,6 +4,9 @@
 @import './core/layers.css';
 @import './core/mq.css';
 
+/* utils */
+@import './utils/responsive-ratio.css';
+
 /* player */
 
 @import './components/Player.css';
