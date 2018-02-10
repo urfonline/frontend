@@ -12,6 +12,7 @@ import isBefore from 'date-fns/isBefore';
 import startOfDay from 'date-fns/startOfDay';
 import endOfDay from 'date-fns/endOfDay';
 import isWithinInterval from 'date-fns/isWithinInterval';
+import {isEqual} from "date-fns";
 
 const shiftedDates = [6, 0, 1, 2, 3, 4, 5];
 
@@ -72,6 +73,10 @@ function parseSlotDate(slot: Slot) {
   const startDate = addDays(parseTime(slot.startTime), initialDayOffset);
 
   let endDate = addDays(parseTime(slot.endTime), initialDayOffset);
+
+  if (isEqual(startOfDay(endDate), endDate)) {
+    endDate = endOfDay(endDate);
+  }
 
   if (isBefore(endDate, startDate)) {
     endDate = addDays(endDate, 1);
@@ -177,10 +182,11 @@ export function chunkSlotsByDay(slotsUnsorted: Array<Slot>, automationShow: Slot
       return;
     }
 
-    /* // if the last slot isn't overnight and doesn't end at midnight; add auto-slot to midnight
+     // if the last slot isn't overnight and doesn't end at midnight; add auto-slot to midnight
      const lastSlotOfDay = daySlots[daySlots.length - 1];
+
      if (
-       lastSlotOfDay.endDate !== endDay &&
+       !isEqual(lastSlotOfDay.endDate, endOfDay(lastSlotOfDay.endDate)) &&
        isBefore(lastSlotOfDay.startDate, lastSlotOfDay.endDate)
      ) {
        daySlots.push(
@@ -188,15 +194,15 @@ export function chunkSlotsByDay(slotsUnsorted: Array<Slot>, automationShow: Slot
            slotId++,
            automationShow,
            lastSlotOfDay.endDate,
-           endDay
+           endOfDay(lastSlotOfDay.endDate)
          )
        );
-     }*/
+     }
   });
 
   // ✨ Sunday wrap around ✨
   const lastSundaySlot = days[6][days[6].length - 1];
-  if (!isSameDay(lastSundaySlot.startDate, lastSundaySlot.endDate)) {
+  if (!isSameDay(lastSundaySlot.startDate, lastSundaySlot.endDate) && !isEqual(lastSundaySlot.endDate, startOfDay(addDays(lastSundaySlot.startDate, 1)))) {
     const mondaySlot = { ...lastSundaySlot };
     const endOfSunday = startOfDay(addDays(lastSundaySlot.startDate, 1));
     const durationDuringSunday = differenceInMinutes(endOfSunday, lastSundaySlot.startDate);
