@@ -7,21 +7,20 @@ import * as PlayerActions from '../ducks/player';
 import { queries } from '../css/mq';
 import { formatTime } from '../utils/schedule';
 import { AspectRatio, OneImage } from './OneImage';
+import {defaultShowCoverResource} from "../utils/shows";
 
 const coverStyles = css`
-  width: 80%;
-  height: 80%;
+  width: 65%;
+  height: 65%;
   display: block;
-  margin: 0 auto;
+  margin: 1rem auto;
   box-shadow: 0 4px 12px rgba(30, 30, 30, 0.2);
   transition: box-shadow 300ms ease, transform 300ms ease;
-  margin-bottom: 1rem;
-  margin-top: 1rem;
 `;
 
 const onAirCoverStyles = css`
   box-shadow: 0 4px 18px rgba(30, 30, 30, 0.2);
-  transform: scale(1.03);
+  transform: scale(1.05);
 `;
 
 const centeredStyles = css`
@@ -74,7 +73,7 @@ export function OnAirBlockComponent(props: IProps) {
         >
           {' '}
           <OneImage
-            src={show.cover.resource}
+            src={show.cover.resource ? show.cover.resource : defaultShowCoverResource}
             aspectRatio={AspectRatio.r1by1}
             alt=""
           />

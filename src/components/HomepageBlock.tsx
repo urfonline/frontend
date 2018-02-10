@@ -23,9 +23,9 @@ const Box = styled.div`
   }
 `;
 
-const BoxLink = Box.withComponent(Link);
+export const BoxLink = Box.withComponent(Link);
 
-const BoxInner = styled.div`
+export const BoxInner = styled.div`
   padding: 1rem;
 `;
 
@@ -51,15 +51,15 @@ const imageScaleStyle = css`
   height: auto;
 `;
 
-const oneSizingStyle = css`
+export const oneSizingStyle = css`
   font-size: 1.2rem;
 `;
 
-const twoSizingStyle = css`
+export const twoSizingStyle = css`
   font-size: 1rem;
 `;
 
-const threeSizingStyle = css`
+export const threeSizingStyle = css`
   font-size: 1rem;
 `;
 

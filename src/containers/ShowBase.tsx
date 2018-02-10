@@ -10,6 +10,7 @@ import { NavLink } from 'react-router-dom';
 import { format } from 'date-fns';
 import { queries } from '../css/mq';
 import {AspectRatio, OneImage} from "../components/OneImage";
+import {defaultShowCoverResource} from "../utils/shows";
 
 // TODO: move to a utils thing or i18n file
 const DAYS_TEXT = [
@@ -110,7 +111,7 @@ function ShowBase(props: IProps) {
         <div className="Container">
           <div className="ShowHeader__container">
             <div className="ShowHeader__cover">
-              <OneImage src={show.cover.resource} aspectRatio={AspectRatio.r1by1} alt="" />
+              <OneImage src={show.cover.resource ? show.cover.resource : defaultShowCoverResource} aspectRatio={AspectRatio.r1by1} alt="" />
             </div>
             <div className="ShowHeader__info">
               <h1 className="ShowHeader__show-title">{show.name}</h1>

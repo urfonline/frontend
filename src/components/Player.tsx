@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { formatTime } from '../utils/schedule';
 import { RootState } from '../types';
 import {AspectRatio, OneImage} from "./OneImage";
+import {defaultShowCoverResource} from "../utils/shows";
 
 interface IProps {
   isLoading: boolean;
@@ -31,7 +32,7 @@ const Player: React.SFC<IProps> = (props: IProps) => {
     <div className="Player">
       <div className="Player__container">
         <div className="Player__show-cover">
-          <OneImage src={show.cover.resource} aspectRatio={AspectRatio.r1by1} alt="" />
+          <OneImage src={show.cover.resource ? show.cover.resource : defaultShowCoverResource} aspectRatio={AspectRatio.r1by1} alt="" />
         </div>
         <div className="Player__content">
           <div className="Player__button">
