@@ -14,7 +14,7 @@ function VolumeControl(props: IProps) {
         max="1"
         step="0.001"
         value={props.value}
-        onChange={e => {
+        onChange={(e) => {
           props.onChange(parseInt(e.target.value, 10));
         }}
       />

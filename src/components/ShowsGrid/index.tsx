@@ -16,7 +16,7 @@ function ShowsGrid({ shows, sortMethod }: IProps) {
     <ul className="ShowsGrid">
       {Object.keys(sortMethod === 'CATEGORY' ? showsByCategory : showsByLetter)
         .sort()
-        .map(groupKey => (
+        .map((groupKey) => (
           <li className="ShowsGrid__group">
             <h2>{groupKey}</h2>
             <ul className="ShowsGrid__grid">

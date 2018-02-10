@@ -1,4 +1,4 @@
-import {AnyAction} from "redux";
+import { AnyAction } from 'redux';
 
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 const LOGIN_RESTORE_ATTEMPT = 'LOGIN_RESTORE_ATTEMPT';
@@ -32,7 +32,10 @@ const initialState = {
   user: null,
 };
 
-export default function authReducer(state = initialState, { type, payload }: AnyAction) {
+export default function authReducer(
+  state = initialState,
+  { type, payload }: AnyAction,
+) {
   switch (type) {
     case LOGIN_SUCCESS: {
       localStorage.setItem('token', payload.token);

@@ -22,7 +22,7 @@
     }
   }
 
-  &__content{
+  &__content {
     display: flex;
     padding-left: 0.5rem;
     align-content: center;

@@ -6,7 +6,7 @@ import { Helmet } from 'react-helmet';
 import { withState } from 'recompose';
 import { Show } from '../utils/types';
 import { compose } from 'redux';
-import Spinner from "../components/Spinner";
+import Spinner from '../components/Spinner';
 
 interface IProps {
   updateSortMethod: any; // todo
@@ -64,5 +64,5 @@ const HomeQuery = gql`
 
 export default compose(
   graphql<{}, {}, any>(HomeQuery),
-  withState('sortMethod', 'updateSortMethod', 'NAME')
+  withState('sortMethod', 'updateSortMethod', 'NAME'),
 )(Shows);

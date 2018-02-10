@@ -51,7 +51,7 @@
     z-index: var(--layer-on-air);
     transform: scale(1.1) translateZ(0);
     backface-visibility: hidden;
-   }
+  }
 }
 
 .ScheduleSlot--on-air .ScheduleSlot__inner {

@@ -1,4 +1,4 @@
-import {css} from "emotion";
+import { css } from 'emotion';
 
 interface Accumulator {
   [key: string]: any;
@@ -13,22 +13,25 @@ const breakpoints: { [key: string]: number | string } = {
   xLarge: 1100,
 };
 
-export const queries: Accumulator = Object.keys(breakpoints).reduce((accumulator: Accumulator, label) => {
-  if (typeof breakpoints[label] === 'string') {
-    accumulator[label] = (...args: any[]) =>
-      css`
-        @media (${breakpoints[label]}) {
-          ${css(...args)};
-        }
-      `
-  } else {
-    accumulator[label] = (...args: any[]) =>
-      css`
-        @media (min-width: ${breakpoints[label]}px) {
-          ${css(...args)};
-        }
-      `
-  }
+export const queries: Accumulator = Object.keys(breakpoints).reduce(
+  (accumulator: Accumulator, label) => {
+    if (typeof breakpoints[label] === 'string') {
+      accumulator[label] = (...args: any[]) =>
+        css`
+          @media (${breakpoints[label]}) {
+            ${css(...args)};
+          }
+        `;
+    } else {
+      accumulator[label] = (...args: any[]) =>
+        css`
+          @media (min-width: ${breakpoints[label]}px) {
+            ${css(...args)};
+          }
+        `;
+    }
 
-  return accumulator
-}, {});
+    return accumulator;
+  },
+  {},
+);

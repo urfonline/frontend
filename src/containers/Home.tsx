@@ -7,7 +7,7 @@ import keyBy from 'lodash/keyBy';
 import { Flex, Box } from 'grid-emotion';
 import { HomepageBlock } from '../components/ContentTypesBlock';
 import { OnAirBlock } from '../components/OnAirBlock';
-import Spinner from "../components/Spinner";
+import Spinner from '../components/Spinner';
 
 interface IProps {
   data: any;
@@ -48,7 +48,7 @@ function renderBlocks(props: IProps) {
     <BlockContainer>
       {hasHero && (
         <Flex mx={-2} wrap>
-          <Box width={[1, 1/3]} px={gutterLeft} mb={gutter}>
+          <Box width={[1, 1 / 3]} px={gutterLeft} mb={gutter}>
             <OnAirBlock />
           </Box>
           <Box width={1} px={gutterLeft} mb={gutter} flex="1 1 0">

@@ -4,7 +4,7 @@ import MainNavigation from './index';
 import { MemoryRouter } from 'react-router';
 
 storiesOf('MainNavigation', module)
-  .addDecorator(story => (
+  .addDecorator((story) => (
     <MemoryRouter initialEntries={['/']}>{story()}</MemoryRouter>
   ))
   .add('', () => (

@@ -101,5 +101,5 @@ export default compose(
   connect(null, {
     loginSuccess: authActions.loginSuccess,
   }),
-  graphql<{}, {}, IProps>(LoginMutation)
+  graphql<{}, {}, IProps>(LoginMutation),
 )(Login) as any;

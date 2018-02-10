@@ -45,7 +45,7 @@ class FullSchedule extends React.Component<IProps, any> {
         <ScheduleDayColumn className="Schedule__days" days={days} />
         <div
           className="Schedule__scroll-container"
-          ref={ref => {
+          ref={(ref) => {
             this.containerRef = ref;
           }}
         >

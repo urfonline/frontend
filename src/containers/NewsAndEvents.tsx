@@ -3,10 +3,10 @@ import { Helmet } from 'react-helmet';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { compose } from 'redux';
-import Spinner from "../components/Spinner";
-import {Block} from "../components/HomepageBlock";
-import {css} from "emotion";
-import {Box, Flex} from "grid-emotion";
+import Spinner from '../components/Spinner';
+import { Block } from '../components/HomepageBlock';
+import { css } from 'emotion';
+import { Box, Flex } from 'grid-emotion';
 
 interface IProps {
   updateSortMethod: any; // todo
@@ -22,8 +22,8 @@ interface Article {
   shortDescription: string;
   tone: string;
   featuredImage: {
-    resource: string
-  }
+    resource: string;
+  };
 }
 
 interface ArticleEdge {
@@ -45,9 +45,9 @@ function renderContent(props: IProps) {
 
   return (
     <div>
-        <Flex mx={-2} wrap>
+      <Flex mx={-2} wrap>
         {props.data.allArticles.edges.map((edge: ArticleEdge) => (
-          <Box width={[1, 1/2, 1/3, 1/4]} px={2} mb={3}>
+          <Box width={[1, 1 / 2, 1 / 3, 1 / 4]} px={2} mb={3}>
             <Block
               size={3}
               innerClassName={articleStyles}
@@ -59,7 +59,7 @@ function renderContent(props: IProps) {
             />
           </Box>
         ))}
-        </Flex>
+      </Flex>
     </div>
   );
 }

@@ -6,14 +6,14 @@ import convert from 'htmr';
 import { elementMap } from '../components/Prose';
 import styled from 'react-emotion';
 import { ImageHeader } from '../components/ImageHeader';
-import Spinner from "../components/Spinner";
+import Spinner from '../components/Spinner';
 
 const Content = styled.div`
   font-weight: 400;
   max-width: 660px;
   line-height: 1.5;
   font-size: 1em;
-  
+
   & img {
     max-width: 100%;
     width: auto;

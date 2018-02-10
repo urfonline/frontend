@@ -34,20 +34,17 @@ const DAYS_TEXT = [
 
 const ShowBlockContainer = styled.div`
   display: flex;
-  ${(props: any) => props.size > 2 && 'flex-direction: column;'}
+  ${(props: any) => props.size > 2 && 'flex-direction: column;'};
 `;
 
 const sideBySideStyles = css`
   margin-right: 1em;
   width: 40%;
   max-width: 100px;
-
 `;
 
 const ShowCover = styled.div`
-  ${(props: any) => props.size <= 2 && sideBySideStyles}
-
-  & img {
+  ${(props: any) => props.size <= 2 && sideBySideStyles} & img {
     width: 100%;
     height: auto;
   }
@@ -60,7 +57,6 @@ const eventStyles = css`
 const articleStyles = css`
   color: black;
 `;
-
 
 function renderArticle(props: IProps) {
   const article = props.block.object;

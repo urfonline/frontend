@@ -38,7 +38,7 @@ const Player: React.SFC<IProps> = (props: IProps) => {
             <PlayPauseButton
               isPlaying={player.userState}
               isLive={player.audioSourceType === 'live'}
-              onChange={state => props.playerUserStateChange(state)}
+              onChange={(state) => props.playerUserStateChange(state)}
             />
           </div>
           <Link className="Player__show-name" to={`/shows/${show.slug}`}>
@@ -46,7 +46,7 @@ const Player: React.SFC<IProps> = (props: IProps) => {
           </Link>
           <small>
             {formatTime(schedule.currentlyOnAir.startDate)}-{formatTime(
-              schedule.currentlyOnAir.endDate
+              schedule.currentlyOnAir.endDate,
             )}
           </small>
         </div>
@@ -74,5 +74,5 @@ export default connect(
   {
     playerUserStateChange,
     playerAudioStateChange,
-  }
+  },
 )(Player) as any;

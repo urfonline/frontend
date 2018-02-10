@@ -14,7 +14,7 @@ function ShowsGridItem({ show }: IProps) {
     <li
       className={cx(
         'ShowsGrid__item',
-        `ShowsGrid__item--tone-${getShowBrandTone(show)}`
+        `ShowsGrid__item--tone-${getShowBrandTone(show)}`,
       )}
     >
       <Link

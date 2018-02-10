@@ -47,7 +47,7 @@ class TodaySchedule extends React.Component<IProps> {
     return (
       <div
         className="Schedule__scroll-container"
-        ref={ref => {
+        ref={(ref) => {
           this.containerRef = ref;
         }}
       >

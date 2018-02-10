@@ -42,7 +42,8 @@
       display: block;
       margin-bottom: 1rem;
 
-      & > a:hover, & > a.active {
+      & > a:hover,
+      & > a.active {
         border-bottom: 3px solid var(--color__brand-red);
       }
     }

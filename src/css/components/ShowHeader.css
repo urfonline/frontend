@@ -30,7 +30,7 @@
   &__cover {
     width: 200px;
     height: 200px;
-    box-shadow: 0 0 5px 1px rgba(50, 50, 50, .2);
+    box-shadow: 0 0 5px 1px rgba(50, 50, 50, 0.2);
     position: relative;
     background: #ffffff;
     margin: 0 auto;

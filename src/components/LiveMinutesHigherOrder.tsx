@@ -30,7 +30,7 @@ export default (WrappedComponent: any) => {
     componentDidMount() {
       this.interval = setInterval(
         () => this.setState({ minutes: getMinutes() }),
-        10000
+        10000,
       );
     }
 

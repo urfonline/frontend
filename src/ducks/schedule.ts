@@ -11,21 +11,24 @@ export const loadSchedule = () => (dispatch: any) => {
   });
 
   fetch('/api/schedule')
-    .then(data => data.json())
-    .then(data => {
+    .then((data) => data.json())
+    .then((data) => {
       dispatch({
         type: LOAD_SCHEDULE_SUCCESS,
         payload: data,
       });
     })
-    .catch(err =>
+    .catch((err) =>
       dispatch({
         type: LOAD_SCHEDULE_FAILURE,
         error: err,
-      })
+      }),
     );
 };
-export const scheduleLoaded = (schedule: any) => ({ type: LOAD_SCHEDULE_SUCCESS, payload: { schedule } });
+export const scheduleLoaded = (schedule: any) => ({
+  type: LOAD_SCHEDULE_SUCCESS,
+  payload: { schedule },
+});
 export const updateOnAirSlot = () => ({ type: UPDATE_ON_AIR_SLOT });
 
 const initialState = {
@@ -47,7 +50,7 @@ export default function scheduleReducer(state = initialState, action: any) {
     case LOAD_SCHEDULE_SUCCESS: {
       const slotsByDay = chunkSlotsByDay(
         action.payload.schedule.currentSlate.slots,
-        action.payload.schedule.automationShow
+        action.payload.schedule.automationShow,
       );
 
       return {

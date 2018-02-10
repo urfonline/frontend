@@ -9,7 +9,7 @@ interface IProps {
 const ScheduleDayColumn: React.SFC<IProps> = (props: IProps) => {
   return (
     <div className={cx('ScheduleDayColumn', props.className)}>
-      {props.days.map(day => (
+      {props.days.map((day) => (
         <div className="ScheduleDayColumn__day" key={day}>
           {day}
         </div>

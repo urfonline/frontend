@@ -3,7 +3,10 @@ export const PLAYER_USER_STATE_CHANGE = 'PLAYER_USER_STATE_CHANGE';
 export const INITIATE_PLAY_LIVE = 'INITIATE_PLAY_LIVE';
 
 export const playLive = () => ({ type: INITIATE_PLAY_LIVE });
-export const playerChange = (payload: any) => ({ type: PLAYER_CHANGE, payload });
+export const playerChange = (payload: any) => ({
+  type: PLAYER_CHANGE,
+  payload,
+});
 
 /* OPERATION TECHQUILA, v2 */
 

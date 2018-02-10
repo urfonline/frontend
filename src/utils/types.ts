@@ -1,11 +1,11 @@
 export interface Show {
-  id: number,
-  name: string,
+  id: number;
+  name: string;
   category: {
-    name: string,
-  },
-  brandColor: string,
-  shortDescription: string,
-  slug: string,
-  emojiDescription: string,
+    name: string;
+  };
+  brandColor: string;
+  shortDescription: string;
+  slug: string;
+  emojiDescription: string;
 }

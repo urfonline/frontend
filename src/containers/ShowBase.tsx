@@ -6,10 +6,10 @@ import gql from 'graphql-tag';
 import Image from '../components/Image';
 import { formatTime, parseTime } from '../utils/schedule';
 import { Helmet } from 'react-helmet';
-import styled from "react-emotion";
-import {NavLink} from "react-router-dom";
-import {format} from "date-fns";
-import {queries} from "../css/mq";
+import styled from 'react-emotion';
+import { NavLink } from 'react-router-dom';
+import { format } from 'date-fns';
+import { queries } from '../css/mq';
 
 // TODO: move to a utils thing or i18n file
 const DAYS_TEXT = [
@@ -25,14 +25,14 @@ const DAYS_TEXT = [
 const ShowMain = styled.div`
   ${queries.large`
     display: flex;
-  `}
+  `};
 `;
 
 const ShowSidebar = styled.div`
   ${queries.large`
     width: calc(200px + 2rem);
     flex: none;
-  `}
+  `};
 `;
 
 const MixCloudButton = styled.a`
@@ -45,23 +45,21 @@ const MixCloudButton = styled.a`
 const ShowMenu = styled.ul`
   list-style: none;
   padding: 0;
-  
+
   ${queries.large`
     padding-left: calc(200px + 2rem);
     margin-bottom: 2rem;
-  `}
-  
-  & li {
+  `} & li {
     display: inline-block;
     margin-right: 1rem;
   }
-  
+
   & a {
     text-decoration: none;
     font-size: 1.2rem;
     color: #757575;
   }
-  
+
   & a.active {
     text-decoration: underline;
   }
@@ -103,7 +101,7 @@ function ShowBase(props: IProps) {
       <div
         className={cx(
           'ShowHeader',
-          `ShowHeader--tone-${bgColor.isLight() ? 'dark' : 'light'}`
+          `ShowHeader--tone-${bgColor.isLight() ? 'dark' : 'light'}`,
         )}
         style={{
           backgroundColor: bgColor.string(),
@@ -134,7 +132,13 @@ function ShowBase(props: IProps) {
             <NavLink to={`/shows/${show.slug}/`}>About</NavLink>
           </li>
           <li>
-            {show.socialMixcloudHandle && <MixCloudButton href={`https://mixcloud.com/${show.socialMixcloudHandle}`}>Listen back</MixCloudButton>}
+            {show.socialMixcloudHandle && (
+              <MixCloudButton
+                href={`https://mixcloud.com/${show.socialMixcloudHandle}`}
+              >
+                Listen back
+              </MixCloudButton>
+            )}
           </li>
         </ShowMenu>
       </div>
@@ -142,9 +146,7 @@ function ShowBase(props: IProps) {
         <ShowMain>
           <ShowSidebar>
             <ul>
-              <li>
-                Est. {format(new Date(show.createdAt), 'MMM YYYY')}
-              </li>
+              <li>Est. {format(new Date(show.createdAt), 'MMM YYYY')}</li>
             </ul>
           </ShowSidebar>
           <div className="ShowHeader__short-description">
