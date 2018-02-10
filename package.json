@@ -36,7 +36,7 @@
   "scripts": {
     "prod": "export NODE_ENV=production && node ./scripts/getFragmentTypes.js && `npm bin`/webpack --config webpack.prod.config.js && node ./scripts/lightStaticRenderer.js",
     "serve": "`npm bin`/webpack-dev-server --history-api-fallback --content-base=build --config webpack.dev.config --hot",
-    "format": "prettier --single-quote --print-width 80 --trailing-comma es5 --write \"./src/**/*.{tsx,js}\"",
+    "format": "prettier --write \"./src/**/*.{tsx,ts,js,css}\"",
     "test": "NODE_ENV=test && jest",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "build-storybook": "build-storybook -c .storybook -o storybook-public"
@@ -107,5 +107,16 @@
     "moduleNameMapper": {
       "\\.(css|less)$": "identity-obj-proxy"
     }
+  },
+  "prettier": {
+    "printWidth": 80,
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "bracketSpacing": true,
+    "jsxBracketSameLine": false,
+    "arrowParens": "always"
   }
 }
