@@ -7,4 +7,5 @@ export interface Show {
   brandColor: string,
   shortDescription: string,
   slug: string,
+  emojiDescription: string,
 }

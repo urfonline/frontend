@@ -13,6 +13,8 @@ import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import { compose } from 'redux';
 import { LoadableSpinner } from "../../components/LoadableSpinner";
+import {RootState} from "../../types";
+import {Show} from "../../utils/types";
 
 const LoadableShowPage = Loadable({
   loader: () => import(/* webpackChunkName: "ShowBase" */'../ShowBase'),
@@ -81,6 +83,8 @@ interface IDispatchProps {
 interface IAppProps {
   loading: boolean;
   data: any;
+  isPlaying: boolean;
+  currentlyOnAirShow: Show;
 }
 
 type IProps = IAppProps & IDispatchProps;
@@ -102,9 +106,14 @@ class App extends React.Component<IProps> {
   }
 
   render() {
+    const { isPlaying, currentlyOnAirShow } = this.props;
+
     return (
       <div>
-        <Helmet titleTemplate="%s | URF" defaultTitle="URF" />
+        <Helmet
+          titleTemplate={isPlaying ? `${currentlyOnAirShow.emojiDescription} | %s | URF` : '%s | URF'}
+          defaultTitle={isPlaying ? `${currentlyOnAirShow.emojiDescription} | URF` : 'URF'}
+        />
         <Header />
         <div className="Page">
           <MainNavigation mobile />
@@ -137,6 +146,7 @@ const ScheduleQuery = gql`
           name
           slug
           brandColor
+          emojiDescription
           category {
             name
             slug
@@ -155,6 +165,7 @@ const ScheduleQuery = gql`
       name
       slug
       brandColor
+      emojiDescription
       cover {
         resource
       }
@@ -164,7 +175,10 @@ const ScheduleQuery = gql`
 
 export default compose(
   withRouter,
-  connect<null, IDispatchProps>(null, {
+  connect((store: RootState) => ({
+    isPlaying: store.player.userState === true,
+    currentlyOnAirShow: store.schedule.currentlyOnAir ? store.schedule.currentlyOnAir.show : false,
+  }), {
     loginRestoreAttempt,
     scheduleLoaded,
     updateOnAirSlot,
