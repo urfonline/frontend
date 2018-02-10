@@ -103,7 +103,7 @@ function ShowBase(props: IProps) {
       <div
         className={cx(
           'ShowHeader',
-          `ShowHeader--tone-${bgColor.light() ? 'dark' : 'light'}`
+          `ShowHeader--tone-${bgColor.isLight() ? 'dark' : 'light'}`
         )}
         style={{
           backgroundColor: bgColor.string(),
