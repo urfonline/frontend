@@ -4,9 +4,14 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { compose } from 'redux';
 import Spinner from '../components/Spinner';
-import { Block } from '../components/HomepageBlock';
+import {
+  BlockDescription, BlockKicker, BlockTitle, BoxInner,
+  BoxLink, threeSizingStyle
+} from '../components/HomepageBlock';
 import { css } from 'emotion';
 import { Box, Flex } from 'grid-emotion';
+import {AspectRatio, OneImage} from "../components/OneImage";
+import {formatDistance} from "date-fns";
 
 interface IProps {
   updateSortMethod: any; // todo
@@ -24,6 +29,7 @@ interface Article {
   featuredImage: {
     resource: string;
   };
+  publishedAt: string;
 }
 
 interface ArticleEdge {
@@ -48,15 +54,23 @@ function renderContent(props: IProps) {
       <Flex mx={-2} wrap>
         {props.data.allArticles.edges.map((edge: ArticleEdge) => (
           <Box width={[1, 1 / 2, 1 / 3, 1 / 4]} px={2} mb={3}>
-            <Block
+            <BoxLink
+              to={`/article/${edge.node.slug}-${edge.node.articleId}`}
+              className={threeSizingStyle}
               size={3}
-              innerClassName={articleStyles}
-              link={`/article/${edge.node.slug}-${edge.node.articleId}`}
-              kicker={edge.node.tone}
-              title={edge.node.title}
-              image={edge.node.featuredImage}
-              description={edge.node.shortDescription}
-            />
+            >
+                <OneImage
+                  src={edge.node.featuredImage.resource}
+                  aspectRatio={AspectRatio.r16by9}
+                  alt=""
+                />
+              <BoxInner className={articleStyles}>
+                <BlockKicker><span>{edge.node.tone}</span> · <span>{formatDistance(new Date(edge.node.publishedAt), new Date())} ago</span></BlockKicker>
+                <BlockTitle>{edge.node.title}</BlockTitle>
+                <BlockDescription>{edge.node.shortDescription}</BlockDescription>
+                {props.children && props.children}
+              </BoxInner>
+            </BoxLink>
           </Box>
         ))}
       </Flex>
@@ -87,6 +101,7 @@ const NewsAndEventsQuery = gql`
           slug
           title
           shortDescription
+          publishedAt
           featuredImage {
             resource
           }
