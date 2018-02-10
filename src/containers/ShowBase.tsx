@@ -3,13 +3,13 @@ import cx from 'classnames';
 import Color from 'color';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import Image from '../components/Image';
 import { formatTime, parseTime } from '../utils/schedule';
 import { Helmet } from 'react-helmet';
 import styled from 'react-emotion';
 import { NavLink } from 'react-router-dom';
 import { format } from 'date-fns';
 import { queries } from '../css/mq';
+import {AspectRatio, OneImage} from "../components/OneImage";
 
 // TODO: move to a utils thing or i18n file
 const DAYS_TEXT = [
@@ -110,7 +110,7 @@ function ShowBase(props: IProps) {
         <div className="Container">
           <div className="ShowHeader__container">
             <div className="ShowHeader__cover">
-              <Image src={show.cover.resource} width={400} height={400} />
+              <OneImage src={show.cover.resource} aspectRatio={AspectRatio.r1by1} alt="" />
             </div>
             <div className="ShowHeader__info">
               <h1 className="ShowHeader__show-title">{show.name}</h1>

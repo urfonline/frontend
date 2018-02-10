@@ -1,12 +1,12 @@
 import React from 'react';
-import {Block, BlockKicker, BlockTitle} from './HomepageBlock';
-import {css, cx} from 'emotion';
+import { Block, BlockKicker, BlockTitle } from './HomepageBlock';
+import { css, cx } from 'emotion';
 import { connect } from 'react-redux';
 import { RootState } from '../types';
 import * as PlayerActions from '../ducks/player';
-import Image from './Image';
-import {queries} from "../css/mq";
-import {formatTime} from "../utils/schedule";
+import { queries } from '../css/mq';
+import { formatTime } from '../utils/schedule';
+import { AspectRatio, OneImage } from './OneImage';
 
 const coverStyles = css`
   width: 80%;
@@ -31,16 +31,16 @@ const centeredStyles = css`
 const onAirStyles = css`
   color: rgb(177, 34, 32);
   cursor: pointer;
-  
+
   & img {
     display: none;
   }
-  
+
   ${queries.large`
     & img {
       display: block;
     }
-  `}
+  `};
 `;
 
 interface IProps {
@@ -66,16 +66,24 @@ export function OnAirBlockComponent(props: IProps) {
       onClick={() => props.playerUserStateChange(!player.userState)}
     >
       <div className={centeredStyles}>
-        <BlockKicker>{player.userState ? 'Playing live' : 'On Air - click to play'}</BlockKicker>
-        <Image
+        <BlockKicker>
+          {player.userState ? 'Playing live' : 'On Air - click to play'}
+        </BlockKicker>
+        <div
           className={cx(coverStyles, { [onAirCoverStyles]: player.userState })}
-          src={show.cover.resource}
-          width={128}
-          height={128}
-        />
+        >
+          {' '}
+          <OneImage
+            src={show.cover.resource}
+            aspectRatio={AspectRatio.r1by1}
+            alt=""
+          />
+        </div>{' '}
         <BlockTitle>{show.name}</BlockTitle>
         <div>
-          {formatTime(schedule.currentlyOnAir.startDate)}-{formatTime(schedule.currentlyOnAir.endDate)}
+          {formatTime(schedule.currentlyOnAir.startDate)}-{formatTime(
+            schedule.currentlyOnAir.endDate,
+          )}
         </div>
       </div>
     </Block>
@@ -89,5 +97,5 @@ export const OnAirBlock = connect(
   }),
   {
     playerUserStateChange: PlayerActions.playerUserStateChange,
-  }
+  },
 )(OnAirBlockComponent);

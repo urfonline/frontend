@@ -3,20 +3,23 @@ import styled from 'react-emotion';
 import { Link } from 'react-router-dom';
 import { ImageResource } from '../types';
 import { css, cx } from 'emotion';
-import Image from './Image';
+import { AspectRatio, OneImage } from './OneImage';
 
 const Box = styled.div`
   box-shadow: 0 1px 6px rgba(30, 30, 30, 0.1);
   display: block;
-  ${(props: any) => props.accentColor ? `border-top: 6px solid ${props.accentColor};` : `padding-bottom: 6px;`};
+  ${(props: any) =>
+    props.accentColor
+      ? `border-top: 6px solid ${props.accentColor};`
+      : `padding-bottom: 6px;`};
   text-decoration: none;
   height: 100%;
   background-color: #ffffff;
   border-radius: 1px;
   transition: box-shadow 300ms ease;
-  
+
   &:hover {
-    box-shadow: 0 1px 9px rgba(30, 30, 30, 0.15);  
+    box-shadow: 0 1px 9px rgba(30, 30, 30, 0.15);
   }
 `;
 
@@ -84,11 +87,11 @@ export function Block(props: IBlockProps) {
   const inner = (
     <div>
       {props.image && (
-        <Image
+        <OneImage
           className={imageScaleStyle}
           src={props.image.resource}
-          width={16 * 50}
-          height={6 * 50}
+          aspectRatio={AspectRatio.rPanovision70}
+          alt=""
         />
       )}
       <BoxInner className={props.innerClassName}>

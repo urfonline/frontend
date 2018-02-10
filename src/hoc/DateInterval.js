@@ -13,7 +13,7 @@ export default (prefs, WrappedComponent) =>
     componentDidMount() {
       setInterval(
         () => this.setState({ dateInterval: new Date() }),
-        prefs.interval,
+        prefs.interval
       );
     }
 

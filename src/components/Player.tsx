@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Image from './Image';
 import PlayPauseButton from './PlayPauseButton';
 import PlayerAudio from './PlayerAudio';
 import { playerAudioStateChange, playerUserStateChange } from '../ducks/player';
 import { Link } from 'react-router-dom';
 import { formatTime } from '../utils/schedule';
 import { RootState } from '../types';
+import {AspectRatio, OneImage} from "./OneImage";
 
 interface IProps {
   isLoading: boolean;
@@ -31,7 +31,7 @@ const Player: React.SFC<IProps> = (props: IProps) => {
     <div className="Player">
       <div className="Player__container">
         <div className="Player__show-cover">
-          <Image src={show.cover.resource} width={100} height={100} />
+          <OneImage src={show.cover.resource} aspectRatio={AspectRatio.r1by1} alt="" />
         </div>
         <div className="Player__content">
           <div className="Player__button">

@@ -6,9 +6,9 @@ import {
   BlockKicker,
   BlockDescription,
 } from './HomepageBlock';
-import Image from './Image';
 import styled from 'react-emotion';
 import { formatTime, parseTime } from '../utils/schedule';
+import {AspectRatio, OneImage} from "./OneImage";
 
 interface IProps {
   block: {
@@ -84,7 +84,7 @@ function renderShow(props: IProps) {
     >
       <ShowBlockContainer size={props.size}>
         <ShowCover size={props.size}>
-          <Image src={show.cover.resource} width={220} height={220} />
+          <OneImage src={show.cover.resource} aspectRatio={AspectRatio.r1by1} alt="" />
         </ShowCover>
         <div>
           <BlockKicker>{props.block.overrideKicker || 'Show'}</BlockKicker>
