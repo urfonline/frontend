@@ -47,7 +47,7 @@ function renderContent(props: IProps) {
     <div>
         <Flex mx={-2} wrap>
         {props.data.allArticles.edges.map((edge: ArticleEdge) => (
-          <Box width={[1, 1/2, 1/3, 1/4]} px={2} mb={1}>
+          <Box width={[1, 1/2, 1/3, 1/4]} px={2} mb={3}>
             <Block
               size={3}
               innerClassName={articleStyles}
