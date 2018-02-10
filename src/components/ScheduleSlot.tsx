@@ -14,9 +14,9 @@ interface IProps {
 function ScheduleSlot(props: IProps) {
   const slot = props.slot;
   const show = props.slot.show;
-  const showColor = show && show.category ? show.category.color : 'ffffff';
+  const showColor = show && show.category ? show.category.color : 'eee';
 
-  const scheduleSlotClasses = cx('ScheduleSlot', `ScheduleSlot--tone-light`, {
+  const scheduleSlotClasses = cx('ScheduleSlot', !!show.category ? `ScheduleSlot--tone-light` : '', {
     'ScheduleSlot--overnight': slot.is_overnight,
     'ScheduleSlot--on-air': props.onAir,
   });

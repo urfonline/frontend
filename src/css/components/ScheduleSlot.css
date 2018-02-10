@@ -22,7 +22,6 @@
     color: var(--show-tone-dark);
     display: block;
     height: 100%;
-    mix-blend-mode: darken;
     padding: 0.25rem 0.5rem;
     text-decoration: none;
     width: 100%;
