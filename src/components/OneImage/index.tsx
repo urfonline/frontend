@@ -131,8 +131,12 @@ const OneImage = lifecycle({
   componentDidUpdate(prevProps: IProps) {
     if (this.props.src !== prevProps.src) {
       const el = ReactDOM.findDOMNode(this as any);
-      el.classList.toggle('lazyloaded', false);
-      el.classList.toggle('lazyload', true);
+
+      const img = el.nodeName === 'IMG' ? el : el.querySelector('img');
+      if (img) {
+        img.classList.toggle('lazyloaded', false);
+        img.classList.toggle('lazyload', true);
+      }
     }
   },
 })(OneImageComponent);
