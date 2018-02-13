@@ -4,7 +4,6 @@ import { css, cx } from 'emotion';
 import { connect } from 'react-redux';
 import { RootState } from '../types';
 import * as PlayerActions from '../ducks/player';
-import { queries } from '../css/mq';
 import { formatTime } from '../utils/schedule';
 import { AspectRatio, OneImage } from './OneImage';
 import {defaultShowCoverResource} from "../utils/shows";
@@ -30,16 +29,6 @@ const centeredStyles = css`
 const onAirStyles = css`
   color: rgb(177, 34, 32);
   cursor: pointer;
-
-  & img {
-    display: none;
-  }
-
-  ${queries.large`
-    & img {
-      display: block;
-    }
-  `};
 `;
 
 interface IProps {
