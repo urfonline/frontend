@@ -9,6 +9,7 @@ config.bail = true;
 config.profile = false;
 config.devtool = '#source-map';
 
+config.mode = 'production';
 config.output = {
   path: path.resolve(__dirname, 'dist'),
   publicPath: '/',
@@ -17,9 +18,6 @@ config.output = {
 };
 
 config.plugins = config.plugins.concat([
-  new webpack.optimize.CommonsChunkPlugin({
-    children: true,
-  }),
   new ChunkManifestPlugin({
     filename: 'manifest.json',
     manifestVariable: 'webpackManifest',
@@ -33,7 +31,7 @@ config.plugins = config.plugins.concat([
 ]);
 
 config.module.rules = config.module.rules.concat([
-  { test: /\.js?$/, loaders: ['babel-loader?forceEnv=bundle'], exclude: /node_modules/ },
+  { test: /\.js?$/, loaders: ['babel-loader?envName=bundle'], exclude: /node_modules/ },
 ]);
 
 module.exports = config;

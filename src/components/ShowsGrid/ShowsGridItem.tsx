@@ -1,31 +1,69 @@
 import React from 'react';
-import cx from 'classnames';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {getShowBrandTone, getShowColourHexString} from '../../utils/shows';
-import { Show } from '../../utils/types';
+import {Show, Tone} from '../../utils/types';
+import styled from "react-emotion";
+import {COLORS} from "../../css/constants";
 
 interface IProps {
   show: Show;
 }
 
+const Root = styled.div<{tone: Tone}>(({ tone }) => `
+  margin-bottom: 1.5rem;
+  color: ${tone === Tone.Light ? COLORS.ShowToneLight : COLORS.ShowToneDark}
+`);
+
+const ShowLink = styled(Link)<{tone: Tone}>(({ tone }) => `
+    align-items: center;
+    background-color: #fff;
+    box-shadow: 0 1px 2px 0 rgba(30, 30, 30, 0.2);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    height: 120px;
+    justify-content: center;
+    padding: 0.3rem;
+    text-decoration: none;
+    transition: transform 300ms ease;
+    width: 100%;
+    color: ${tone === Tone.Light ? COLORS.ShowToneLight : COLORS.ShowToneDark};
+
+    &:hover {
+      transform: scale(1.05);
+    }
+`);
+
+const ShowTitle = styled.h1`
+    flex: 1;
+    font-size: 1.6rem;
+    margin: 0;
+    text-align: center;
+`;
+
+const ShowDescription = styled.p`
+    color: #757575;
+    font-size: 0.9em;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    text-align: center;
+`;
+
 // TODO: add style to anchor  style="{{ show.generate_branding_style }}"
 function ShowsGridItem({ show }: IProps) {
   return (
-    <li
-      className={cx(
-        'ShowsGrid__item',
-        `ShowsGrid__item--tone-${getShowBrandTone(show)}`,
-      )}
+    <Root
+      tone={getShowBrandTone(show)}
     >
-      <Link
-        className="ShowsGrid__anchor"
+      <ShowLink
+        tone={getShowBrandTone(show)}
         to={`/shows/${show.slug}`}
         style={{ backgroundColor: `#${getShowColourHexString(show)}` }}
       >
-        <h1 className={cx('ShowsGrid__title')}>{show.name}</h1>
-      </Link>
-      <p className="ShowsGrid__description">{show.shortDescription}</p>
-    </li>
+        <ShowTitle>{show.name}</ShowTitle>
+      </ShowLink>
+      <ShowDescription>{show.shortDescription}</ShowDescription>
+    </Root>
   );
 }
 

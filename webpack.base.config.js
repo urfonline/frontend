@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 
 const path = require('path');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
@@ -21,10 +21,6 @@ const env = {
   development: NODE_ENV === 'development' || typeof NODE_ENV === 'undefined',
 };
 env['build'] = (env.production || env.staging);
-const extractCSS = new ExtractTextPlugin({
-  filename: isProduction ? 'urf.[contenthash].[name].css' : 'style.[name].css',
-  allChunks: false,
-});
 
 module.exports = {
   target: 'web',
@@ -64,7 +60,6 @@ module.exports = {
       collections: true,
       shorthands: true,
     }),
-    new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', minChunks: Infinity }),
     // new ChunkManifestPlugin({
     //   filename: 'manifest.json',
     //   manifestVariable: 'chunkManifest',
@@ -78,45 +73,33 @@ module.exports = {
       chunks: ['vendor', 'main'],
     }),
     new HtmlWebpackHarddiskPlugin(),
-    extractCSS,
+    new MiniCssExtractPlugin({
+      filename: isProduction ? 'urf.[contenthash].[name].css' : 'style.[name].css',
+      allChunks: false,
+    }),
   ],
   module: {
     rules: [
       {
-        test: /\.js$/,
-        use: 'eslint-loader',
-        exclude: /node_modules/,
-        enforce: 'pre',
-      },
-      {
         test: /\.css$/,
-        loader: extractCSS.extract({
-          fallback: 'style-loader',
-          use: 'css-loader?importLoaders=1!postcss-loader',
-        }),
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
       },
       {
         test: /\.ts(x?)$/,
         exclude: /node_modules/,
         use: [
-          // {
-          //   loader: 'babel-loader',
-          // },
           {
-            loader: 'awesome-typescript-loader?useBabel',
+            loader: 'awesome-typescript-loader?useBabel&babelCore=@babel/core',
           },
         ],
       },
       {
         test: /\.svg/,
-        use: ['babel-loader', {loader: 'svgr/webpack',         options: {
+        use: ['babel-loader', {loader: '@svgr/webpack',         options: {
             svgo: false,
           },}],
       },
       {
-        test: /\.json/,
-        use: 'json-loader',
-      },      {
         test: /\.png|\.jpg|\.woff/,
         use: 'url-loader?limit=10000',
       },

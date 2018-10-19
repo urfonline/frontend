@@ -1,9 +1,9 @@
 import React from 'react';
 
-export default (prefs, WrappedComponent) =>
-  class DateInterval extends React.Component {
-    constructor(x, y) {
-      super(x, y);
+export default (prefs: { interval: number }, WrappedComponent: any) =>
+  class DateInterval extends React.Component<any, { dateInterval: Date}> {
+    constructor(props: any) {
+      super(props);
 
       this.state = {
         dateInterval: new Date(),

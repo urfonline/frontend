@@ -9,3 +9,8 @@ export interface Show {
   slug: string;
   emojiDescription: string;
 }
+
+export enum Tone {
+  Dark = 'dark',
+  Light = 'light'
+}

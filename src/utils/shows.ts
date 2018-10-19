@@ -1,5 +1,5 @@
 import Color from 'color';
-import {Show} from "./types";
+import {Show, Tone} from "./types";
 
 export function getShowColourHexString(show: Show) {
 
@@ -14,7 +14,7 @@ export function getShowColourHexString(show: Show) {
 }
 
 export function getShowBrandTone(show: Show) {
-  return Color(`#${getShowColourHexString(show)}`).isLight() ? 'dark' : 'light';
+  return Color(`#${getShowColourHexString(show)}`).isLight() ? Tone.Dark : Tone.Light;
 }
 
 export function getTone(color: string) {

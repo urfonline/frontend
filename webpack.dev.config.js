@@ -18,6 +18,7 @@ config.devServer = {
   }
 };
 
+config.mode = 'development';
 config.output = {
   path: path.resolve('./build'),
   publicPath: '/assets/',
@@ -28,11 +29,11 @@ config.output = {
 config.devtool = 'inline-source-map';
 
 config.plugins = config.plugins.concat([
-  new webpack.NoEmitOnErrorsPlugin(),
-]);
+
+  ]);
 
 config.module.rules = config.module.rules.concat([
-  { test: /\.js?$/, loaders: ['babel-loader?cacheDirectory&forceEnv=bundle'], exclude: /node_modules/ },
+  { test: /\.js?$/, loaders: ['babel-loader?cacheDirectory&envName=bundle'], exclude: /node_modules/ },
 ]);
 
 module.exports = config;

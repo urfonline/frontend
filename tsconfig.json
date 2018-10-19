@@ -21,6 +21,7 @@
     "preserveConstEnums": true,
     "sourceMap": true,
     "skipLibCheck": true,
-    "allowJs": true
-  }
+    "allowJs": false
+  },
+  "exclude": ["dist", "build", "node_modules"]
 }

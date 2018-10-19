@@ -130,7 +130,10 @@ const OneImageComponent: React.SFC<IProps> = (props) => {
 const OneImage = lifecycle({
   componentDidUpdate(prevProps: IProps) {
     if (this.props.src !== prevProps.src) {
-      const el = ReactDOM.findDOMNode(this as any);
+      const el = ReactDOM.findDOMNode(this as any) as HTMLDivElement;
+      if (!el) {
+        return;
+      }
 
       const img = el.nodeName === 'IMG' ? el : el.querySelector('img');
       if (img) {

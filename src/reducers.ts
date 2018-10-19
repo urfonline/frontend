@@ -6,6 +6,6 @@ import player from './ducks/player';
 export default () =>
   combineReducers({
     auth,
-    schedule,
+    schedule, // todo
     player,
-  });
+  } as any);

@@ -1,14 +1,13 @@
 {
   "presets": [
-    "react",
-    "stage-2",
-    ["env", {
+    "@babel/preset-react",
+    ["@babel/preset-env", {
       "targets": {
         "browsers": ["last 2 versions", "safari 7", "IE 11"]
       },
       "useBuiltIns": false,
       "modules": false,
-      "blacklist": [
+      "exclude": [
         "transform-regenerator"
       ]
     }
@@ -17,15 +16,14 @@
   "env": {
     "test": {
       "presets": [
-        "react",
-        "stage-2",
-        ["env", {
+        "@babel/preset-react",
+        ["@babel/preset-env", {
           "targets": {
             "browsers": ["last 2 versions", "safari 7", "IE 11"]
           },
           "useBuiltIns": false,
           "modules": "commonjs",
-          "blacklist": [
+          "exclude": [
             "transform-regenerator"
           ]
         }
@@ -33,6 +31,6 @@
       ]
     }
   },
-  "plugins": ["emotion"]
+  "plugins": ["@babel/plugin-syntax-dynamic-import", "emotion"]
 }
 

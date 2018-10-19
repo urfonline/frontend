@@ -118,4 +118,4 @@ const NewsAndEventsQuery = gql`
   }
 `;
 
-export default compose(graphql<{}, {}, any>(NewsAndEventsQuery))(NewsAndEvents);
+export default compose(graphql<{}, {}, any>(NewsAndEventsQuery))(NewsAndEvents as any);
