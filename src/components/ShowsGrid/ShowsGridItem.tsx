@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
-import { getShowBrandTone } from '../../utils/shows';
+import {getShowBrandTone, getShowColourHexString} from '../../utils/shows';
 import { Show } from '../../utils/types';
 
 interface IProps {
@@ -20,7 +20,7 @@ function ShowsGridItem({ show }: IProps) {
       <Link
         className="ShowsGrid__anchor"
         to={`/shows/${show.slug}`}
-        style={{ backgroundColor: `#${show.brandColor}` }}
+        style={{ backgroundColor: `#${getShowColourHexString(show)}` }}
       >
         <h1 className={cx('ShowsGrid__title')}>{show.name}</h1>
       </Link>

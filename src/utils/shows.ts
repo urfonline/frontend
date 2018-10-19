@@ -1,8 +1,20 @@
 import Color from 'color';
-import { Show } from './types';
+import {Show} from "./types";
+
+export function getShowColourHexString(show: Show) {
+
+  const isOk  = /^#[0-9A-F]{6}$/i.test(`#${show.brandColor}`);
+  let showColour = 'B12220'; // sets a default colour just in case the colour is not valid
+
+  if(isOk) {
+    showColour = show.brandColor;
+  }
+
+  return showColour;
+}
 
 export function getShowBrandTone(show: Show) {
-  return Color(`#${show.brandColor}`).isLight() ? 'dark' : 'light';
+  return Color(`#${getShowColourHexString(show)}`).isLight() ? 'dark' : 'light';
 }
 
 export function getTone(color: string) {

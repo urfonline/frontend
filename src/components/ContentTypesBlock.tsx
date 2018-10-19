@@ -9,6 +9,7 @@ import {
 import styled from 'react-emotion';
 import { formatTime, parseTime } from '../utils/schedule';
 import {AspectRatio, OneImage} from "./OneImage";
+import {getShowColourHexString} from "../utils/shows";
 
 interface IProps {
   block: {
@@ -80,7 +81,7 @@ function renderShow(props: IProps) {
       size={props.size}
       innerClassName={articleStyles}
       link={`/shows/${show.slug}`}
-      backgroundColor={`#${show.brandColor}`}
+      backgroundColor={`#${getShowColourHexString(show)}`}
     >
       <ShowBlockContainer size={props.size}>
         <ShowCover size={props.size}>

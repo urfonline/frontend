@@ -10,7 +10,7 @@ import { NavLink } from 'react-router-dom';
 import { format } from 'date-fns';
 import { queries } from '../css/mq';
 import {AspectRatio, OneImage} from "../components/OneImage";
-import {defaultShowCoverResource} from "../utils/shows";
+import {defaultShowCoverResource, getShowColourHexString} from "../utils/shows";
 
 // TODO: move to a utils thing or i18n file
 const DAYS_TEXT = [
@@ -89,7 +89,7 @@ function ShowBase(props: IProps) {
     );
   }
 
-  const bgColor = Color(`#${show.brandColor}`)
+  const bgColor = Color(`#${getShowColourHexString(show)}`)
     .desaturate(0.1)
     .lighten(0.1)
     .rgb();
