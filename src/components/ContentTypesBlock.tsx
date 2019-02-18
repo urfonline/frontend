@@ -71,6 +71,7 @@ function renderArticle(props: IProps) {
       title={props.block.overrideTitle || article.title}
       image={article.featuredImage}
       description={props.block.overrideDescription || article.shortDescription}
+      aspectRatio={props.aspectRatio}
     />
   );
 }
@@ -121,6 +122,7 @@ function renderEvent(props: IProps) {
       title={props.block.overrideTitle || event.title}
       description={props.block.overrideDescription || event.shortDescription}
       image={props.block.object.featuredImage}
+      aspectRatio={props.aspectRatio}
     />
   );
 }
