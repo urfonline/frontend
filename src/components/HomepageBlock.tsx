@@ -75,6 +75,7 @@ interface IBlockProps {
   description?: string;
   size: 1 | 2 | 3;
   children?: any;
+  aspectRatio?: AspectRatio;
 }
 
 export function Block(props: IBlockProps) {
@@ -90,7 +91,7 @@ export function Block(props: IBlockProps) {
         <OneImage
           className={imageScaleStyle}
           src={props.image.resource}
-          aspectRatio={AspectRatio.rPanovision70}
+          aspectRatio={props.aspectRatio || AspectRatio.rPanovision70}
           alt=""
         />
       )}

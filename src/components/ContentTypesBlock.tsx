@@ -20,6 +20,7 @@ interface IProps {
     object: any;
   };
   size: 1 | 2 | 3;
+  aspectRatio?: AspectRatio;
 }
 
 // TODO: move to a utils thing or i18n file
@@ -82,6 +83,7 @@ function renderShow(props: IProps) {
       innerClassName={articleStyles}
       link={`/shows/${show.slug}`}
       backgroundColor={`#${getShowColourHexString(show)}`}
+      aspectRatio={props.aspectRatio}
     >
       <ShowBlockContainer size={props.size}>
         <ShowCover size={props.size}>
