@@ -1,12 +1,11 @@
 import React from 'react';
 import URFLogoHeader from '../../src/components/URFLogoHeader';
-import renderer from 'react-test-renderer';
+import { render } from 'react-testing-library';
 
 test('Logo has svg', () => {
-  const component = renderer.create(
+  const { container } = render(
     <URFLogoHeader />
   );
 
-  let tree = component.toJSON();
-  expect(tree).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 });
