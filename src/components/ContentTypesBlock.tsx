@@ -20,6 +20,7 @@ interface IProps {
     object: any;
   };
   size: 1 | 2 | 3;
+  aspectRatio?: AspectRatio;
 }
 
 // TODO: move to a utils thing or i18n file
@@ -70,6 +71,7 @@ function renderArticle(props: IProps) {
       title={props.block.overrideTitle || article.title}
       image={article.featuredImage}
       description={props.block.overrideDescription || article.shortDescription}
+      aspectRatio={props.aspectRatio}
     />
   );
 }
@@ -82,6 +84,7 @@ function renderShow(props: IProps) {
       innerClassName={articleStyles}
       link={`/shows/${show.slug}`}
       backgroundColor={`#${getShowColourHexString(show)}`}
+      aspectRatio={props.aspectRatio}
     >
       <ShowBlockContainer size={props.size}>
         <ShowCover size={props.size}>
@@ -119,6 +122,7 @@ function renderEvent(props: IProps) {
       title={props.block.overrideTitle || event.title}
       description={props.block.overrideDescription || event.shortDescription}
       image={props.block.object.featuredImage}
+      aspectRatio={props.aspectRatio}
     />
   );
 }

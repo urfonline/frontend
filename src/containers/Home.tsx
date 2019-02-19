@@ -8,6 +8,7 @@ import { Flex, Box } from 'grid-emotion';
 import { HomepageBlock } from '../components/ContentTypesBlock';
 import { OnAirBlock } from '../components/OnAirBlock';
 import Spinner from '../components/Spinner';
+import { AspectRatio } from "../components/OneImage";
 
 interface IProps {
   data: any;
@@ -82,16 +83,16 @@ function renderBlocks(props: IProps) {
       {hasQuarters && (
         <Flex mx={-2} wrap>
           <Box width={[1, 1 / 2, 1 / 4]} px={gutterLeft} mb={gutter}>
-            <HomepageBlock block={byPosition.FOURTH_1} size={3} />
+            <HomepageBlock block={byPosition.FOURTH_1} size={3} aspectRatio={AspectRatio.r1by1} />
           </Box>
           <Box width={[1, 1 / 2, 1 / 4]} px={gutterLeft} mb={gutter}>
-            <HomepageBlock block={byPosition.FOURTH_2} size={3} />
+            <HomepageBlock block={byPosition.FOURTH_2} size={3} aspectRatio={AspectRatio.r1by1} />
           </Box>
           <Box width={[1, 1 / 2, 1 / 4]} px={gutterLeft} mb={gutter}>
-            <HomepageBlock block={byPosition.FOURTH_3} size={3} />
+            <HomepageBlock block={byPosition.FOURTH_3} size={3} aspectRatio={AspectRatio.r1by1} />
           </Box>
           <Box width={[1, 1 / 2, 1 / 4]} px={gutterLeft} mb={gutter}>
-            <HomepageBlock block={byPosition.FOURTH_4} size={3} />
+            <HomepageBlock block={byPosition.FOURTH_4} size={3} aspectRatio={AspectRatio.r1by1} />
           </Box>
         </Flex>
       )}
