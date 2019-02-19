@@ -7,7 +7,7 @@ interface IProps {
   animate: boolean;
 }
 
-const BroadcastingIcon: React.SFC<IProps> = ({ animate }: IProps) => (
+const BroadcastingIcon: React.FC<IProps> = ({ animate }: IProps) => (
   <svg
     className={cx('Broadcasting', { 'Broadcasting--animate': animate })}
     viewBox="0 0 27 18"

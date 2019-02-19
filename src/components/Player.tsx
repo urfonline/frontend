@@ -19,7 +19,7 @@ interface IProps {
   playerAudioStateChange: any;
 }
 
-const Player: React.SFC<IProps> = (props: IProps) => {
+const Player: React.FC<IProps> = (props: IProps) => {
   const { player, schedule } = props;
 
   if (schedule.isLoading) {

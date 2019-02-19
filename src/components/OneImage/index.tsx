@@ -89,7 +89,7 @@ const defaultSizes = [
   1680,
 ];
 
-const OneImageComponent: React.SFC<IProps> = (props) => {
+const OneImageComponent: React.FC<IProps> = (props) => {
   const sizes = props.sizes || defaultSizes;
 
   const img = (
@@ -150,7 +150,7 @@ interface IBackgroundProps extends React.HTMLAttributes<HTMLDivElement> {
   mslResource?: boolean;
 }
 
-const OneImageBackground: React.SFC<IBackgroundProps> = (props) => {
+const OneImageBackground: React.FC<IBackgroundProps> = (props) => {
   return (
     <div
       className={`lazyload ${props.className}`}
