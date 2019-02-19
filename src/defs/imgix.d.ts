@@ -1,5 +1,7 @@
 declare module 'react-imgix' {
+  export const Background: any;
+
   function Imgix(props: any): any;
 
-  export = Imgix;
+  export default Imgix;
 }

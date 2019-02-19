@@ -47,7 +47,7 @@ function renderContent(query: QueryHookResult<{ allArticles: {edges: ArticleEdge
 
   return (
     <div>
-      <Flex mx={-2} wrap>
+      <Flex mx={-2} flexWrap="wrap">
         {query.data.allArticles.edges.map((edge: ArticleEdge) => (
           <Box width={[1, 1 / 2, 1 / 3, 1 / 4]} px={2} mb={3}>
             <BoxLink

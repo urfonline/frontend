@@ -41,13 +41,13 @@ function renderBlocks(query: QueryHookResult<any, {}>) {
     byPosition.hasOwnProperty('FOURTH_3') &&
     byPosition.hasOwnProperty('FOURTH_4');
 
-  const gutter = 2;
-  const gutterLeft = 1;
+  const gutter = 20;
+  const gutterLeft = 10;
 
   return (
     <BlockContainer>
       {hasHero && (
-        <Flex mx={-2} flexWrap>
+        <Flex mx={-2}  flexWrap="wrap">
           <Box width={[1, 1 / 3]} px={gutterLeft} mb={gutter}>
             <OnAirBlock />
           </Box>
@@ -57,7 +57,7 @@ function renderBlocks(query: QueryHookResult<any, {}>) {
         </Flex>
       )}
       {hasSecondary && (
-        <Flex mx={-2} flexWrap>
+        <Flex mx={-2}  flexWrap="wrap">
           <Box width={[1, 1 / 2]} px={gutterLeft} mb={gutter}>
             <HomepageBlock block={byPosition.SEC_1} size={2} />
           </Box>
@@ -67,7 +67,7 @@ function renderBlocks(query: QueryHookResult<any, {}>) {
         </Flex>
       )}
       {hasThirds && (
-        <Flex mx={-2} flexWrap>
+        <Flex mx={-2}  flexWrap="wrap">
           <Box width={[1, 1 / 3]} px={gutterLeft} mb={gutter}>
             <HomepageBlock block={byPosition.THIRD_1} size={3} />
           </Box>
@@ -80,7 +80,7 @@ function renderBlocks(query: QueryHookResult<any, {}>) {
         </Flex>
       )}
       {hasQuarters && (
-        <Flex mx={-2} flexWrap>
+        <Flex mx={-2}  flexWrap="wrap">
           <Box width={[1, 1 / 2, 1 / 4]} px={gutterLeft} mb={gutter}>
             <HomepageBlock block={byPosition.FOURTH_1} size={3} aspectRatio={AspectRatio.r1by1} />
           </Box>

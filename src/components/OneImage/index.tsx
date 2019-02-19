@@ -1,6 +1,4 @@
-import React from 'react';
-import { lifecycle } from 'recompose';
-import * as ReactDOM from 'react-dom';
+import React, {useEffect} from 'react';
 
 const ENDPOINT = 'https://urf.imgix.net/';
 
@@ -89,8 +87,21 @@ const defaultSizes = [
   1680,
 ];
 
-const OneImageComponent: React.FC<IProps> = (props) => {
+const OneImage: React.FC<IProps> = (props) => {
   const sizes = props.sizes || defaultSizes;
+
+  useEffect(() => { // todo
+    // const el = ReactDOM.findDOMNode(this as any) as HTMLDivElement;
+    // if (!el) {
+    //   return;
+    // }
+    //
+    // const img = el.nodeName === 'IMG' ? el : el.querySelector('img');
+    // if (img) {
+    //   img.classList.toggle('lazyloaded', false);
+    //   img.classList.toggle('lazyload', true);
+    // }
+  }, [props.src]);
 
   const img = (
     <img
@@ -127,22 +138,6 @@ const OneImageComponent: React.FC<IProps> = (props) => {
   return <div {...containerProps}>{img}</div>;
 };
 
-const OneImage = lifecycle({
-  componentDidUpdate(prevProps: IProps) {
-    if (this.props.src !== prevProps.src) {
-      const el = ReactDOM.findDOMNode(this as any) as HTMLDivElement;
-      if (!el) {
-        return;
-      }
-
-      const img = el.nodeName === 'IMG' ? el : el.querySelector('img');
-      if (img) {
-        img.classList.toggle('lazyloaded', false);
-        img.classList.toggle('lazyload', true);
-      }
-    }
-  },
-})(OneImageComponent);
 
 interface IBackgroundProps extends React.HTMLAttributes<HTMLDivElement> {
   aspectRatio?: AspectRatioInput;

@@ -43,6 +43,11 @@ const MixCloudButton = styled.a`
   padding: 0.2rem;
 `;
 
+console.log(queries.large`
+    padding-left: calc(200px + 2rem);
+    margin-bottom: 2rem;
+  `);
+
 const ShowMenu = styled.ul`
   list-style: none;
   padding: 0;
@@ -50,7 +55,9 @@ const ShowMenu = styled.ul`
   ${queries.large`
     padding-left: calc(200px + 2rem);
     margin-bottom: 2rem;
-  `} & li {
+  `}
+  
+  & li {
     display: inline-block;
     margin-right: 1rem;
   }

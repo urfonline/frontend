@@ -9,7 +9,7 @@
       "es2017"
     ],
     "jsx": "preserve",
-    "target": "es2015",
+    "target": "es2017",
     "module": "esnext",
     "moduleResolution": "node",
     "strict": true,
@@ -21,7 +21,12 @@
     "preserveConstEnums": true,
     "sourceMap": true,
     "skipLibCheck": true,
-    "allowJs": false
+    "experimentalDecorators": true,
+    "allowJs": true,
+    "baseUrl": "."
   },
-  "exclude": ["dist", "build", "node_modules"]
+  "exclude": ["dist", "build", "node_modules"],
+  "include": [
+    "./src/**/*"
+  ]
 }
