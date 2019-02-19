@@ -1,5 +1,4 @@
 import React from 'react';
-import { graphql } from 'react-apollo';
 import styled from '@emotion/styled';
 import gql from 'graphql-tag';
 import TodaySchedule from '../components/TodaySchedule';
@@ -9,9 +8,9 @@ import { HomepageBlock } from '../components/ContentTypesBlock';
 import { OnAirBlock } from '../components/OnAirBlock';
 import Spinner from '../components/Spinner';
 import { AspectRatio } from "../components/OneImage";
+import {QueryHookResult, useQuery} from "react-apollo-hooks";
 
 interface IProps {
-  data: any;
 }
 
 const BlockContainer = styled.div`
@@ -19,15 +18,15 @@ const BlockContainer = styled.div`
   padding-top: 2rem;
 `;
 
-function renderBlocks(props: IProps) {
-  if (props.data.loading) {
+function renderBlocks(query: QueryHookResult<any, {}>) {
+  if (query.data.loading) {
     return <Spinner />;
   }
 
-  if (props.data.error) {
+  if (query.data.error) {
     return <div>error</div>;
   }
-  const byPosition = keyBy(props.data.homepage, 'position');
+  const byPosition = keyBy(query.data.homepage, 'position');
 
   const hasHero = byPosition.hasOwnProperty('HERO');
   const hasSecondary =
@@ -100,11 +99,13 @@ function renderBlocks(props: IProps) {
   );
 }
 
-function Home(props: IProps) {
+const Home: React.FC<IProps> = () => {
+  const query = useQuery(HomeQuery);
+
   return (
     <div>
       <div className="Container">
-        {renderBlocks(props)}
+        {renderBlocks(query)}
 
         <h2>Today's schedule</h2>
       </div>
@@ -114,7 +115,7 @@ function Home(props: IProps) {
       {/*</div>*/}
     </div>
   );
-}
+};
 
 const HomeQuery = gql`
   query HomeQuery {
@@ -172,10 +173,4 @@ const HomeQuery = gql`
   }
 `;
 
-interface QueryResponse {
-  data: any;
-}
-
-type WrappedProps = QueryResponse & {};
-
-export default graphql<QueryResponse, {}, WrappedProps>(HomeQuery)(Home);
+export default Home;

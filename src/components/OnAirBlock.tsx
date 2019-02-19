@@ -1,12 +1,12 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import { Block, BlockKicker, BlockTitle } from './HomepageBlock';
 import { css, cx } from 'emotion';
-import { connect } from 'react-redux';
 import { RootState } from '../types';
 import * as PlayerActions from '../ducks/player';
 import { formatTime } from '../utils/schedule';
 import { AspectRatio, OneImage } from './OneImage';
 import {defaultShowCoverResource} from "../utils/shows";
+import {useDispatch, useMappedState} from "redux-react-hook";
 
 const coverStyles = css`
   width: 65%;
@@ -31,14 +31,15 @@ const onAirStyles = css`
   cursor: pointer;
 `;
 
-interface IProps {
-  player: any; // todo
-  schedule: any; // todo
-  playerUserStateChange: any; // todo
-}
+interface IProps {}
 
-export function OnAirBlockComponent(props: IProps) {
-  const { player, schedule } = props;
+export const OnAirBlock: React.FC<IProps> = () => {
+  const mapState = useCallback((state: RootState) => ({
+    player: state.player,
+    schedule: state.schedule,
+  }), []);
+  const {player, schedule} = useMappedState(mapState);
+  const dispatch = useDispatch();
 
   if (schedule.isLoading) {
     return null;
@@ -51,7 +52,7 @@ export function OnAirBlockComponent(props: IProps) {
       size={1}
       className={onAirStyles}
       backgroundColor={'rgb(177, 34, 32)'}
-      onClick={() => props.playerUserStateChange(!player.userState)}
+      onClick={() => dispatch(PlayerActions.playerUserStateChange(!player.userState))}
     >
       <div className={centeredStyles}>
         <BlockKicker>
@@ -76,14 +77,4 @@ export function OnAirBlockComponent(props: IProps) {
       </div>
     </Block>
   );
-}
-
-export const OnAirBlock = connect(
-  (store: RootState) => ({
-    player: store.player,
-    schedule: store.schedule,
-  }),
-  {
-    playerUserStateChange: PlayerActions.playerUserStateChange,
-  },
-)(OnAirBlockComponent);
+};

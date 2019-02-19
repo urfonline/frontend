@@ -1,6 +1,5 @@
 import React from 'react';
 import formatDistance from 'date-fns/formatDistance';
-import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Helmet } from 'react-helmet';
 import convert from 'htmr';
@@ -8,6 +7,7 @@ import { elementMap } from '../components/Prose';
 import styled from '@emotion/styled';
 import { ImageHeader } from '../components/ImageHeader';
 import Spinner from '../components/Spinner';
+import {useQuery} from "react-apollo-hooks";
 
 const Content = styled.div`
   font-weight: 400;
@@ -33,16 +33,40 @@ const Header = styled.header`
   font-size: 1.2rem;
 `;
 
+const ArticleQuery = gql`
+  query Article($articleId: Int) {
+    article(articleId: $articleId) {
+      title
+      slug
+      publishedAt
+      authors {
+        name
+        username
+      }
+      bodyHtml
+      featuredImage {
+        resource
+      }
+    }
+  }
+`;
+
 interface IProps {
-  data?: any;
+
 }
 
-function Article(props: IProps) {
-  const { data: { article, loading } } = props;
-  console.log(props);
-  if (loading) {
+const Article: React.FC<IProps> = (props) => {
+  const { data, loading } = useQuery(ArticleQuery, {
+    variables: {
+      articleId: (props as any).match.params.articleId, //todo
+    }
+  });
+
+  if (loading || !data) {
     return <Spinner />;
   }
+
+  const article = data.article;
   return (
     <div>
       <Helmet>
@@ -71,30 +95,7 @@ function Article(props: IProps) {
       </div>
     </div>
   );
-}
+};
 
-const ArticleQuery = gql`
-  query Article($articleId: Int) {
-    article(articleId: $articleId) {
-      title
-      slug
-      publishedAt
-      authors {
-        name
-        username
-      }
-      bodyHtml
-      featuredImage {
-        resource
-      }
-    }
-  }
-`;
 
-export default graphql(ArticleQuery, {
-  options: (props: any) => ({
-    variables: {
-      articleId: props.match.params.articleId,
-    },
-  }),
-})(Article);
+export default Article;

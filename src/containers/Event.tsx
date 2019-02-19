@@ -1,5 +1,4 @@
 import React from 'react';
-import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Helmet } from 'react-helmet';
 import convert from 'htmr';
@@ -7,6 +6,8 @@ import { elementMap } from '../components/Prose';
 import styled from '@emotion/styled';
 import { ImageHeader } from '../components/ImageHeader';
 import Spinner from '../components/Spinner';
+import {useQuery} from "react-apollo-hooks";
+import {RouteComponentProps} from "react-router";
 
 const Content = styled.div`
   font-weight: 400;
@@ -32,16 +33,23 @@ const Header = styled.header`
   font-size: 1.2rem;
 `;
 
-interface IProps {
-  data?: any;
+interface IProps extends RouteComponentProps<{eventId: string}> {
+
 }
 
-function Event(props: IProps) {
-  const { data: { event, loading } } = props;
-  console.log(props);
+const Event: React.FC<IProps> = (props) => {
+  const { data, loading } = useQuery(EventQuery, {
+    variables: {
+      eventId: props.match.params.eventId,
+    }
+  });
+
   if (loading) {
     return <Spinner />;
   }
+
+
+  const {event} = data;
   return (
     <div>
       <Helmet>
@@ -64,9 +72,9 @@ function Event(props: IProps) {
       </div>
     </div>
   );
-}
+};
 
-const ArticleQuery = gql`
+const EventQuery = gql`
   query Event($eventId: Int) {
     event(eventId: $eventId) {
       eventId
@@ -83,10 +91,4 @@ const ArticleQuery = gql`
   }
 `;
 
-export default graphql(ArticleQuery, {
-  options: (props: any) => ({
-    variables: {
-      eventId: props.match.params.eventId,
-    },
-  }),
-})(Event);
+export default Event;
