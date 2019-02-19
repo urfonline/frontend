@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import Imgix from 'react-imgix';
 import { ImageResource } from '../types';
 import { css } from 'emotion';

@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Helmet } from 'react-helmet';
 import convert from 'htmr';
 import { elementMap } from '../components/Prose';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { ImageHeader } from '../components/ImageHeader';
 import Spinner from '../components/Spinner';
 

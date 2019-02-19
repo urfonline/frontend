@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from 'react-emotion';
 import { graphql } from 'react-apollo';
+import styled from '@emotion/styled';
 import gql from 'graphql-tag';
 import TodaySchedule from '../components/TodaySchedule';
 import keyBy from 'lodash/keyBy';
