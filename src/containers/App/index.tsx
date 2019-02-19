@@ -1,20 +1,18 @@
-import React from 'react';
+import React, {useCallback, useEffect} from 'react';
 import Header from '../../components/Header';
 import Player from '../../components/Player';
 import MainNavigation from '../../components/MainNavigation';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { Redirect } from 'react-router';
 import { loginRestoreAttempt } from '../../ducks/auth';
 import { scheduleLoaded, updateOnAirSlot } from '../../ducks/schedule';
-import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
-import { compose } from 'redux';
 import { LoadableSpinner } from '../../components/LoadableSpinner';
 import { RootState } from '../../types';
-import { Show } from '../../utils/types';
+import {useDispatch, useMappedState} from "redux-react-hook";
+import {useQuery} from "react-apollo-hooks";
 
 const LoadableShowPage = Loadable({
   loader: () => import(/* webpackChunkName: "ShowBase" */ '../ShowBase'),
@@ -32,7 +30,7 @@ const LoadableSchedule = Loadable({
 });
 
 const LoadableShows = Loadable({
-  loader: () => import(/* webpackChunkName: "Shows" */ '../Shows') as any,
+  loader: () => import(/* webpackChunkName: "Shows" */ '../Shows'),
   loading: LoadableSpinner,
 });
 
@@ -74,39 +72,37 @@ const LoadableLogin = Loadable({
   loading: LoadableSpinner,
 });
 
-interface IDispatchProps {
-  loginRestoreAttempt(): void;
-  updateOnAirSlot(): void;
-  scheduleLoaded(schedule: any): void;
-}
 
-interface IAppProps {
-  loading: boolean;
-  data: any;
-  isPlaying: boolean;
-  currentlyOnAirShow: Show;
-}
+const App: React.FC = () => {
+    const { data, loading } = useQuery(ScheduleQuery);
 
-type IProps = IAppProps & IDispatchProps;
+    const mapState = useCallback((store: RootState) => ({
+      isPlaying: store.player.userState === true,
+      currentlyOnAirShow: store.schedule.currentlyOnAir
+        ? store.schedule.currentlyOnAir.show
+        : false,
+    }), []);
 
-class App extends React.Component<IProps> {
-  componentDidMount() {
-    // setInterval();
-    // try and re auth someone
-    this.props.loginRestoreAttempt();
+    const { isPlaying, currentlyOnAirShow } = useMappedState(mapState);
+    const dispatch = useDispatch();
 
-    setInterval(() => this.props.updateOnAirSlot(), 1000 * 30);
-  }
+    useEffect(() => {
+      loginRestoreAttempt()(dispatch);
 
-  componentWillReceiveProps(nextProps: IAppProps) {
-    const { loading, data } = nextProps;
-    if (!loading && data) {
-      this.props.scheduleLoaded(data);
-    }
-  }
+      const interval = setInterval(() => dispatch(updateOnAirSlot()), 1000 * 30);
 
-  render() {
-    const { isPlaying, currentlyOnAirShow } = this.props;
+      return () => {
+        clearInterval(interval)
+      }
+    }, []);
+
+    useEffect(() => {
+      if (!loading && data) {
+        dispatch(scheduleLoaded(data));
+      }
+    }, [loading, data])
+
+
 
     return (
       <div>
@@ -150,7 +146,6 @@ class App extends React.Component<IProps> {
       </div>
     );
   }
-}
 
 const ScheduleQuery = gql`
   query ScheduleQuery {
@@ -187,20 +182,4 @@ const ScheduleQuery = gql`
   }
 `;
 
-export default compose(
-  withRouter,
-  connect(
-    (store: RootState) => ({
-      isPlaying: store.player.userState === true,
-      currentlyOnAirShow: store.schedule.currentlyOnAir
-        ? store.schedule.currentlyOnAir.show
-        : false,
-    }),
-    {
-      loginRestoreAttempt,
-      scheduleLoaded,
-      updateOnAirSlot,
-    },
-  ),
-  graphql(ScheduleQuery),
-)(App) as any;
+export default App;

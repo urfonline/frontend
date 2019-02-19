@@ -1,5 +1,4 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, {useCallback} from 'react';
 import PlayPauseButton from './PlayPauseButton';
 import PlayerAudio from './PlayerAudio';
 import { playerAudioStateChange, playerUserStateChange } from '../ducks/player';
@@ -8,19 +7,20 @@ import { formatTime } from '../utils/schedule';
 import { RootState } from '../types';
 import {AspectRatio, OneImage} from "./OneImage";
 import {defaultShowCoverResource} from "../utils/shows";
+import {useDispatch, useMappedState} from "redux-react-hook";
 
 interface IProps {
-  isLoading: boolean;
-  shows: any; // todo
-  slot: any;
-  player: any;
-  schedule: any;
-  playerUserStateChange: any;
-  playerAudioStateChange: any;
 }
 
-const Player: React.SFC<IProps> = (props: IProps) => {
-  const { player, schedule } = props;
+const Player: React.FC<IProps> = () => {
+
+  const mapState = useCallback((state: RootState) => ({
+    player: state.player,
+    schedule: state.schedule,
+  }), []);
+  const {player, schedule} = useMappedState(mapState);
+  const dispatch = useDispatch();
+
 
   if (schedule.isLoading) {
     return null;
@@ -39,7 +39,7 @@ const Player: React.SFC<IProps> = (props: IProps) => {
             <PlayPauseButton
               isPlaying={player.userState}
               isLive={player.audioSourceType === 'live'}
-              onChange={(state) => props.playerUserStateChange(state)}
+              onChange={(state) => dispatch(playerUserStateChange(state))}
             />
           </div>
           <Link className="Player__show-name" to={`/shows/${show.slug}`}>
@@ -55,25 +55,15 @@ const Player: React.SFC<IProps> = (props: IProps) => {
       <PlayerAudio
         stream={player.stream}
         userState={player.userState}
-        onChange={(state: any) => props.playerAudioStateChange(state)}
+        onChange={(state: any) => dispatch(playerAudioStateChange(state))}
       />
     </div>
   );
 };
 
 Player.defaultProps = {
-  isLoading: true,
   shows: null,
   slot: null,
 };
 
-export default connect(
-  (state: RootState) => ({
-    player: state.player,
-    schedule: state.schedule,
-  }),
-  {
-    playerUserStateChange,
-    playerAudioStateChange,
-  },
-)(Player) as any;
+export default Player;

@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {getShowBrandTone, getShowColourHexString} from '../../utils/shows';
 import {Show, Tone} from '../../utils/types';
-import styled from "react-emotion";
+import styled from '@emotion/styled';
 import {COLORS} from "../../css/constants";
 
 interface IProps {

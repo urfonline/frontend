@@ -1,17 +1,16 @@
 import React from 'react';
-import styled from 'react-emotion';
-import { graphql } from 'react-apollo';
+import styled from '@emotion/styled';
 import gql from 'graphql-tag';
 import TodaySchedule from '../components/TodaySchedule';
 import keyBy from 'lodash/keyBy';
-import { Flex, Box } from 'grid-emotion';
+import { Flex, Box } from '@rebass/grid/emotion';
 import { HomepageBlock } from '../components/ContentTypesBlock';
 import { OnAirBlock } from '../components/OnAirBlock';
 import Spinner from '../components/Spinner';
 import { AspectRatio } from "../components/OneImage";
+import {QueryHookResult, useQuery} from "react-apollo-hooks";
 
 interface IProps {
-  data: any;
 }
 
 const BlockContainer = styled.div`
@@ -19,15 +18,15 @@ const BlockContainer = styled.div`
   padding-top: 2rem;
 `;
 
-function renderBlocks(props: IProps) {
-  if (props.data.loading) {
+function renderBlocks(query: QueryHookResult<any, {}>) {
+  if (query.data.loading) {
     return <Spinner />;
   }
 
-  if (props.data.error) {
+  if (query.data.error) {
     return <div>error</div>;
   }
-  const byPosition = keyBy(props.data.homepage, 'position');
+  const byPosition = keyBy(query.data.homepage, 'position');
 
   const hasHero = byPosition.hasOwnProperty('HERO');
   const hasSecondary =
@@ -42,13 +41,13 @@ function renderBlocks(props: IProps) {
     byPosition.hasOwnProperty('FOURTH_3') &&
     byPosition.hasOwnProperty('FOURTH_4');
 
-  const gutter = 2;
-  const gutterLeft = 1;
+  const gutter = 20;
+  const gutterLeft = 10;
 
   return (
     <BlockContainer>
       {hasHero && (
-        <Flex mx={-2} wrap>
+        <Flex mx={-2}  flexWrap="wrap">
           <Box width={[1, 1 / 3]} px={gutterLeft} mb={gutter}>
             <OnAirBlock />
           </Box>
@@ -58,7 +57,7 @@ function renderBlocks(props: IProps) {
         </Flex>
       )}
       {hasSecondary && (
-        <Flex mx={-2} wrap>
+        <Flex mx={-2}  flexWrap="wrap">
           <Box width={[1, 1 / 2]} px={gutterLeft} mb={gutter}>
             <HomepageBlock block={byPosition.SEC_1} size={2} />
           </Box>
@@ -68,7 +67,7 @@ function renderBlocks(props: IProps) {
         </Flex>
       )}
       {hasThirds && (
-        <Flex mx={-2} wrap>
+        <Flex mx={-2}  flexWrap="wrap">
           <Box width={[1, 1 / 3]} px={gutterLeft} mb={gutter}>
             <HomepageBlock block={byPosition.THIRD_1} size={3} />
           </Box>
@@ -81,7 +80,7 @@ function renderBlocks(props: IProps) {
         </Flex>
       )}
       {hasQuarters && (
-        <Flex mx={-2} wrap>
+        <Flex mx={-2}  flexWrap="wrap">
           <Box width={[1, 1 / 2, 1 / 4]} px={gutterLeft} mb={gutter}>
             <HomepageBlock block={byPosition.FOURTH_1} size={3} aspectRatio={AspectRatio.r1by1} />
           </Box>
@@ -100,11 +99,13 @@ function renderBlocks(props: IProps) {
   );
 }
 
-function Home(props: IProps) {
+const Home: React.FC<IProps> = () => {
+  const query = useQuery(HomeQuery);
+
   return (
     <div>
       <div className="Container">
-        {renderBlocks(props)}
+        {renderBlocks(query)}
 
         <h2>Today's schedule</h2>
       </div>
@@ -114,7 +115,7 @@ function Home(props: IProps) {
       {/*</div>*/}
     </div>
   );
-}
+};
 
 const HomeQuery = gql`
   query HomeQuery {
@@ -172,10 +173,4 @@ const HomeQuery = gql`
   }
 `;
 
-interface QueryResponse {
-  data: any;
-}
-
-type WrappedProps = QueryResponse & {};
-
-export default graphql<QueryResponse, {}, WrappedProps>(HomeQuery)(Home);
+export default Home;

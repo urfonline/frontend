@@ -1,16 +1,16 @@
 import React from 'react';
 import cx from 'classnames';
 import Color from 'color';
-import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { formatTime, parseTime } from '../utils/schedule';
 import { Helmet } from 'react-helmet';
-import styled from 'react-emotion';
-import { NavLink } from 'react-router-dom';
+import styled from '@emotion/styled';
+import {NavLink, RouteComponentProps} from 'react-router-dom';
 import { format } from 'date-fns';
 import { queries } from '../css/mq';
 import {AspectRatio, OneImage} from "../components/OneImage";
 import {defaultShowCoverResource, getShowColourHexString} from "../utils/shows";
+import {useQuery} from 'react-apollo-hooks';
 
 // TODO: move to a utils thing or i18n file
 const DAYS_TEXT = [
@@ -43,6 +43,11 @@ const MixCloudButton = styled.a`
   padding: 0.2rem;
 `;
 
+console.log(queries.large`
+    padding-left: calc(200px + 2rem);
+    margin-bottom: 2rem;
+  `);
+
 const ShowMenu = styled.ul`
   list-style: none;
   padding: 0;
@@ -50,7 +55,9 @@ const ShowMenu = styled.ul`
   ${queries.large`
     padding-left: calc(200px + 2rem);
     margin-bottom: 2rem;
-  `} & li {
+  `}
+  
+  & li {
     display: inline-block;
     margin-right: 1rem;
   }
@@ -66,14 +73,17 @@ const ShowMenu = styled.ul`
   }
 `;
 
-interface IProps {
-  data?: any;
+interface IProps extends RouteComponentProps<{showSlug: string}>{
 }
 
-function ShowBase(props: IProps) {
-  const { data: { show, loading } } = props;
+const ShowBase: React.FC<IProps> = (props) => {
+  const { data, loading } = useQuery(ShowBaseQuery, {
+    variables: {
+      showSlug: props.match.params.showSlug,
+    }
+  });
 
-  if (loading) {
+  if (loading || !data) {
     return (
       <div>
         <div className={cx('ShowHeader', 'ShowHeader--loading')}>
@@ -89,6 +99,8 @@ function ShowBase(props: IProps) {
     );
   }
 
+  const { show } = data;
+
   const bgColor = Color(`#${getShowColourHexString(show)}`)
     .desaturate(0.1)
     .lighten(0.1)
@@ -96,9 +108,7 @@ function ShowBase(props: IProps) {
 
   return (
     <div>
-      <Helmet>
-        <title>{show.name}</title>
-      </Helmet>
+      <Helmet title={show.name} />
       <div
         className={cx(
           'ShowHeader',
@@ -157,7 +167,7 @@ function ShowBase(props: IProps) {
       </div>
     </div>
   );
-}
+};
 
 const ShowBaseQuery = gql`
   query ShowBaseQuery($showSlug: String) {
@@ -184,10 +194,4 @@ const ShowBaseQuery = gql`
   }
 `;
 
-export default graphql(ShowBaseQuery, {
-  options: (props: any) => ({
-    variables: {
-      showSlug: props.match.params.showSlug,
-    },
-  }),
-})(ShowBase);
+export default ShowBase;

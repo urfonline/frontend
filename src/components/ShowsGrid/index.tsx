@@ -2,8 +2,8 @@ import React from 'react';
 import groupBy from 'lodash/groupBy';
 import ShowsGridItem from './ShowsGridItem';
 import { Show } from '../../utils/types';
-import styled from "react-emotion";
-import {Box, Flex} from "grid-emotion";
+import styled from '@emotion/styled';
+import {Box, Flex} from "@rebass/grid/emotion";
 
 interface IProps {
   shows: Array<Show>;
@@ -30,7 +30,7 @@ function ShowsGrid({ shows, sortMethod }: IProps) {
         .map((groupKey) => (
           <GroupItem>
             <h2>{groupKey}</h2>
-            <Flex mx={-2} wrap>
+            <Flex mx={-2}  flexWrap="wrap">
             {showsByLetter[groupKey].map((show: Show) => (
                 <Box width={[1, 1 / 2, 1 / 3, 1 / 4, 1]} px={2} mb={2}><ShowsGridItem show={show} key={show.id} /></Box>
               ))}

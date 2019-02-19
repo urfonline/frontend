@@ -1,45 +1,43 @@
-import React from 'react';
-import { graphql } from 'react-apollo';
+import React, {useState} from 'react';
 import gql from 'graphql-tag';
 import ShowsGrid from '../components/ShowsGrid';
 import { Helmet } from 'react-helmet';
-import { withState } from 'recompose';
 import { Show } from '../utils/types';
-import { compose } from 'redux';
 import Spinner from '../components/Spinner';
+import {useQuery} from "react-apollo-hooks";
 
-interface IProps {
-  updateSortMethod: any; // todo
-  data: any;
+interface Result {
   currentSlate: {
     shows: Array<Show>;
   };
-  sortMethod: string;
-  children?: any;
 }
 
-function Shows(props: IProps) {
-  const { updateSortMethod, data: { currentSlate, loading } } = props;
+enum SortMethod {
+  Alpha = 'alpha',
+  Category = 'category'
+}
+
+const Shows: React.FC = () => {
+  const [sortMethod, updateSortMethod] = useState(SortMethod.Alpha);
+  const { data, loading } = useQuery<Result>(HomeQuery);
 
   return (
     <div className="Container">
-      <Helmet>
-        <title>Shows</title>
-      </Helmet>
+      <Helmet title="Shows" />
       <h1 className="Page__heading">Shows</h1>
       <div style={{ display: 'none' }}>
         Sort by
-        <button onClick={() => updateSortMethod('NAME')}>Name</button>
-        <button onClick={() => updateSortMethod('CATEGORY')}>Category</button>
+        <button onClick={() => updateSortMethod(SortMethod.Alpha)}>Name</button>
+        <button onClick={() => updateSortMethod(SortMethod.Category)}>Category</button>
       </div>
-      {loading ? (
+      {loading || !data ? (
         <Spinner />
       ) : (
-        <ShowsGrid shows={currentSlate.shows} sortMethod={props.sortMethod} />
+        <ShowsGrid shows={data.currentSlate.shows} sortMethod={sortMethod} />
       )}
     </div>
   );
-}
+};
 
 const HomeQuery = gql`
   query showListings {
@@ -62,7 +60,4 @@ const HomeQuery = gql`
   }
 `;
 
-export default compose(
-  graphql<{}, {}, any>(HomeQuery),
-  withState('sortMethod', 'updateSortMethod', 'NAME'),
-)(Shows);
+export default Shows;

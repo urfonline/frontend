@@ -2,7 +2,6 @@ const webpack = require('webpack');
 
 const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -74,7 +73,7 @@ module.exports = {
     }),
     new HtmlWebpackHarddiskPlugin(),
     new MiniCssExtractPlugin({
-      filename: isProduction ? 'urf.[contenthash].[name].css' : 'style.[name].css',
+      filename: isProduction ? 'urf.[name].css' : 'style.[name].css',
       allChunks: false,
     }),
   ],
@@ -90,6 +89,14 @@ module.exports = {
         use: [
           {
             loader: 'awesome-typescript-loader?useBabel&babelCore=@babel/core',
+          },
+        ],
+      },
+      {
+        test: /\.(m?)js(x?)$/,
+        use: [
+          {
+            loader: 'babel-loader',
           },
         ],
       },

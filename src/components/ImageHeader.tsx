@@ -1,8 +1,7 @@
 import React from 'react';
-import styled from 'react-emotion';
-import Imgix from 'react-imgix';
+import styled from '@emotion/styled';
+import { Background } from 'react-imgix';
 import { ImageResource } from '../types';
-import { css } from 'emotion';
 
 const Headline = styled.h1`
   font-size: 2em;
@@ -12,7 +11,7 @@ const Headline = styled.h1`
   padding-bottom: 1rem;
 `;
 
-const containerStyles = css`
+const containerStyles = `
   min-height: 40vh;
   display: flex;
 
@@ -27,9 +26,9 @@ const containerStyles = css`
   }
 `;
 
-const FeaturedImageContainer = styled(Imgix)`
+const FeaturedImageContainer = styled(Background)`
   ${containerStyles};
-`;
+` as any; // todo: react-imgix type defs
 
 const PatternImageContainer = styled.div`
   ${containerStyles}
@@ -51,7 +50,6 @@ export function ImageHeader(props: IProps) {
   if (props.image) {
     return (
       <FeaturedImageContainer
-        type="bg"
         src={`https://urf.imgix.net/${props.image.resource}`}
       >
         <div className="Container">

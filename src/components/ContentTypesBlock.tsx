@@ -6,7 +6,7 @@ import {
   BlockKicker,
   BlockDescription,
 } from './HomepageBlock';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { formatTime, parseTime } from '../utils/schedule';
 import {AspectRatio, OneImage} from "./OneImage";
 import {getShowColourHexString} from "../utils/shows";

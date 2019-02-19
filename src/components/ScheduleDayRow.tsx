@@ -12,7 +12,7 @@ interface IProps {
   onAirSlotId: number;
 }
 
-const ScheduleDayRow: React.SFC<IProps> = (props: IProps) => {
+const ScheduleDayRow: React.FC<IProps> = (props: IProps) => {
   const { slots, calculateWidth, onAirSlotId } = props;
 
   if (slots === undefined) {

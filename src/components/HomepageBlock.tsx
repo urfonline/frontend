@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { ImageResource } from '../types';
 import { css, cx } from 'emotion';

@@ -6,7 +6,7 @@ interface IProps {
   className?: string;
 }
 
-const ScheduleDayColumn: React.SFC<IProps> = (props: IProps) => {
+const ScheduleDayColumn: React.FC<IProps> = (props: IProps) => {
   return (
     <div className={cx('ScheduleDayColumn', props.className)}>
       {props.days.map((day) => (

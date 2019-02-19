@@ -10,6 +10,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
 import introspectionQueryResultData from '../fragmentTypes.json';
+import {StoreContext} from 'redux-react-hook';
+import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData,
@@ -43,16 +45,20 @@ const cache: any = new InMemoryCache({
 const apolloClient = new ApolloClient({
   link,
   cache,
-}) as any;
+});
 
 const store = createStore(undefined);
 
 ReactDOM.render(
   <ApolloProvider client={apolloClient}>
     <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <StoreContext.Provider value={store}>
+        <ApolloHooksProvider client={apolloClient}>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </ApolloHooksProvider>
+      </StoreContext.Provider>
     </Provider>
   </ApolloProvider>,
   document.querySelector('.js__app'),
