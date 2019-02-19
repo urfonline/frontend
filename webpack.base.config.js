@@ -2,7 +2,6 @@ const webpack = require('webpack');
 
 const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
