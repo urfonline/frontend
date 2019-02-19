@@ -9,7 +9,7 @@ import {
   BoxLink, threeSizingStyle
 } from '../components/HomepageBlock';
 import { css } from 'emotion';
-import { Box, Flex } from 'grid-emotion';
+import { Box, Flex } from '@rebass/grid/emotion';
 import {AspectRatio, OneImage} from "../components/OneImage";
 import {formatDistance} from "date-fns";
 

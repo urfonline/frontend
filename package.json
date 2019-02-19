@@ -1,5 +1,8 @@
 {
   "dependencies": {
+    "@emotion/core": "^10.0.7",
+    "@emotion/styled": "^10.0.7",
+    "@rebass/grid": "^6.0.0-7",
     "apollo-client-preset": "^1.0.8",
     "awesome-typescript-loader": "^5.2.1",
     "babel-plugin-emotion": "^10.0.7",
@@ -9,7 +12,6 @@
     "emotion": "^10.0.7",
     "graphql": "^14.1.1",
     "graphql-tag": "^2.10.1",
-    "grid-emotion": "^3.2.0",
     "htmr": "^0.7.0",
     "lazysizes": "^4.1.6",
     "lodash": "^4.17.11",

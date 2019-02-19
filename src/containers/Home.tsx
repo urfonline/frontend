@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import gql from 'graphql-tag';
 import TodaySchedule from '../components/TodaySchedule';
 import keyBy from 'lodash/keyBy';
-import { Flex, Box } from 'grid-emotion';
+import { Flex, Box } from '@rebass/grid/emotion';
 import { HomepageBlock } from '../components/ContentTypesBlock';
 import { OnAirBlock } from '../components/OnAirBlock';
 import Spinner from '../components/Spinner';

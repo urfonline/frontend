@@ -2,8 +2,8 @@ import React from 'react';
 import groupBy from 'lodash/groupBy';
 import ShowsGridItem from './ShowsGridItem';
 import { Show } from '../../utils/types';
-import styled from "react-emotion";
-import {Box, Flex} from "grid-emotion";
+import styled from '@emotion/styled';
+import {Box, Flex} from "@rebass/grid/emotion";
 
 interface IProps {
   shows: Array<Show>;
