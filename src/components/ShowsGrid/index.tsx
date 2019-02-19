@@ -30,7 +30,7 @@ function ShowsGrid({ shows, sortMethod }: IProps) {
         .map((groupKey) => (
           <GroupItem>
             <h2>{groupKey}</h2>
-            <Flex mx={-2} wrap>
+            <Flex mx={-2} flexWrap>
             {showsByLetter[groupKey].map((show: Show) => (
                 <Box width={[1, 1 / 2, 1 / 3, 1 / 4, 1]} px={2} mb={2}><ShowsGridItem show={show} key={show.id} /></Box>
               ))}

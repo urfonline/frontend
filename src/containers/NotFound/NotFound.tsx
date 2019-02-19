@@ -30,9 +30,7 @@ function NotFound() {
 
   return (
     <div className="Container ErrorPage">
-      <Helmet>
-        <title>404 (Not found)</title>
-      </Helmet>
+      <Helmet title="404 (Not found)" />
       <h1 className="Page__heading">404 (Not found)</h1>
       <figure className="ErrorPage__figure">
         <img className="ErrorPage__image" src={art.image} />

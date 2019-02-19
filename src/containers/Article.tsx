@@ -69,8 +69,7 @@ const Article: React.FC<IProps> = (props) => {
   const article = data.article;
   return (
     <div>
-      <Helmet>
-        <title>{article.title}</title>
+      <Helmet title={article.title}>
       </Helmet>
       <div>
         <article className="Article">

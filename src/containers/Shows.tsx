@@ -23,9 +23,7 @@ const Shows: React.FC = () => {
 
   return (
     <div className="Container">
-      <Helmet>
-        <title>Shows</title>
-      </Helmet>
+      <Helmet title="Shows" />
       <h1 className="Page__heading">Shows</h1>
       <div style={{ display: 'none' }}>
         Sort by

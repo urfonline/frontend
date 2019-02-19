@@ -5,9 +5,7 @@ import MembersGallery from '../components/MembersGallery';
 function NotFound() {
   return (
     <div>
-      <Helmet>
-        <title>We are URF</title>
-      </Helmet>
+      <Helmet title="We are URF" />
       <MembersGallery />
 
       <div className="ContainerProse">

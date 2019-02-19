@@ -52,9 +52,7 @@ const Event: React.FC<IProps> = (props) => {
   const {event} = data;
   return (
     <div>
-      <Helmet>
-        <title>{event.title}</title>
-      </Helmet>
+      <Helmet title={event.title} />
       <div>
         <article className="Article">
           <Header>

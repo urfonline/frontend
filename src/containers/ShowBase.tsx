@@ -101,9 +101,7 @@ const ShowBase: React.FC<IProps> = (props) => {
 
   return (
     <div>
-      <Helmet>
-        <title>{show.name}</title>
-      </Helmet>
+      <Helmet title={show.name} />
       <div
         className={cx(
           'ShowHeader',

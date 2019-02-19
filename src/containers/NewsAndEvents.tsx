@@ -79,9 +79,7 @@ const NewsAndEvents: React.FC<IProps> = (props) => {
 
   return (
     <div className="Container">
-      <Helmet>
-        <title>{`News & Events`}</title>
-      </Helmet>
+      <Helmet title="News & Events" />
       <h1 className="Page__heading">{`News & Events`}</h1>
 
       {renderContent(query, props.children)}
