@@ -30,5 +30,4 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests!
-      - run: yarn test --coverage
-      - run: ./node_modules/.bin/codecov
+      - run: yarn test-ci
