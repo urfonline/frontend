@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 
 const ENDPOINT = 'https://urf.imgix.net/';
 
@@ -90,7 +90,8 @@ const defaultSizes = [
 const OneImage: React.FC<IProps> = (props) => {
   const sizes = props.sizes || defaultSizes;
 
-  useEffect(() => { // todo
+  useEffect(() => {
+    // todo
     // const el = ReactDOM.findDOMNode(this as any) as HTMLDivElement;
     // if (!el) {
     //   return;
@@ -129,15 +130,14 @@ const OneImage: React.FC<IProps> = (props) => {
       : {
           className: 'u-responsive-ratio',
           style: {
-            paddingBottom: `${props.aspectRatio.height /
-              props.aspectRatio.width *
+            paddingBottom: `${(props.aspectRatio.height /
+              props.aspectRatio.width) *
               100}%`,
           },
         };
 
   return <div {...containerProps}>{img}</div>;
 };
-
 
 interface IBackgroundProps extends React.HTMLAttributes<HTMLDivElement> {
   aspectRatio?: AspectRatioInput;

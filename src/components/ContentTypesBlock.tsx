@@ -8,8 +8,8 @@ import {
 } from './HomepageBlock';
 import styled from '@emotion/styled';
 import { formatTime, parseTime } from '../utils/schedule';
-import {AspectRatio, OneImage} from "./OneImage";
-import {getShowColourHexString} from "../utils/shows";
+import { AspectRatio, OneImage } from './OneImage';
+import { getShowColourHexString } from '../utils/shows';
 
 interface IProps {
   block: {
@@ -88,7 +88,11 @@ function renderShow(props: IProps) {
     >
       <ShowBlockContainer size={props.size}>
         <ShowCover size={props.size}>
-          <OneImage src={show.cover.resource} aspectRatio={AspectRatio.r1by1} alt="" />
+          <OneImage
+            src={show.cover.resource}
+            aspectRatio={AspectRatio.r1by1}
+            alt=""
+          />
         </ShowCover>
         <div>
           <BlockKicker>{props.block.overrideKicker || 'Show'}</BlockKicker>

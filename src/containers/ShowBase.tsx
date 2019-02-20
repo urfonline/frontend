@@ -5,12 +5,15 @@ import gql from 'graphql-tag';
 import { formatTime, parseTime } from '../utils/schedule';
 import { Helmet } from 'react-helmet';
 import styled from '@emotion/styled';
-import {NavLink, RouteComponentProps} from 'react-router-dom';
+import { NavLink, RouteComponentProps } from 'react-router-dom';
 import { format } from 'date-fns';
 import { queries } from '../css/mq';
-import {AspectRatio, OneImage} from "../components/OneImage";
-import {defaultShowCoverResource, getShowColourHexString} from "../utils/shows";
-import {useQuery} from 'react-apollo-hooks';
+import { AspectRatio, OneImage } from '../components/OneImage';
+import {
+  defaultShowCoverResource,
+  getShowColourHexString,
+} from '../utils/shows';
+import { useQuery } from 'react-apollo-hooks';
 
 // TODO: move to a utils thing or i18n file
 const DAYS_TEXT = [
@@ -56,7 +59,7 @@ const ShowMenu = styled.ul`
     padding-left: calc(200px + 2rem);
     margin-bottom: 2rem;
   `}
-  
+
   & li {
     display: inline-block;
     margin-right: 1rem;
@@ -73,14 +76,13 @@ const ShowMenu = styled.ul`
   }
 `;
 
-interface IProps extends RouteComponentProps<{showSlug: string}>{
-}
+interface IProps extends RouteComponentProps<{ showSlug: string }> {}
 
 const ShowBase: React.FC<IProps> = (props) => {
   const { data, loading } = useQuery(ShowBaseQuery, {
     variables: {
       showSlug: props.match.params.showSlug,
-    }
+    },
   });
 
   if (loading || !data) {
@@ -121,7 +123,15 @@ const ShowBase: React.FC<IProps> = (props) => {
         <div className="Container">
           <div className="ShowHeader__container">
             <div className="ShowHeader__cover">
-              <OneImage src={show.cover.resource ? show.cover.resource : defaultShowCoverResource} aspectRatio={AspectRatio.r1by1} alt="" />
+              <OneImage
+                src={
+                  show.cover.resource
+                    ? show.cover.resource
+                    : defaultShowCoverResource
+                }
+                aspectRatio={AspectRatio.r1by1}
+                alt=""
+              />
             </div>
             <div className="ShowHeader__info">
               <h1 className="ShowHeader__show-title">{show.name}</h1>

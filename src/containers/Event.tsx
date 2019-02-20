@@ -6,8 +6,8 @@ import { elementMap } from '../components/Prose';
 import styled from '@emotion/styled';
 import { ImageHeader } from '../components/ImageHeader';
 import Spinner from '../components/Spinner';
-import {useQuery} from "react-apollo-hooks";
-import {RouteComponentProps} from "react-router";
+import { useQuery } from 'react-apollo-hooks';
+import { RouteComponentProps } from 'react-router';
 
 const Content = styled.div`
   font-weight: 400;
@@ -33,23 +33,20 @@ const Header = styled.header`
   font-size: 1.2rem;
 `;
 
-interface IProps extends RouteComponentProps<{eventId: string}> {
-
-}
+interface IProps extends RouteComponentProps<{ eventId: string }> {}
 
 const Event: React.FC<IProps> = (props) => {
   const { data, loading } = useQuery(EventQuery, {
     variables: {
       eventId: props.match.params.eventId,
-    }
+    },
   });
 
   if (loading) {
     return <Spinner />;
   }
 
-
-  const {event} = data;
+  const { event } = data;
   return (
     <div>
       <Helmet title={event.title} />

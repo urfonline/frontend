@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import ShowsGrid from '../components/ShowsGrid';
 import { Helmet } from 'react-helmet';
 import { Show } from '../utils/types';
 import Spinner from '../components/Spinner';
-import {useQuery} from "react-apollo-hooks";
+import { useQuery } from 'react-apollo-hooks';
 
 interface Result {
   currentSlate: {
@@ -14,7 +14,7 @@ interface Result {
 
 enum SortMethod {
   Alpha = 'alpha',
-  Category = 'category'
+  Category = 'category',
 }
 
 const Shows: React.FC = () => {
@@ -28,7 +28,9 @@ const Shows: React.FC = () => {
       <div style={{ display: 'none' }}>
         Sort by
         <button onClick={() => updateSortMethod(SortMethod.Alpha)}>Name</button>
-        <button onClick={() => updateSortMethod(SortMethod.Category)}>Category</button>
+        <button onClick={() => updateSortMethod(SortMethod.Category)}>
+          Category
+        </button>
       </div>
       {loading || !data ? (
         <Spinner />

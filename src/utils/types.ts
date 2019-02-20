@@ -12,5 +12,5 @@ export interface Show {
 
 export enum Tone {
   Dark = 'dark',
-  Light = 'light'
+  Light = 'light',
 }
