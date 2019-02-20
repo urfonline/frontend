@@ -41,6 +41,8 @@
     "format": "prettier --write \"./src/**/*.{tsx,ts,js,css}\"",
     "prep": "node ./scripts/getFragmentTypes.js",
     "test": "NODE_ENV=test && jest",
+    "test-coverage": "yarn jest --coverage",
+    "test-ci": "yarn test-coverage -i --config jest.config.ci.js && codecov",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "build-storybook": "build-storybook -c .storybook -o storybook-public"
   },
@@ -68,9 +70,9 @@
     "@ussu/chunk-manifest-webpack-plugin": "^1.1.2",
     "apollo-fetch": "^0.7.0",
     "assets-webpack-plugin": "^3.5.1",
-    "babel-jest": "^24.1.0",
     "babel-loader": "^8.0.5",
     "caniuse-db": "^1.0.30000938",
+    "codecov": "^3.2.0",
     "copy-webpack-plugin": "^4.6.0",
     "css-loader": "^2.1.0",
     "duplicate-package-checker-webpack-plugin": "^3.0.0",
@@ -81,6 +83,8 @@
     "html-webpack-plugin": "^3.2.0",
     "jest": "^24.1.0",
     "jest-dom": "^3.1.2",
+    "jest-junit": "^6.3.0",
+    "jest-silent-reporter": "^0.1.1",
     "lodash-webpack-plugin": "^0.11.3",
     "mini-css-extract-plugin": "^0.5.0",
     "postcss-ant": "^2.1.1",
@@ -106,16 +110,6 @@
     "webpack-bundle-analyzer": "^3.0.4",
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.1.14"
-  },
-  "jest": {
-    "moduleNameMapper": {
-      "\\.(css|less)$": "identity-obj-proxy"
-    },
-    "testEnvironment": "jsdom",
-    "setupFilesAfterEnv": [
-      "jest-dom/extend-expect",
-      "react-testing-library/cleanup-after-each"
-    ]
   },
   "prettier": {
     "printWidth": 80,
