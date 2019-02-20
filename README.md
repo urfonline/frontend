@@ -28,24 +28,24 @@ This will start the dev server on port 8080: [http://localhost:8080](http://loca
 
 ### Commands
 
-####`yarn prep`
+#### `yarn prep`
 This runs any required scripts before a build can take place.
 
 Currently it:
 
 - runs scripts/getFragmentTypes.js; getting graphql schema data from the production server
 
-####`yarn serve`
+#### `yarn serve`
 Starts a development server on port 8080: [http://localhost:8080](http://localhost:8080).
 
-####`yarn format`
+#### `yarn format`
 Runs [Prettier](https://prettier.io/) to deterministically format all source files.
 
-####`yarn test`
+#### `yarn test`
 Runs all tests via Jest.
 
 
-####`yarn prod`
+#### `yarn prod`
 The entire production build.
 
 - Gets fragmentTypes
