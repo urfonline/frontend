@@ -31,6 +31,4 @@ jobs:
 
       # run tests!
       - run: yarn test
-      - codecov/upload
-orbs:
-  codecov: codecov/codecov@1.0.2
+      - run: ./node_modules/.bin/codecov
