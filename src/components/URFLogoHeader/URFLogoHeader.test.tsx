@@ -1,5 +1,5 @@
 import React from 'react';
-import URFLogoHeader from '../../src/components/URFLogoHeader';
+import URFLogoHeader from './index';
 import { render } from 'react-testing-library';
 
 test('Logo has svg', () => {
