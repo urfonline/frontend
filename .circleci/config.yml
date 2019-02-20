@@ -31,7 +31,6 @@ jobs:
 
       # run tests!
       - run: yarn test
-      - codecov/upload:
-          file: ./coverage/coverage-final.json
-orbs:
+      - codecov/upload
+- orbs:
   codecov: codecov/codecov@1.0.2
