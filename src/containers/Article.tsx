@@ -7,7 +7,7 @@ import { elementMap } from '../components/Prose';
 import styled from '@emotion/styled';
 import { ImageHeader } from '../components/ImageHeader';
 import Spinner from '../components/Spinner';
-import {useQuery} from "react-apollo-hooks";
+import { useQuery } from 'react-apollo-hooks';
 
 const Content = styled.div`
   font-weight: 400;
@@ -51,15 +51,13 @@ const ArticleQuery = gql`
   }
 `;
 
-interface IProps {
-
-}
+interface IProps {}
 
 const Article: React.FC<IProps> = (props) => {
   const { data, loading } = useQuery(ArticleQuery, {
     variables: {
       articleId: (props as any).match.params.articleId, //todo
-    }
+    },
   });
 
   if (loading || !data) {
@@ -69,8 +67,7 @@ const Article: React.FC<IProps> = (props) => {
   const article = data.article;
   return (
     <div>
-      <Helmet title={article.title}>
-      </Helmet>
+      <Helmet title={article.title} />
       <div>
         <article className="Article">
           <Header>
@@ -80,7 +77,8 @@ const Article: React.FC<IProps> = (props) => {
                 By{' '}
                 {article.authors.map((author: any) => (
                   <span>{author.name ? author.name : author.username}</span>
-                ))}, published{' '}
+                ))}
+                , published{' '}
                 {formatDistance(new Date(), new Date(article.publishedAt))} ago
               </Byline>
             </div>
@@ -95,6 +93,5 @@ const Article: React.FC<IProps> = (props) => {
     </div>
   );
 };
-
 
 export default Article;

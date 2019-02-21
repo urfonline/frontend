@@ -8,7 +8,7 @@ const Schedule: React.FC = () => (
     <div className="Container">
       <h1 className="Page__heading">Schedule</h1>
     </div>
-    <FullSchedule/>
+    <FullSchedule />
   </div>
 );
 

@@ -1,12 +1,11 @@
 import Color from 'color';
-import {Show, Tone} from "./types";
+import { Show, Tone } from './types';
 
 export function getShowColourHexString(show: Show) {
-
-  const isOk  = /^#[0-9A-F]{6}$/i.test(`#${show.brandColor}`);
+  const isOk = /^#[0-9A-F]{6}$/i.test(`#${show.brandColor}`);
   let showColour = 'B12220'; // sets a default colour just in case the colour is not valid
 
-  if(isOk) {
+  if (isOk) {
     showColour = show.brandColor;
   }
 
@@ -14,11 +13,14 @@ export function getShowColourHexString(show: Show) {
 }
 
 export function getShowBrandTone(show: Show) {
-  return Color(`#${getShowColourHexString(show)}`).isLight() ? Tone.Dark : Tone.Light;
+  return Color(`#${getShowColourHexString(show)}`).isLight()
+    ? Tone.Dark
+    : Tone.Light;
 }
 
 export function getTone(color: string) {
   return Color(`#${color}`).isLight() ? 'dark' : 'light';
 }
 
-export const defaultShowCoverResource  = 'content/shows/covers/8d3dd720-3c00-405a-be40-9856c7c6ba8e.png';
+export const defaultShowCoverResource =
+  'content/shows/covers/8d3dd720-3c00-405a-be40-9856c7c6ba8e.png';

@@ -3,18 +3,20 @@ import { Helmet } from 'react-helmet';
 import gql from 'graphql-tag';
 import Spinner from '../components/Spinner';
 import {
-  BlockDescription, BlockKicker, BlockTitle, BoxInner,
-  BoxLink, threeSizingStyle
+  BlockDescription,
+  BlockKicker,
+  BlockTitle,
+  BoxInner,
+  BoxLink,
+  threeSizingStyle,
 } from '../components/HomepageBlock';
 import { css } from 'emotion';
 import { Box, Flex } from '@rebass/grid/emotion';
-import {AspectRatio, OneImage} from "../components/OneImage";
-import {formatDistance} from "date-fns";
-import {QueryHookResult, useQuery} from "react-apollo-hooks";
+import { AspectRatio, OneImage } from '../components/OneImage';
+import { formatDistance } from 'date-fns';
+import { QueryHookResult, useQuery } from 'react-apollo-hooks';
 
-interface IProps {
-
-}
+interface IProps {}
 
 interface Article {
   articleId: number;
@@ -36,7 +38,10 @@ const articleStyles = css`
   color: black;
 `;
 
-function renderContent(query: QueryHookResult<{ allArticles: {edges: ArticleEdge[]}}, {}>, children: any) {
+function renderContent(
+  query: QueryHookResult<{ allArticles: { edges: ArticleEdge[] } }, {}>,
+  children: any,
+) {
   if (query.loading) {
     return <Spinner />;
   }
@@ -55,15 +60,26 @@ function renderContent(query: QueryHookResult<{ allArticles: {edges: ArticleEdge
               className={threeSizingStyle}
               size={3}
             >
-                <OneImage
-                  src={edge.node.featuredImage.resource}
-                  aspectRatio={AspectRatio.r16by9}
-                  alt=""
-                />
+              <OneImage
+                src={edge.node.featuredImage.resource}
+                aspectRatio={AspectRatio.r16by9}
+                alt=""
+              />
               <BoxInner className={articleStyles}>
-                <BlockKicker><span>{edge.node.tone}</span> · <span>{formatDistance(new Date(edge.node.publishedAt), new Date())} ago</span></BlockKicker>
+                <BlockKicker>
+                  <span>{edge.node.tone}</span> ·{' '}
+                  <span>
+                    {formatDistance(
+                      new Date(edge.node.publishedAt),
+                      new Date(),
+                    )}{' '}
+                    ago
+                  </span>
+                </BlockKicker>
                 <BlockTitle>{edge.node.title}</BlockTitle>
-                <BlockDescription>{edge.node.shortDescription}</BlockDescription>
+                <BlockDescription>
+                  {edge.node.shortDescription}
+                </BlockDescription>
                 {children && children}
               </BoxInner>
             </BoxLink>

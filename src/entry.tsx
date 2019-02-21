@@ -10,7 +10,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
 import introspectionQueryResultData from '../fragmentTypes.json';
-import {StoreContext} from 'redux-react-hook';
+import { StoreContext } from 'redux-react-hook';
 import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({

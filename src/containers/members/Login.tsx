@@ -98,8 +98,11 @@ const LoginMutation = gql`
 `;
 
 export default compose(
-  connect(null, {
-    loginSuccess: authActions.loginSuccess,
-  }),
+  connect(
+    null,
+    {
+      loginSuccess: authActions.loginSuccess,
+    },
+  ),
   graphql<{}, {}, IProps>(LoginMutation),
 )(Login) as any;

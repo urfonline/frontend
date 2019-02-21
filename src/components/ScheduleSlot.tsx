@@ -16,10 +16,14 @@ function ScheduleSlot(props: IProps) {
   const show = props.slot.show;
   const showColor = show && show.category ? show.category.color : 'eee';
 
-  const scheduleSlotClasses = cx('ScheduleSlot', !!show.category ? `ScheduleSlot--tone-light` : '', {
-    'ScheduleSlot--overnight': slot.is_overnight,
-    'ScheduleSlot--on-air': props.onAir,
-  });
+  const scheduleSlotClasses = cx(
+    'ScheduleSlot',
+    !!show.category ? `ScheduleSlot--tone-light` : '',
+    {
+      'ScheduleSlot--overnight': slot.is_overnight,
+      'ScheduleSlot--on-air': props.onAir,
+    },
+  );
 
   let onAirGlow: { boxShadow?: string } = {};
 

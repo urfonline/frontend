@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, { useCallback, useEffect } from 'react';
 import Header from '../../components/Header';
 import Player from '../../components/Player';
 import MainNavigation from '../../components/MainNavigation';
@@ -11,8 +11,8 @@ import Loadable from 'react-loadable';
 import gql from 'graphql-tag';
 import { LoadableSpinner } from '../../components/LoadableSpinner';
 import { RootState } from '../../types';
-import {useDispatch, useMappedState} from "redux-react-hook";
-import {useQuery} from "react-apollo-hooks";
+import { useDispatch, useMappedState } from 'redux-react-hook';
+import { useQuery } from 'react-apollo-hooks';
 
 const LoadableShowPage = Loadable({
   loader: () => import(/* webpackChunkName: "ShowBase" */ '../ShowBase'),
@@ -72,80 +72,76 @@ const LoadableLogin = Loadable({
   loading: LoadableSpinner,
 });
 
-
 const App: React.FC = () => {
-    const { data, loading } = useQuery(ScheduleQuery);
+  const { data, loading } = useQuery(ScheduleQuery);
 
-    const mapState = useCallback((store: RootState) => ({
+  const mapState = useCallback(
+    (store: RootState) => ({
       isPlaying: store.player.userState === true,
       currentlyOnAirShow: store.schedule.currentlyOnAir
         ? store.schedule.currentlyOnAir.show
         : false,
-    }), []);
+    }),
+    [],
+  );
 
-    const { isPlaying, currentlyOnAirShow } = useMappedState(mapState);
-    const dispatch = useDispatch();
+  const { isPlaying, currentlyOnAirShow } = useMappedState(mapState);
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-      loginRestoreAttempt()(dispatch);
+  useEffect(() => {
+    loginRestoreAttempt()(dispatch);
 
-      const interval = setInterval(() => dispatch(updateOnAirSlot()), 1000 * 30);
+    const interval = setInterval(() => dispatch(updateOnAirSlot()), 1000 * 30);
 
-      return () => {
-        clearInterval(interval)
-      }
-    }, []);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
-    useEffect(() => {
-      if (!loading && data) {
-        dispatch(scheduleLoaded(data));
-      }
-    }, [loading, data])
+  useEffect(() => {
+    if (!loading && data) {
+      dispatch(scheduleLoaded(data));
+    }
+  }, [loading, data]);
 
-
-
-    return (
-      <div>
-        <Helmet
-          titleTemplate={
-            isPlaying
-              ? `${currentlyOnAirShow.emojiDescription} | %s | URF`
-              : '%s | URF'
-          }
-          defaultTitle={
-            isPlaying ? `${currentlyOnAirShow.emojiDescription} | URF` : 'URF'
-          }
-        />
-        <Header />
-        <div className="Page">
-          <MainNavigation mobile />
-          <Switch>
-            <Route path="/" exact component={LoadableHome} />
-            <Route path="/schedule" exact component={LoadableSchedule} />
-            <Route path="/shows" exact component={LoadableShows} />
-            <Route
-              path="/news-events"
-              exact
-              component={LoadableNewsAndEvents}
-            />
-            <Route path="/we-are-urf" exact component={LoadableWeAreURF} />
-            <Route path="/shows/:showSlug" component={LoadableShowPage} />
-            <Route path="/auth/login" component={LoadableLogin} exact />
-            <Route path="/members" component={LoadableMembersApp} />
-            <Route
-              path="/article/**-:articleId"
-              component={LoadableArticle}
-              exact
-            />
-            <Route path="/event/**-:eventId" component={LoadableEvent} exact />
-            <Redirect path="/article" to="/news-events" exact />
-            <Route component={LoadableNotFound} />
-          </Switch>
-          <Player />
-        </div>
+  return (
+    <div>
+      <Helmet
+        titleTemplate={
+          isPlaying
+            ? `${currentlyOnAirShow.emojiDescription} | %s | URF`
+            : '%s | URF'
+        }
+        defaultTitle={
+          isPlaying ? `${currentlyOnAirShow.emojiDescription} | URF` : 'URF'
+        }
+      />
+      <Header />
+      <div className="Page">
+        <MainNavigation mobile />
+        <Switch>
+          <Route path="/" exact component={LoadableHome} />
+          <Route path="/schedule" exact component={LoadableSchedule} />
+          <Route path="/shows" exact component={LoadableShows} />
+          <Route path="/news-events" exact component={LoadableNewsAndEvents} />
+          <Route path="/we-are-urf" exact component={LoadableWeAreURF} />
+          <Route path="/shows/:showSlug" component={LoadableShowPage} />
+          <Route path="/auth/login" component={LoadableLogin} exact />
+          <Route path="/members" component={LoadableMembersApp} />
+          <Route
+            path="/article/**-:articleId"
+            component={LoadableArticle}
+            exact
+          />
+          <Route path="/event/**-:eventId" component={LoadableEvent} exact />
+          <Redirect path="/article" to="/news-events" exact />
+          <Route component={LoadableNotFound} />
+        </Switch>
+        <Player />
       </div>
-    );
-  }
+    </div>
+  );
+};
 
 const ScheduleQuery = gql`
   query ScheduleQuery {

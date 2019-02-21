@@ -7,11 +7,10 @@ import { Flex, Box } from '@rebass/grid/emotion';
 import { HomepageBlock } from '../components/ContentTypesBlock';
 import { OnAirBlock } from '../components/OnAirBlock';
 import Spinner from '../components/Spinner';
-import { AspectRatio } from "../components/OneImage";
-import {QueryHookResult, useQuery} from "react-apollo-hooks";
+import { AspectRatio } from '../components/OneImage';
+import { QueryHookResult, useQuery } from 'react-apollo-hooks';
 
-interface IProps {
-}
+interface IProps {}
 
 const BlockContainer = styled.div`
   max-width: 1440px;
@@ -47,7 +46,7 @@ function renderBlocks(query: QueryHookResult<any, {}>) {
   return (
     <BlockContainer>
       {hasHero && (
-        <Flex mx={-2}  flexWrap="wrap">
+        <Flex mx={-2} flexWrap="wrap">
           <Box width={[1, 1 / 3]} px={gutterLeft} mb={gutter}>
             <OnAirBlock />
           </Box>
@@ -57,7 +56,7 @@ function renderBlocks(query: QueryHookResult<any, {}>) {
         </Flex>
       )}
       {hasSecondary && (
-        <Flex mx={-2}  flexWrap="wrap">
+        <Flex mx={-2} flexWrap="wrap">
           <Box width={[1, 1 / 2]} px={gutterLeft} mb={gutter}>
             <HomepageBlock block={byPosition.SEC_1} size={2} />
           </Box>
@@ -67,7 +66,7 @@ function renderBlocks(query: QueryHookResult<any, {}>) {
         </Flex>
       )}
       {hasThirds && (
-        <Flex mx={-2}  flexWrap="wrap">
+        <Flex mx={-2} flexWrap="wrap">
           <Box width={[1, 1 / 3]} px={gutterLeft} mb={gutter}>
             <HomepageBlock block={byPosition.THIRD_1} size={3} />
           </Box>
@@ -80,18 +79,34 @@ function renderBlocks(query: QueryHookResult<any, {}>) {
         </Flex>
       )}
       {hasQuarters && (
-        <Flex mx={-2}  flexWrap="wrap">
+        <Flex mx={-2} flexWrap="wrap">
           <Box width={[1, 1 / 2, 1 / 4]} px={gutterLeft} mb={gutter}>
-            <HomepageBlock block={byPosition.FOURTH_1} size={3} aspectRatio={AspectRatio.r1by1} />
+            <HomepageBlock
+              block={byPosition.FOURTH_1}
+              size={3}
+              aspectRatio={AspectRatio.r1by1}
+            />
           </Box>
           <Box width={[1, 1 / 2, 1 / 4]} px={gutterLeft} mb={gutter}>
-            <HomepageBlock block={byPosition.FOURTH_2} size={3} aspectRatio={AspectRatio.r1by1} />
+            <HomepageBlock
+              block={byPosition.FOURTH_2}
+              size={3}
+              aspectRatio={AspectRatio.r1by1}
+            />
           </Box>
           <Box width={[1, 1 / 2, 1 / 4]} px={gutterLeft} mb={gutter}>
-            <HomepageBlock block={byPosition.FOURTH_3} size={3} aspectRatio={AspectRatio.r1by1} />
+            <HomepageBlock
+              block={byPosition.FOURTH_3}
+              size={3}
+              aspectRatio={AspectRatio.r1by1}
+            />
           </Box>
           <Box width={[1, 1 / 2, 1 / 4]} px={gutterLeft} mb={gutter}>
-            <HomepageBlock block={byPosition.FOURTH_4} size={3} aspectRatio={AspectRatio.r1by1} />
+            <HomepageBlock
+              block={byPosition.FOURTH_4}
+              size={3}
+              aspectRatio={AspectRatio.r1by1}
+            />
           </Box>
         </Flex>
       )}
