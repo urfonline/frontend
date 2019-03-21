@@ -5,3 +5,5 @@ dist
 fragmentTypes.json
 /webpack-assets.json
 /coverage
+/reports
+/junit.xml
