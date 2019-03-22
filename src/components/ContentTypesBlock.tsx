@@ -50,6 +50,7 @@ const ShowCover = styled.div`
     width: 100%;
     height: auto;
   }
+  margin-bottom: 1rem;
 `;
 
 const eventStyles = css`

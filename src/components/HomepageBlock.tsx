@@ -36,6 +36,7 @@ export const BlockTitle = styled.h1`
 `;
 
 export const BlockKicker = styled.div`
+  color: #4a4a4a;
   font-size: 0.8em;
   font-weight: 600;
   text-transform: uppercase;
