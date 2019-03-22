@@ -11,11 +11,10 @@
 
   @media (--medium) {
     width: 180px;
-    background: rgb(26, 24, 24);
+    background: rgb(42, 37, 38);
     right: auto;
     height: auto;
     bottom: 0;
-    z-index: var(--layer-header--side);
     display: flex;
   }
 

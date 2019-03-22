@@ -47,6 +47,7 @@ export default function playerReducer(state = initialState, action: any) {
       return {
         ...state,
         userState: action.payload.userState,
+        playerState: ''
       };
     }
     case PLAYER_AUDIO_STATE_CHANGE: {

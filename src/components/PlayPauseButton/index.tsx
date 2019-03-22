@@ -16,7 +16,7 @@ function PlayPauseButton({ isPlaying, onChange, state }: IProps) {
   }
 
 
-  if (isPlaying && state === 'waiting') {
+  if (isPlaying && (state === 'waiting' || state === 'loadstart')) {
     tone = PlayerIcons.Loading;
   }
 

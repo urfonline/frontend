@@ -26,7 +26,8 @@ const Player: React.FC<IProps> = () => {
     return null;
   }
 
-  const show = schedule.currentlyOnAir.show;
+  const {show, startDate, endDate} = schedule.currentlyOnAir[schedule.activeStream];
+
   const endpoint = player.userState
     ? player.stream === 'live'
       ? `http://uk2.internet-radio.com:30764/stream`
@@ -35,19 +36,31 @@ const Player: React.FC<IProps> = () => {
 
   return (
     <div className="Player">
+      {show.cover.resource ? <img className="Player__img-back" src={'https://urf.imgix.net/' + show.cover.resource + "?w=200&h=200&q=50&auto=format"} /> : null}
       <div className="Player__container">
-        <div className="Player__show-cover">
-          <OneImage
-            src={
-              show.cover.resource
-                ? show.cover.resource
-                : defaultShowCoverResource
-            }
-            aspectRatio={AspectRatio.r1by1}
-            alt=""
-          />
+        <div className="Player__content Player__section">
+          <div className="Player__show-cover">
+            <OneImage
+              src={
+                show.cover.resource
+                  ? show.cover.resource
+                  : defaultShowCoverResource
+              }
+              aspectRatio={AspectRatio.r1by1}
+              alt=""
+            />
+          </div>
+          <div className="Player__show-details">
+            <Link className="Player__show-name" to={`/shows/${show.slug}`}>
+              {show.name}
+            </Link>
+            <small>
+              {formatTime(startDate)}-
+              {formatTime(endDate)}
+            </small>
+          </div>
         </div>
-        <div className="Player__content">
+        <div className="Player__controls Player__section">
           <div className="Player__button">
             <PlayPauseButton
               isPlaying={player.userState}
@@ -56,15 +69,13 @@ const Player: React.FC<IProps> = () => {
               onChange={(state) => dispatch(playerUserStateChange(state))}
             />
           </div>
-          <Link className="Player__show-name" to={`/shows/${show.slug}`}>
-            {show.name}
-          </Link>
-          <small>
-            {formatTime(schedule.currentlyOnAir.startDate)}-
-            {formatTime(schedule.currentlyOnAir.endDate)}
-          </small>
         </div>
-      </div>
+        <div className="Player__streams Player__section">
+          <div className="Player__source">Playing from</div>
+          <div className="Player__selector">URF</div>
+
+        </div>      </div>
+
       {endpoint ? <PlayerAudio
         stream={endpoint}
         userState={player.userState}

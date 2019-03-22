@@ -1,5 +1,25 @@
 .PlayPauseButton {
-  border: 0;
+  margin: auto;
+  border: 1px solid white;
   background: transparent;
-  padding: 0;
+  padding: 10px;
+  border-radius: 50%;
+  display: block;
+
+  & svg {
+    display: block;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.LoadingIcon {
+  animation: spin infinite linear 1s;
 }
