@@ -257,6 +257,8 @@ export function getTodayDayMonday() {
 }
 
 export function getOnAirSlot(slotsByDay: any) {
+  if (slotsByDay === null) return null;
+
   // todo
   const now = new Date();
   const todaySlots = slotsByDay[shiftedDates[getDay(now)]];

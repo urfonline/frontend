@@ -25,9 +25,9 @@ export const loadSchedule = () => (dispatch: any) => {
       }),
     );
 };
-export const scheduleLoaded = (schedule: any) => ({
+export const scheduleLoaded = (streams: any) => ({
   type: LOAD_SCHEDULE_SUCCESS,
-  payload: { schedule },
+  payload: { streams: streams.allStreams },
 });
 export const updateOnAirSlot = () => ({ type: UPDATE_ON_AIR_SLOT });
 
@@ -35,8 +35,9 @@ const initialState = {
   isLoading: true,
   data: null,
   chunked: null,
-  currentlyOnAir: null,
-  slotsByDay: null,
+  currentlyOnAir: [],
+  slotsByDay: [],
+  activeStream: 0,
 };
 
 export default function scheduleReducer(state = initialState, action: any) {
@@ -48,17 +49,18 @@ export default function scheduleReducer(state = initialState, action: any) {
       };
     }
     case LOAD_SCHEDULE_SUCCESS: {
-      const slotsByDay = chunkSlotsByDay(
-        action.payload.schedule.currentSlate.slots,
-        action.payload.schedule.automationShow,
-      );
+      console.log(action);
+      const slotsByDay = action.payload.streams.map((stream: any) => stream.slate ? chunkSlotsByDay(
+        stream.slate.slots,
+        stream.slate.automationShow,
+      ) : null);
 
       return {
         ...state,
         isLoading: false,
         slotsByDay: slotsByDay,
-        automationShow: action.payload.schedule.automationShow,
-        currentlyOnAir: getOnAirSlot(slotsByDay),
+        automationShow: action.payload.streams.map((stream: any) => stream.slate ? stream.slate.automationShow : null),
+        currentlyOnAir: slotsByDay.map(getOnAirSlot),
       };
     }
     case LOAD_SCHEDULE_FAILURE: {
@@ -73,7 +75,7 @@ export default function scheduleReducer(state = initialState, action: any) {
 
       return {
         ...state,
-        currentlyOnAir: getOnAirSlot(state.slotsByDay),
+        currentlyOnAir: state.slotsByDay.map(getOnAirSlot),
       };
     }
     default: {
