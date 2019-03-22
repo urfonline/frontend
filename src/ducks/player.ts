@@ -1,5 +1,6 @@
 export const PLAYER_CHANGE = 'PLAYER_CHANGE';
 export const PLAYER_USER_STATE_CHANGE = 'PLAYER_USER_STATE_CHANGE';
+export const PLAYER_AUDIO_STATE_CHANGE = 'PLAYER_AUDIO_STATE_CHANGE';
 export const INITIATE_PLAY_LIVE = 'INITIATE_PLAY_LIVE';
 
 export const playLive = () => ({ type: INITIATE_PLAY_LIVE });
@@ -15,9 +16,9 @@ export const playerUserStateChange = (userState: any) => ({
   payload: { userState },
 });
 
-export const playerAudioStateChange = (userState: any) => ({
-  type: PLAYER_USER_STATE_CHANGE,
-  payload: { userState },
+export const playerAudioStateChange = (playerState: any) => ({
+  type: PLAYER_AUDIO_STATE_CHANGE,
+  payload: { playerState },
 });
 
 const initialState = {
@@ -46,6 +47,12 @@ export default function playerReducer(state = initialState, action: any) {
       return {
         ...state,
         userState: action.payload.userState,
+      };
+    }
+    case PLAYER_AUDIO_STATE_CHANGE: {
+      return {
+        ...state,
+        playerState: action.payload.playerState.type,
       };
     }
     default: {

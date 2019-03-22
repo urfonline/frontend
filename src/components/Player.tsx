@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import PlayPauseButton from './PlayPauseButton';
-import PlayerAudio from './PlayerAudio';
+import {PlayerAudio} from './PlayerAudio';
 import { playerAudioStateChange, playerUserStateChange } from '../ducks/player';
 import { Link } from 'react-router-dom';
 import { formatTime } from '../utils/schedule';
@@ -27,6 +27,11 @@ const Player: React.FC<IProps> = () => {
   }
 
   const show = schedule.currentlyOnAir.show;
+  const endpoint = player.userState
+    ? player.stream === 'live'
+      ? `http://uk2.internet-radio.com:30764/stream`
+      : player.stream
+    : null;
 
   return (
     <div className="Player">
@@ -46,6 +51,7 @@ const Player: React.FC<IProps> = () => {
           <div className="Player__button">
             <PlayPauseButton
               isPlaying={player.userState}
+              state={player.playerState}
               isLive={player.audioSourceType === 'live'}
               onChange={(state) => dispatch(playerUserStateChange(state))}
             />
@@ -59,11 +65,11 @@ const Player: React.FC<IProps> = () => {
           </small>
         </div>
       </div>
-      <PlayerAudio
-        stream={player.stream}
+      {endpoint ? <PlayerAudio
+        stream={endpoint}
         userState={player.userState}
         onChange={(state: any) => dispatch(playerAudioStateChange(state))}
-      />
+      /> : null}
     </div>
   );
 };

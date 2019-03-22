@@ -1,24 +1,28 @@
 import React from 'react';
-import PlayIcon from '../PlayIcon';
+import PlayIcon, {PlayerIcons} from '../PlayIcon';
 
 interface IProps {
   onChange(isPlaying: boolean): void;
   isPlaying: boolean;
   isLive: boolean;
+  state: any; // todo
 }
 
-function PlayPauseButton({ isPlaying, isLive, onChange }: IProps) {
+function PlayPauseButton({ isPlaying, onChange, state }: IProps) {
+  let tone = PlayerIcons.Play;
+
+  if (isPlaying && state === 'playing') {
+    tone = PlayerIcons.Pause;
+  }
+
+
+  if (isPlaying && state === 'waiting') {
+    tone = PlayerIcons.Loading;
+  }
+
   return (
     <button className="PlayPauseButton" onClick={() => onChange(!isPlaying)}>
-      {isPlaying ? (
-        isLive ? (
-          'Stop'
-        ) : (
-          <PlayIcon tone="pause" />
-        )
-      ) : (
-        <PlayIcon tone="light" />
-      )}
+      <PlayIcon tone={tone} />
     </button>
   );
 }
