@@ -2,6 +2,7 @@ const LOAD_SCHEDULE_REQUEST = 'LOAD_SCHEDULE_REQUEST';
 const LOAD_SCHEDULE_SUCCESS = 'LOAD_SCHEDULE_SUCCESS';
 const LOAD_SCHEDULE_FAILURE = 'LOAD_SCHEDULE_FAILURE';
 const UPDATE_ON_AIR_SLOT = 'UPDATE_ON_AIR_SLOT';
+const SWITCH_ACTIVE_STREAM = 'SWITCH_ACTIVE_STREAM';
 
 import { chunkSlotsByDay, getOnAirSlot } from '../utils/schedule';
 
@@ -31,6 +32,11 @@ export const scheduleLoaded = (streams: any) => ({
 });
 export const updateOnAirSlot = () => ({ type: UPDATE_ON_AIR_SLOT });
 
+export const switchStreams = (streamIndex: number) => ({
+  type: SWITCH_ACTIVE_STREAM,
+  payload: { streamIndex }
+});
+
 const initialState = {
   isLoading: true,
   data: null,
@@ -38,6 +44,7 @@ const initialState = {
   currentlyOnAir: [],
   slotsByDay: [],
   activeStream: 0,
+  onlineStreams: [],
 };
 
 export default function scheduleReducer(state = initialState, action: any) {
@@ -50,17 +57,21 @@ export default function scheduleReducer(state = initialState, action: any) {
     }
     case LOAD_SCHEDULE_SUCCESS: {
       console.log(action);
-      const slotsByDay = action.payload.streams.map((stream: any) => stream.slate ? chunkSlotsByDay(
+      let stream = action.payload.streams[state.activeStream];
+
+      const slotsByDay = chunkSlotsByDay(
         stream.slate.slots,
         stream.slate.automationShow,
-      ) : null);
+      );
 
       return {
         ...state,
         isLoading: false,
         slotsByDay: slotsByDay,
-        automationShow: action.payload.streams.map((stream: any) => stream.slate ? stream.slate.automationShow : null),
-        currentlyOnAir: slotsByDay.map(getOnAirSlot),
+        automationShow: stream.slate.automationShow,
+        currentlyOnAir: getOnAirSlot(slotsByDay),
+        stream: stream,
+        data: action.payload,
       };
     }
     case LOAD_SCHEDULE_FAILURE: {
@@ -75,8 +86,37 @@ export default function scheduleReducer(state = initialState, action: any) {
 
       return {
         ...state,
-        currentlyOnAir: state.slotsByDay.map(getOnAirSlot),
+        currentlyOnAir: getOnAirSlot(state.slotsByDay),
       };
+    }
+    case SWITCH_ACTIVE_STREAM: {
+      let data: any = state.data;
+      if (data == null) return state;
+
+      console.log("hi");
+
+      let stream = data.streams[action.payload.streamIndex];
+      if (stream.slate == null) {
+        return {
+          ...state,
+          stream: stream,
+          activeStream: action.payload.streamIndex,
+        }
+      }
+
+      const slotsByDay = chunkSlotsByDay(
+        stream.slate.slots,
+        stream.slate.automationShow,
+      );
+
+      return {
+        ...state,
+        activeStream: action.payload.streamIndex,
+        slotsByDay: slotsByDay,
+        automationShow: stream.slate.automationShow,
+        currentlyOnAir: getOnAirSlot(slotsByDay),
+        stream: stream,
+      }
     }
     default: {
       return state;

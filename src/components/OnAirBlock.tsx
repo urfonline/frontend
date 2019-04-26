@@ -48,7 +48,7 @@ export const OnAirBlock: React.FC<IProps> = () => {
     return null;
   }
 
-  const { show, startDate, endDate} = schedule.currentlyOnAir[schedule.activeStream];
+  const { show, startDate, endDate} = schedule.currentlyOnAir;
 
   return (
     <Block

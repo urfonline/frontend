@@ -15,7 +15,7 @@ interface IProps {
 }
 
 const PlayPauseIcon = ({ tone }: IProps) => {
-  if (tone === PlayerIcons.Play) return <PlayIcon />;
+  if (tone === PlayerIcons.Play) return <PlayIcon style={{ position: 'relative', left: '2.8px' }} />;
   if (tone === PlayerIcons.Pause) return <PauseIcon />;
   if (tone === PlayerIcons.Loading) return <LoadingIcon />;
 

@@ -11,7 +11,7 @@ interface IProps {
 function PlayPauseButton({ isPlaying, onChange, state }: IProps) {
   let tone = PlayerIcons.Play;
 
-  if (isPlaying && state === 'playing') {
+  if (isPlaying && (state === 'playing' || state === 'suspend')) {
     tone = PlayerIcons.Pause;
   }
 

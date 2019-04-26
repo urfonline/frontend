@@ -1,0 +1,10 @@
+.StreamSwitcher {
+  &__selector {
+    background: transparent;
+    color: #fff;
+    padding: 10px;
+    border: 0;
+    font-size: 20px;
+    font-weight: 700;
+  }
+}

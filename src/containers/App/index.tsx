@@ -78,8 +78,8 @@ const App: React.FC = () => {
   const mapState = useCallback(
     (store: RootState) => ({
       isPlaying: store.player.userState === true,
-      currentlyOnAirShow: store.schedule.currentlyOnAir[0] // TODO: use player's stream data
-        ? store.schedule.currentlyOnAir[0].show
+      currentlyOnAirShow: store.schedule.currentlyOnAir
+        ? store.schedule.currentlyOnAir.show
         : false,
     }),
     [],
@@ -150,6 +150,7 @@ const ScheduleQuery = gql`
     mountpoint
     slug
     host
+    port
     priorityOnline
     priorityOffline
     slate {

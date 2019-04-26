@@ -263,6 +263,8 @@ export function getOnAirSlot(slotsByDay: any) {
   const now = new Date();
   const todaySlots = slotsByDay[shiftedDates[getDay(now)]];
 
+  console.log(todaySlots);
+
   // @ts-ignore
   for (const [_index, slot] of todaySlots.entries()) {
     let endDate = slot.endDate;

@@ -8,6 +8,8 @@ import { RootState } from '../types';
 import { AspectRatio, OneImage } from './OneImage';
 import { defaultShowCoverResource } from '../utils/shows';
 import { useDispatch, useMappedState } from 'redux-react-hook';
+import StreamSwitcher from './StreamSwitcher';
+import { switchStreams } from '../ducks/schedule';
 
 interface IProps {}
 
@@ -26,12 +28,9 @@ const Player: React.FC<IProps> = () => {
     return null;
   }
 
-  const {show, startDate, endDate} = schedule.currentlyOnAir[schedule.activeStream];
-
+  const {show, startDate, endDate} = schedule.currentlyOnAir;
   const endpoint = player.userState
-    ? player.stream === 'live'
-      ? `http://uk2.internet-radio.com:30764/stream`
-      : player.stream
+    ? `http://${schedule.stream.host}:${schedule.stream.port}${schedule.stream.mountpoint}`
     : null;
 
   return (
@@ -70,11 +69,8 @@ const Player: React.FC<IProps> = () => {
             />
           </div>
         </div>
-        <div className="Player__streams Player__section">
-          <div className="Player__source">Playing from</div>
-          <div className="Player__selector">URF</div>
-
-        </div>      </div>
+        <StreamSwitcher schedule={schedule} onChange={(index: number) => dispatch(switchStreams(index))} />
+      </div>
 
       {endpoint ? <PlayerAudio
         stream={endpoint}
