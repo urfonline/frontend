@@ -146,6 +146,7 @@ const App: React.FC = () => {
 const ScheduleQuery = gql`
   query ScheduleQuery {
   allStreams {
+    id
     name
     mountpoint
     slug

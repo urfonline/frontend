@@ -136,7 +136,7 @@ const OneImage: React.FC<IProps> = (props) => {
           },
         };
 
-  return <div {...containerProps}>{img}</div>;
+  return <div {...containerProps} key={props.src}>{img}</div>;
 };
 
 interface IBackgroundProps extends React.HTMLAttributes<HTMLDivElement> {

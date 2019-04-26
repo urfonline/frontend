@@ -11,10 +11,9 @@ function StreamSwitcher({ onChange, schedule }: IProps) {
     <div className="Player__streams Player__section">
       <select className="StreamSwitcher__selector" onChange={(ev: any) => onChange(parseInt(ev.target.value))}>
         {schedule.data.streams.map((stream: any, i: number) =>
-          <option value={i}>{stream.name}</option>
+          <option value={i} key={stream.id}>{stream.name}</option>
         )}
       </select>
-      {/*<div className="Player__selector">{schedule.stream.name}</div>*/}
     </div>
   );
 }
