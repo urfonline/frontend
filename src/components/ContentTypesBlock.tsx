@@ -100,7 +100,7 @@ function renderShow(props: IProps) {
           <BlockTitle>{props.block.overrideTitle || show.name}</BlockTitle>
           <div>
             {show.slots.map((slot: any) => (
-              <span>
+              <span key={slot.id}>
                 {DAYS_TEXT[slot.day]}s at{' '}
                 {formatTime(parseTime(slot.startTime))}
               </span>

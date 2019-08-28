@@ -152,6 +152,7 @@ const HomeQuery = gql`
             resource
           }
           slots {
+            id
             day
             startTime
           }
