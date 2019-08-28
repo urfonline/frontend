@@ -156,6 +156,7 @@ const ScheduleQuery = gql`
     priorityOffline
     slate {
       automationShow {
+        id
         name
         slug
         brandColor
@@ -166,6 +167,7 @@ const ScheduleQuery = gql`
       }
       slots {
         show {
+          id
           name
           slug
           brandColor

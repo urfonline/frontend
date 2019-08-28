@@ -93,8 +93,6 @@ export default function scheduleReducer(state = initialState, action: any) {
       let data: any = state.data;
       if (data == null) return state;
 
-      console.log("hi");
-
       let stream = data.streams[action.payload.streamIndex];
       if (stream.slate == null) {
         return {
@@ -102,6 +100,7 @@ export default function scheduleReducer(state = initialState, action: any) {
           stream: stream,
           activeStream: action.payload.streamIndex,
         }
+        // TODO: the stream has no schedule slate - hide schedule?
       }
 
       const slotsByDay = chunkSlotsByDay(

@@ -38,9 +38,6 @@ class FullSchedule extends React.Component<IProps, any> {
       return <Spinner />;
     }
 
-    const activeSlotsByDay = slotsByDay[0];
-    const activeCurrentlyOnAir = currentlyOnAir[0];
-
     const days = ['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'];
 
     return (
@@ -59,8 +56,8 @@ class FullSchedule extends React.Component<IProps, any> {
                 <ScheduleDayRow
                   title={day}
                   day={index}
-                  onAirSlotId={activeCurrentlyOnAir.slotId}
-                  slots={activeSlotsByDay[index]}
+                  onAirSlotId={currentlyOnAir.slotId}
+                  slots={slotsByDay[index]}
                   calculateWidth={calculateWidth}
                 />
               </div>
