@@ -34,7 +34,7 @@ export default (WrappedComponent: any) => {
       );
     }
 
-    componentDidLeave() {
+    componentWillUnmount() {
       clearInterval(this.interval);
     }
 
