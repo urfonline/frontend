@@ -263,8 +263,6 @@ export function getOnAirSlot(slotsByDay: any) {
   const now = new Date();
   const todaySlots = slotsByDay[shiftedDates[getDay(now)]];
 
-  console.log(todaySlots);
-
   // @ts-ignore
   for (const [_index, slot] of todaySlots.entries()) {
     let endDate = slot.endDate;
@@ -290,4 +288,48 @@ export function getScrollPositionForNow(): number {
   const duration = differenceInMinutes(now, START_OF_TODAY);
 
   return calculateWidth(duration);
+}
+
+export function resolveStreamOrder(streams: Array<any>): Promise<any> {
+  return Promise.all(
+    streams.map((stream: any): Promise<any> => {
+      if (stream.slate != null) {
+        if (getOnAirSlot(chunkSlotsByDay(stream.slate.slots, stream.slate.automationShow)).show.id === stream.slate.automationShow.id) {
+          // stream is OFFLINE
+          return Promise.resolve({ stream, offline: true })
+        } else {
+          return Promise.resolve({ stream, offline: false })
+        }
+      } else {
+        return fetch(`http://${stream.host}:${stream.port}/status-json.xsl`)
+          .then((res) => res.json())
+          .then((data: any) => {
+            let info = data.icestats;
+
+            return { stream,
+              offline: info.source.length <= 0,
+              description: (info.source[0] ? info.source[0].title : null)
+            };
+          })
+          .catch(() => {
+            return { stream, offline: true }
+          })
+      }
+
+      // return Promise.reject("Default case :(")
+    })
+  ).then((streamInfos: Array<any>) => {
+    return streamInfos.sort((a: any, b: any) =>
+      (a.offline ? a.stream.priorityOffline : a.stream.priorityOnline)
+      - (b.offline ? b.stream.priorityOffline : b.stream.priorityOnline)
+    ).map((info: any) => {
+      return { ...info.stream,
+        offline: info.offline,
+        icyDescription: info.description,
+        resolvedPriority: info.offline
+          ? info.stream.priorityOffline
+          : info.stream.priorityOnline
+      }
+    })
+  })
 }

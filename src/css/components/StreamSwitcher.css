@@ -6,5 +6,52 @@
     border: 0;
     font-size: 20px;
     font-weight: 700;
+    cursor: pointer;
+  }
+
+  &__options {
+    position: fixed;
+    right: 5px;
+    bottom: 50px;
+    z-index: 100;
+    background: #fff;
+    border: 3px solid #fff;
+    border-radius: 5px;
+  }
+
+  &__stream {
+    padding: 10px;
+    width: 200px;
+    background: #fff;
+    color: #111;
+    text-align: left;
+    text-shadow: none;
+    position: relative;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &__offline {
+      color: #7f7f7f;
+    }
+
+    &__title {
+      font-weight: 700;
+    }
+
+    &__meta {
+      color: #666666;
+      transition: color .25s;
+    }
+
+    transition: color .25s, background-color .25s;
+
+    &:hover {
+      background-color: var(--color__brand-red);
+      color: #fff;
+    }
+
+    &:hover &__meta {
+      color: #bababa;
+    }
   }
 }

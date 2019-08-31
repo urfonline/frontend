@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { RefObject, useState } from 'react';
 // import UpArrow from '../img/caret-up.svg';
 
 interface IProps {
@@ -6,14 +6,38 @@ interface IProps {
   schedule: any; // todo
 }
 
+interface IStreamProps {
+  onClick(): void;
+  stream: any;
+}
+
+function Stream({ stream, onClick }: IStreamProps) {
+  return (
+    <div className={`StreamSwitcher__stream StreamSwitcher__stream__${stream.offline ? "offline" : "online"}`}
+         onClick={onClick}>
+      <div className="StreamSwitcher__stream__title">{stream.name}</div>
+      <div className="StreamSwitcher__stream__meta">{stream.icyDescription || "📻  Automation"}</div>
+    </div>
+  )
+}
+
 function StreamSwitcher({ onChange, schedule }: IProps) {
+  let switcherSelector: RefObject<HTMLDivElement> = React.createRef();
+  let [isOpen, setOpen] = useState(false);
+
   return (
     <div className="Player__streams Player__section">
-      <select className="StreamSwitcher__selector" onChange={(ev: any) => onChange(parseInt(ev.target.value))}>
+      <div className="StreamSwitcher__selector" ref={switcherSelector} onClick={() => setOpen(!isOpen)}>
+        {schedule.stream.name}
+      </div>
+      <div className="StreamSwitcher__options" hidden={!isOpen}>
         {schedule.data.streams.map((stream: any, i: number) =>
-          <option value={i} key={stream.id}>{stream.name}</option>
+          <Stream stream={stream} key={stream.id} onClick={() => {
+            onChange(i);
+            setOpen(false);
+          }}/>
         )}
-      </select>
+      </div>
     </div>
   );
 }
