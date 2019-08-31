@@ -80,7 +80,17 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              hmr: env.development,
+              reloadAll: true
+            }
+          },
+          'css-loader',
+          'postcss-loader'
+        ],
       },
       {
         test: /\.ts(x?)$/,
