@@ -1,5 +1,5 @@
 import React, { RefObject, useState } from 'react';
-// import UpArrow from '../img/caret-up.svg';
+import UpArrow from '../img/caret-up.svg';
 
 interface IProps {
   onChange(streamIndex: number): void;
@@ -16,7 +16,7 @@ function Stream({ stream, onClick }: IStreamProps) {
     <div className={`StreamSwitcher__stream StreamSwitcher__stream__${stream.offline ? "offline" : "online"}`}
          onClick={onClick}>
       <div className="StreamSwitcher__stream__title">{stream.name}</div>
-      <div className="StreamSwitcher__stream__meta">{stream.icyDescription || "📻  Automation"}</div>
+      <div className="StreamSwitcher__stream__meta">{stream.icyDescription || "📻 Unknown"}</div>
     </div>
   )
 }
@@ -28,9 +28,12 @@ function StreamSwitcher({ onChange, schedule }: IProps) {
   return (
     <div className="Player__streams Player__section">
       <div className="StreamSwitcher__selector" ref={switcherSelector} onClick={() => setOpen(!isOpen)}>
+        <UpArrow className="StreamSwitcher__selector__indicator" style={{
+          transform: (isOpen ? "rotateX(180deg)": "")
+        }} />
         {schedule.stream.name}
       </div>
-      <div className="StreamSwitcher__options" hidden={!isOpen}>
+      <div className={`StreamSwitcher__options StreamSwitcher__options__${isOpen ? "open": "closed"}`}>
         {schedule.data.streams.map((stream: any, i: number) =>
           <Stream stream={stream} key={stream.id} onClick={() => {
             onChange(i);
