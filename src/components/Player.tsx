@@ -9,7 +9,6 @@ import { AspectRatio, OneImage } from './OneImage';
 import { defaultShowCoverResource } from '../utils/shows';
 import { useDispatch, useMappedState } from 'redux-react-hook';
 import StreamSwitcher from './StreamSwitcher';
-import { switchStreams } from '../ducks/schedule';
 
 interface IProps {}
 
@@ -69,7 +68,7 @@ const Player: React.FC<IProps> = () => {
             />
           </div>
         </div>
-        <StreamSwitcher schedule={schedule} onChange={(index: number) => dispatch(switchStreams(index))} />
+        <StreamSwitcher />
       </div>
 
       {endpoint ? <PlayerAudio
