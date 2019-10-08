@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import UpArrow from '../img/caret-up.svg';
-import { useDispatch } from 'redux-react-hook';
 import { resolveStreamOrder } from '../utils/schedule';
 import { IScheduleState, streamsResolved, switchStreams } from '../ducks/schedule';
 import { connect } from 'react-redux';
@@ -27,19 +26,7 @@ function Stream({ stream, onClick }: IStreamProps) {
 }
 
 function StreamSwitcher({ onChange, schedule }: IProps) {
-  const dispatch = useDispatch();
   let [isOpen, setOpen] = useState(false);
-
-  useEffect(
-    () => {
-      resolveStreamOrder(schedule.allStreams).then(
-      (onlineStreams: Array<any>) => dispatch(streamsResolved(onlineStreams))
-      ).then(
-        () => dispatch(switchStreams(0))
-      );
-    },
-    [schedule.allStreams],
-  );
 
   return (
     <div className="Player__streams Player__section">
@@ -67,15 +54,20 @@ interface IConnectProps {
 }
 
 function LoadableStreamSwitcher({ schedule, dispatch }: IConnectProps) {
-  if (!schedule.streamsResolved) {
-    useEffect(() => {
-      resolveStreamOrder(schedule.allStreams)
-        .then((onlineStreams: Array<any>) =>
-          dispatch(streamsResolved(onlineStreams))
-        )
-    }, [schedule.allStreams]);
+  useEffect(() => {
+    resolveStreamOrder(schedule.allStreams)
+      .then((onlineStreams: Array<any>) =>
+        dispatch(streamsResolved(onlineStreams))
+      )
+      .then(() =>
+        dispatch(switchStreams(0))
+      )
+  }, [schedule.allStreams]);
 
-    return <div className="StreamSwitcher__selector">Loading...</div>
+  if (!schedule.streamsResolved) {
+    return <div className="Player__streams Player__section">
+      <div className="StreamSwitcher__selector">Loading...</div>
+    </div>
   }
 
   return <StreamSwitcher
