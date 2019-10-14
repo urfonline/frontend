@@ -57,7 +57,18 @@ export default function scheduleReducer(state: IScheduleState = initialState, ac
     }
     case LOAD_SCHEDULE_SUCCESS: {
       let allStreams = action.payload.streams;
-      let stream = allStreams[state.activeStream];
+
+      // to get the initial active stream, we sort by online priority and
+      // then find the first stream with a slate. we do this because
+      // the rest of the code currently assumes we have a slate.
+      let slateStream = Array.from(allStreams).sort(
+        (a: any, b: any) => b.priorityOnline - a.priorityOnline
+      ).find(
+        (stream: any) => stream.slate != null
+      );
+
+      let activeStream = allStreams.indexOf(slateStream);
+      let stream = allStreams[activeStream];
 
       const slotsByDay = chunkSlotsByDay(
         stream.slate.slots,
@@ -70,6 +81,7 @@ export default function scheduleReducer(state: IScheduleState = initialState, ac
         slotsByDay: slotsByDay,
         automationShow: stream.slate.automationShow,
         currentlyOnAir: getOnAirSlot(slotsByDay),
+        activeStream: activeStream,
         stream: stream,
         allStreams: allStreams,
       };
