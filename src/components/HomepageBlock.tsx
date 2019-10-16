@@ -1,11 +1,14 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import isPropValid from '@emotion/is-prop-valid';
 import { Link } from 'react-router-dom';
 import { ImageResource } from '../types';
 import { css, cx } from 'emotion';
 import { AspectRatio, OneImage } from './OneImage';
 
-const Box = styled.div`
+const Box = styled("div", {
+  shouldForwardProp: isPropValid
+})`
   box-shadow: 0 1px 6px rgba(30, 30, 30, 0.1);
   display: block;
   ${(props: any) =>
@@ -36,6 +39,7 @@ export const BlockTitle = styled.h1`
 `;
 
 export const BlockKicker = styled.div`
+  color: #4a4a4a;
   font-size: 0.8em;
   font-weight: 600;
   text-transform: uppercase;

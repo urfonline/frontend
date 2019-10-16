@@ -2,14 +2,25 @@ import React from 'react';
 
 import PlayIcon from '../img/play.svg';
 import PauseIcon from '../img/pause.svg';
+import LoadingIcon from '../img/loading.svg';
 
-interface IProps {
-  tone: string;
+export enum PlayerIcons {
+  Play,
+  Loading,
+  Pause,
 }
 
-const PlayPauseIcon = ({ tone }: IProps) => (
-  <div>{tone === 'pause' ? <PauseIcon /> : <PlayIcon />}</div>
-);
+interface IProps {
+  tone: PlayerIcons;
+}
+
+const PlayPauseIcon = ({ tone }: IProps) => {
+  if (tone === PlayerIcons.Play) return <PlayIcon style={{ position: 'relative', left: '2.8px' }} />;
+  if (tone === PlayerIcons.Pause) return <PauseIcon />;
+  if (tone === PlayerIcons.Loading) return <LoadingIcon />;
+
+  return null;
+};
 /* eslint-enable */
 
 export default PlayPauseIcon;

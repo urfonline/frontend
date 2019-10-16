@@ -12,16 +12,14 @@ import { IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
 import introspectionQueryResultData from '../fragmentTypes.json';
 import { StoreContext } from 'redux-react-hook';
 import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
+import { API_HOST } from './config';
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData,
 });
 
 const link = new HttpLink({
-  uri:
-    process.env.NODE_ENV === 'production'
-      ? 'https://api.urfonline.com/graphql'
-      : 'https://api.urfonline.com/graphql', // 'http://localhost:8000/graphql',
+  uri: `${API_HOST}/graphql`
 });
 //
 // link.use([

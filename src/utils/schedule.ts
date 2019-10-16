@@ -13,6 +13,7 @@ import startOfDay from 'date-fns/startOfDay';
 import endOfDay from 'date-fns/endOfDay';
 import isWithinInterval from 'date-fns/isWithinInterval';
 import { isEqual } from 'date-fns';
+import { API_HOST } from '../config';
 
 const shiftedDates = [6, 0, 1, 2, 3, 4, 5];
 
@@ -257,6 +258,8 @@ export function getTodayDayMonday() {
 }
 
 export function getOnAirSlot(slotsByDay: any) {
+  if (slotsByDay === null) return null;
+
   // todo
   const now = new Date();
   const todaySlots = slotsByDay[shiftedDates[getDay(now)]];
@@ -286,4 +289,50 @@ export function getScrollPositionForNow(): number {
   const duration = differenceInMinutes(now, START_OF_TODAY);
 
   return calculateWidth(duration);
+}
+
+export function resolveStreamOrder(streams: Array<any>): Promise<any> {
+  return Promise.all(
+    streams.map((stream: any): Promise<any> => {
+      let asleep = false;
+
+      if (stream.slate != null) {
+        asleep = getOnAirSlot(
+          chunkSlotsByDay(stream.slate.slots, stream.slate.automationShow)
+        ).show.id === stream.slate.automationShow.id;
+      }
+
+      return fetch(`${API_HOST}/streams/${stream.slug}/status`)
+        .then((res) => res.json())
+        .then((data: any) => {
+          let info = data.icestats;
+
+          return { stream,
+            bed: asleep,
+            offline: info.source.length <= 0,
+            description: (info.source[0] ? info.source[0].server_description : null)
+          };
+        })
+        .catch(() => {
+          return { stream, offline: true }
+        })
+    })
+  ).then((streamInfos: Array<any>) => {
+    return streamInfos.sort((a: any, b: any) =>
+      (a.bed ? a.stream.priorityOffline : a.stream.priorityOnline)
+      - (b.bed ? b.stream.priorityOffline : b.stream.priorityOnline)
+    ).filter((info: any) => !info.offline)
+      .map((info: any) => {
+        return { ...info.stream,
+          bed: info.bed,
+          icyDescription: info.description,
+          resolvedPriority: info.bed
+            ? info.stream.priorityOffline
+            : info.stream.priorityOnline
+        }
+      }
+    )
+  }).catch((errors) => {
+    console.error(errors);
+  })
 }

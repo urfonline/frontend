@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 
 interface IProps {
   stream: string;
@@ -6,70 +6,50 @@ interface IProps {
   onChange: any;
 }
 
-interface IState {
-  cacheKey: number;
-}
+export const PlayerAudio: React.FC<IProps> = ({ userState, stream, onChange}) => {
+  const [cacheKey] = useState(Math.random());
+  const ref = useRef<HTMLAudioElement>(null);
+  const handleEvent = useCallback(onChange, []);
 
-class PlayerAudio extends React.Component<IProps, IState> {
-  private audioEl: any;
+  useEffect(() => {
+    if (ref.current !== null) {
+      ref.current.addEventListener('stalled', handleEvent);
+      ref.current.addEventListener('ended', handleEvent);
+      ref.current.addEventListener('error', handleEvent);
+      ref.current.addEventListener('loadstart', handleEvent);
+      ref.current.addEventListener('playing', handleEvent);
+      ref.current.addEventListener('stalled', handleEvent);
+      ref.current.addEventListener('suspend', handleEvent);
+      ref.current.addEventListener('waiting', handleEvent);
+    }
 
-  constructor(props: IProps) {
-    super(props);
-
-    this.state = {
-      cacheKey: Math.random(),
-    };
-  }
-
-  componentWillUpdate(nextProps: IProps) {
-    const { userState } = this.props;
-
-    if (nextProps.userState !== userState) {
-      if (nextProps.userState) {
-        this.setState({ cacheKey: Math.random() }, () => {
-          this.audioEl.play();
-        });
-      } else {
-        // this.audioEl.pause();
+    return () => {
+      if (ref.current !== null) {
+        ref.current.removeEventListener('stalled', handleEvent);
+        ref.current.removeEventListener('ended', handleEvent);
+        ref.current.removeEventListener('error', handleEvent);
+        ref.current.removeEventListener('loadstart', handleEvent);
+        ref.current.removeEventListener('playing', handleEvent);
+        ref.current.removeEventListener('stalled', handleEvent);
+        ref.current.removeEventListener('suspend', handleEvent);
+        ref.current.removeEventListener('waiting', handleEvent);
       }
     }
-  }
+  }, [ref]);
 
-  componentDidMount() {
-    function handleEvent(...args: any[]) {
-      console.log(args);
+  useEffect(() => {
+    if (userState) {
+      if (ref.current) {
+        ref.current.play();
+      }
     }
+  }, [userState]);
 
-    this.audioEl.addEventListener('stalled', handleEvent);
-    this.audioEl.addEventListener('ended', handleEvent);
-    this.audioEl.addEventListener('error', handleEvent);
-    this.audioEl.addEventListener('loadstart', handleEvent);
-    this.audioEl.addEventListener('playing', handleEvent);
-    this.audioEl.addEventListener('progress', handleEvent);
-    this.audioEl.addEventListener('stalled', handleEvent);
-    this.audioEl.addEventListener('suspend', handleEvent);
-    this.audioEl.addEventListener('waiting', handleEvent);
-  }
-
-  render() {
-    const { userState, stream } = this.props;
-
-    return (
-      <audio
-        src={
-          userState
-            ? stream === 'live'
-              ? `http://uk2.internet-radio.com:30764/stream?nocache=${
-                  this.state.cacheKey
-                }`
-              : stream
-            : ''
-        }
-        autoPlay
-        ref={(ref) => (this.audioEl = ref)}
-      />
-    );
-  }
-}
-
-export default PlayerAudio;
+  return (
+    <audio
+      src={`${stream}?nocache=${cacheKey}`}
+      autoPlay
+      ref={ref}
+    />
+  )
+};

@@ -1,0 +1,77 @@
+.StreamSwitcher {
+  &__selector {
+    background: transparent;
+    color: #fff;
+    padding: 10px;
+    border: 0;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+
+    &__indicator {
+      width: 20px;
+      height: 20px;
+      position: relative;
+      top: 3px;
+      margin-right: 3px;
+      fill: #fff;
+      transition: transform .25s;
+    }
+  }
+
+  &__options {
+    position: fixed;
+    right: 5px;
+    bottom: 60px;
+    z-index: 100;
+    background: #fff;
+    border: 3px solid #fff;
+    border-radius: 5px;
+    transition: transform .25s ease-out;
+    transform-origin: bottom;
+
+    &__open {
+      transform: scaleY(1);
+    }
+
+    &__closed {
+      transform: scaleY(0);
+    }
+  }
+
+  &__stream {
+    padding: 10px;
+    width: 400px;
+    background: #fff;
+    color: #111;
+    text-align: left;
+    text-shadow: none;
+    position: relative;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &__offline {
+      color: #7f7f7f;
+    }
+
+    &__title {
+      font-weight: 700;
+    }
+
+    &__meta {
+      color: #666666;
+      transition: color .25s;
+    }
+
+    transition: color .25s, background-color .25s;
+
+    &:hover {
+      background-color: var(--color__brand-red);
+      color: #fff;
+    }
+
+    &:hover &__meta {
+      color: #bababa;
+    }
+  }
+}

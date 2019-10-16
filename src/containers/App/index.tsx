@@ -145,34 +145,46 @@ const App: React.FC = () => {
 
 const ScheduleQuery = gql`
   query ScheduleQuery {
-    currentSlate {
-      slots {
-        show {
+    allStreams {
+      id
+      name
+      mountpoint
+      slug
+      host
+      port
+      priorityOnline
+      priorityOffline
+      slate {
+        automationShow {
+          id
           name
           slug
           brandColor
           emojiDescription
-          category {
-            name
-            slug
-            color
-          }
           cover {
             resource
           }
         }
-        startTime
-        endTime
-        day
-      }
-    }
-    automationShow {
-      name
-      slug
-      brandColor
-      emojiDescription
-      cover {
-        resource
+        slots {
+          show {
+            id
+            name
+            slug
+            brandColor
+            emojiDescription
+            category {
+              name
+              slug
+              color
+            }
+            cover {
+              resource
+            }
+          }
+          startTime
+          endTime
+          day
+        }
       }
     }
   }

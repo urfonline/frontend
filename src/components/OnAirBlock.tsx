@@ -48,7 +48,7 @@ export const OnAirBlock: React.FC<IProps> = () => {
     return null;
   }
 
-  const show = schedule.currentlyOnAir.show;
+  const { show, startDate, endDate} = schedule.currentlyOnAir;
 
   return (
     <Block
@@ -79,8 +79,8 @@ export const OnAirBlock: React.FC<IProps> = () => {
         </div>{' '}
         <BlockTitle>{show.name}</BlockTitle>
         <div>
-          {formatTime(schedule.currentlyOnAir.startDate)}-
-          {formatTime(schedule.currentlyOnAir.endDate)}
+          {formatTime(startDate)}-
+          {formatTime(endDate)}
         </div>
       </div>
     </Block>

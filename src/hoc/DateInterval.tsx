@@ -2,6 +2,8 @@ import React from 'react';
 
 export default (prefs: { interval: number }, WrappedComponent: any) =>
   class DateInterval extends React.Component<any, { dateInterval: Date }> {
+    private interval: any;
+
     constructor(props: any) {
       super(props);
 
@@ -11,10 +13,14 @@ export default (prefs: { interval: number }, WrappedComponent: any) =>
     }
 
     componentDidMount() {
-      setInterval(
+      this.interval = setInterval(
         () => this.setState({ dateInterval: new Date() }),
         prefs.interval,
       );
+    }
+
+    componentWillUnmount(): void {
+      clearInterval(this.interval);
     }
 
     render() {

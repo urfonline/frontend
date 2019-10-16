@@ -25,8 +25,7 @@ module.exports = {
   target: 'web',
 
   entry: {
-    vendor: ['react', 'react-dom', 'unfetch', './src/utils/lazysizesEntry.ts'],
-    main: './src/entry.tsx',
+    main: ['./src/entry.tsx', './src/utils/lazysizesEntry.ts'],
   },
 
   output: {
@@ -69,7 +68,7 @@ module.exports = {
       template: 'src/index.html',
       alwaysWriteToDisk: true,
       inject: true,
-      chunks: ['vendor', 'main'],
+      chunks: ['main'],
     }),
     new HtmlWebpackHarddiskPlugin(),
     new MiniCssExtractPlugin({
@@ -81,7 +80,17 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              hmr: env.development,
+              reloadAll: true
+            }
+          },
+          'css-loader',
+          'postcss-loader'
+        ],
       },
       {
         test: /\.ts(x?)$/,

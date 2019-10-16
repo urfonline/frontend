@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg class="LoadingIcon" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>Loading</title>
+    <g id="Loading" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="loading" fill="#FFFFFF" fill-rule="nonzero">
+            <path d="M10.8267286,24 C4.74773379,23.3964406 0,18.2675158 0,12.0296984 C0,5.38587944 5.38587944,0 12.0296984,0 C18.2675158,0 23.3964406,4.74773379 24,10.8267286 L21.5790008,10.8267286 C20.9870218,6.07943477 16.9373555,2.40593969 12.0296984,2.40593969 C6.71464324,2.40593969 2.40593969,6.71464324 2.40593969,12.0296984 C2.40593969,16.9373555 6.07943477,20.9870218 10.8267286,21.5790008 L10.8267286,24 Z" id="Combined-Shape"></path>
+        </g>
+    </g>
+</svg>

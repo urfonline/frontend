@@ -3,7 +3,7 @@ module.exports = api => {
 
   const config = {
     presets: ["@babel/preset-react"],
-    plugins: ["@babel/plugin-syntax-dynamic-import", "emotion"]
+    plugins: ["emotion", "@babel/plugin-syntax-dynamic-import"]
   };
 
   console.log("babel", process.env.ENV);
