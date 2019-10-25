@@ -34,7 +34,9 @@ const Player: React.FC<IProps> = () => {
 
   return (
     <div className="Player">
-      {show.cover.resource ? <img className="Player__img-back" src={'https://urf.imgix.net/' + show.cover.resource + "?w=200&h=200&q=50&auto=format"} /> : null}
+      <div className="Player__img-container">
+        {show.cover.resource ? <img className="Player__img-back" src={'https://urf.imgix.net/' + show.cover.resource + "?w=200&h=200&q=50&auto=format"} /> : null}
+      </div>
       <div className="Player__container">
         <div className="Player__content Player__section">
           <div className="Player__show-cover">
