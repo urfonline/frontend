@@ -306,11 +306,16 @@ export function resolveStreamOrder(streams: Array<any>): Promise<any> {
         .then((res) => res.json())
         .then((data: any) => {
           let info = data.icestats;
+          let source = info.source;
+
+          if (Array.isArray(source)) {
+            source = info.source[0];
+          }
 
           return { stream,
             bed: asleep,
-            offline: info.source.length <= 0,
-            description: (info.source[0] ? info.source[0].server_description : null)
+            offline: source == null,
+            description: (source ? source.server_description : null)
           };
         })
         .catch(() => {
