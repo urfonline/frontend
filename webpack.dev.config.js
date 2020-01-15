@@ -18,6 +18,10 @@ config.devServer = {
   }
 };
 
+config.watchOptions = {
+  ignored: /node_modules/
+}
+
 config.mode = 'development';
 config.output = {
   path: path.resolve('./build'),
