@@ -44,7 +44,7 @@ function LongTextEntry(props: ITextEntryProps) {
 	}
 
 	return <div className="TextEntry LongTextEntry">
-		<label htmlFor={props.id}>{props.title}</label>
+		<label htmlFor={props.id} title={props.helptext}>{props.title}</label>
 		{props.helptext && <div className="meta">{props.helptext}</div>}
 		<textarea className="TextEntry__input" id={props.id}
 			required={true} rows={rows}
