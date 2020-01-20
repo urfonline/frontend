@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { RootState } from '../types';
-import { EmojiInput, LongTextInput, TextInput } from '../components/Form';
+import { ColorInput, EmojiInput, LongTextInput, TextInput } from '../components/Form';
 
 interface IProps {
 	dispatch: any;
@@ -16,7 +16,7 @@ function ApplicationForm(_props: IProps) {
 		<form id="applyform">
 			<TextInput title="Name of Show" id="name"/>
 			<TextInput title="Contact Email" id="contactEmail" type="email"
-        helptext="An email we can contact you by."/>
+        helptext="An email we can contact you by"/>
 
 			<TextInput title="Short Description" id="shortDescription"
 				helptext="A short tagline for your show"/>
@@ -25,9 +25,12 @@ function ApplicationForm(_props: IProps) {
 				helptext="A longer description for your show (min. 200 characters)"/>
 			<EmojiInput id="emojiDescription" title="Emoji Description"
         helptext="Pick an emoji that represents your show!"/>
+      <ColorInput id="brandColor" title="Brand Color"
+        helptext={"Pick a color to brand your show page with (click to select)"+
+                  ", or specify a hex color code"}/>
 
 			<TextInput title="Facebook URL" id="socialFacebookUrl"
-				helptext="(optional) If you have a Facebook page for your show, paste its URL here."
+				helptext="(optional) If you have a Facebook page for your show, paste its URL here"
 				optional={true}/>
 		</form>
 	</div>

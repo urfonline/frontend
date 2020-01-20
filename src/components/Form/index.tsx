@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import React from 'react';
+import React, { useState } from 'react';
 import { BaseEmoji, Picker } from 'emoji-mart';
+import { TwitterPicker, ColorResult } from 'react-color';
+import tinycolor from 'tinycolor2';
 
 interface IInputProps {
   id: string;
@@ -58,15 +59,64 @@ export function EmojiInput(props: IInputProps) {
 
   function handleSelect(emojiData: BaseEmoji) {
     setEmoji(emojiData.native);
-    setOpen(false);
   }
 
-  return <div className="StyledInput EmojiInput">
+  let timer: number = 0;
+  function handleExit() {
+    // @ts-ignore
+    timer = setTimeout(() => setOpen(false), 0);
+  }
+
+  function handleRejoin() {
+    if (timer) clearTimeout(timer);
+  }
+
+  function handleKey(e: any) {
+    if (e.which == 27) setOpen(false);
+  }
+
+  return <div className="StyledInput EmojiInput" onBlurCapture={handleExit}
+              onFocusCapture={handleRejoin} onKeyDown={handleKey}>
     <label htmlFor={props.id} title={props.helptext}>{props.title}</label>
     {props.helptext && <div className="meta">{props.helptext}</div>}
     <input type="button" name={props.id} value={emoji}
            onClick={() => setOpen(!open)}/>
-    {open && <Picker set="twitter" title="Pick an emoji"
+    {open && <Picker set="twitter" title="Pick an emoji" emoji="radio"
             onSelect={handleSelect}/>}
+  </div>
+}
+
+export function ColorInput(props: IInputProps) {
+  let [open, setOpen] = useState(false);
+  let [color, setColor] = useState('#ff0000');
+
+  function handleSelect(color: ColorResult) {
+    setColor(color.hex);
+  }
+
+  let timer: number = 0;
+  function handleExit() {
+    // @ts-ignore
+    timer = setTimeout(() => setOpen(false), 0);
+  }
+
+  function handleRejoin() {
+    if (timer) clearTimeout(timer);
+  }
+
+  function handleKey(e: any) {
+    if (e.which == 27) setOpen(false);
+  }
+
+  return <div className="StyledInput ColorInput" onBlurCapture={handleExit}
+              onFocusCapture={handleRejoin} onKeyDown={handleKey}>
+    <label htmlFor={props.id} title={props.helptext}>{props.title}</label>
+    {props.helptext && <div className="meta">{props.helptext}</div>}
+    <input type="button" name={props.id} style={{
+      backgroundColor: color,
+      color: tinycolor(color).isLight() ? "#000000" : "#ffffff"
+    }} value={color} onClick={() => setOpen(!open)}/>
+    {open && <TwitterPicker color={color}
+                            onChangeComplete={handleSelect}/>}
   </div>
 }

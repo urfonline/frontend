@@ -10,7 +10,12 @@
 		}
 
 		& p {
+      display: inline-block;
 			margin-bottom: 0;
+
+      @media (--large) {
+        max-width: 50%;
+      }
 		}
 	}
 }
@@ -18,7 +23,7 @@
 .StyledInput {
 	margin: 50px 0;
 	
-	& label {
+	& > label {
 		display: inline-block;
 		font-size: 36px;
 		font-weight: 600;
@@ -29,7 +34,7 @@
 		font-size: 16px;
 	}
 
-	& input, & textarea {
+	& > input, & > textarea {
 		display: block;
 		padding: 20px 10px 10px 5px;
 		width: 100%;
@@ -48,15 +53,15 @@
 		}
 	}
 
-	& input:valid, & textarea:valid {
+	& > input:valid, & > textarea:valid {
 		border-bottom: 4px solid #41c001;
 	}
 }
 
-.EmojiInput {
+.EmojiInput, .ColorInput {
   margin-bottom: 5px;
 
-  & input[type=button] {
+  & > input[type=button] {
     display: inline-block;
     width: auto;
     border: 1px solid #888;
@@ -69,6 +74,15 @@
 
   & .emoji-mart {
     position: absolute;
-    bottom: 0;
+  }
+}
+
+.ColorInput {
+  & > input[type=button] {
+    width: 200px;
+  }
+
+  & .twitter-picker {
+    position: absolute !important;
   }
 }
