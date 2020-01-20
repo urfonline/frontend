@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { BaseEmoji, Picker } from 'emoji-mart';
 import { TwitterPicker, ColorResult } from 'react-color';
 import tinycolor from 'tinycolor2';
+import gql from 'graphql-tag';
+import { useQuery } from 'react-apollo-hooks';
 
 interface IInputProps {
   id: string;
@@ -118,6 +120,34 @@ export function ColorInput(props: IInputProps) {
     }} value={color} onClick={() => setOpen(!open)}/>
     {open && <TwitterPicker color={color}
                             onChangeComplete={handleSelect}/>}
+  </div>
+}
+
+const CategoryQuery = gql`
+  query CategoryQuery {
+    allCategories {
+      id, name, slug
+    }
+  }
+`;
+
+export function CategoryInput(props: IInputProps) {
+  const {data, loading} = useQuery(CategoryQuery);
+
+  if (loading) {
+    return <div className="StyledInput">Loading</div>
+  }
+
+  return <div className="StyledInput CategoryInput">
+    <label htmlFor={props.id} title={props.helptext}>{props.title}</label>
+    {props.helptext && <div className="meta">{props.helptext}</div>}
+    <select name={props.id} required={true}>
+      {data.allCategories.map(
+        (category: any) => <option key={category.id} value={category.slug}>
+          {category.name}
+        </option>
+      )}
+    </select>
   </div>
 }
 

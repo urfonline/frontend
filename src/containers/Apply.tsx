@@ -1,17 +1,48 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { RootState } from '../types';
-import { ColorInput, EmojiInput, LongTextInput, TextInput, TimeSlotInput } from '../components/Form';
+import { CategoryInput, ColorInput, EmojiInput, LongTextInput, TextInput, TimeSlotInput } from '../components/Form';
+import gql from 'graphql-tag';
+import { useQuery } from 'react-apollo-hooks';
 
 interface IProps {
 	dispatch: any;
 }
 
+const ApplicationsQuery = gql`
+  query ApplicationsQuery {
+    applicationSettings {
+      applicationsOpen
+      applyPageSubtitle
+    }
+  }
+`;
+
 function ApplicationForm(_props: IProps) {
+  const {data, loading} = useQuery(ApplicationsQuery);
+
+  if (loading) {
+    return <div className="Container ApplicationForm">
+      <h1>Loading...</h1>
+    </div>
+  }
+
+  let {applicationsOpen, applyPageSubtitle} = data.applicationSettings;
+
+  if (!applicationsOpen) {
+    return <div className="Container ApplicationForm">
+      <div className="FormHeader">
+        <h1>Applications are closed</h1>
+        <p>{applyPageSubtitle || "Please check back later!"}</p>
+      </div>
+    </div>
+  }
+
 	return <div className="Container ApplicationForm">
 		<div className="FormHeader">
 			<h1>Apply for a show</h1>
-			<p>Just fill out the form below and we'll take a look</p>
+			<p>{applyPageSubtitle ||
+          "Just fill out the form below and we'll take a look"}</p>
 		</div>
 		<form id="applyform">
 			<TextInput title="Name of Show" id="name"/>
@@ -23,6 +54,8 @@ function ApplicationForm(_props: IProps) {
 			<LongTextInput title="Long Description" id="longDescription"
 				minimum={200}
 				helptext="A longer description for your show (min. 200 characters)"/>
+      <CategoryInput id="category" title="Show Category"
+        helptext="Pick the category that best describes your show."/>
 			<EmojiInput id="emojiDescription" title="Emoji Description"
         helptext="Pick an emoji that represents your show!"/>
       <ColorInput id="brandColor" title="Brand Color"
