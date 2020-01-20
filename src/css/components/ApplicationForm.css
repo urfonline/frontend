@@ -34,7 +34,7 @@
 		font-size: 16px;
 	}
 
-	& > input, & > textarea {
+	& > input, & > textarea, & > select {
 		display: block;
 		padding: 20px 10px 10px 5px;
 		width: 100%;
@@ -53,7 +53,7 @@
 		}
 	}
 
-	& > input:valid, & > textarea:valid {
+	& > input:valid, & > textarea:valid, & > select:valid {
 		border-bottom: 4px solid #41c001;
 	}
 }

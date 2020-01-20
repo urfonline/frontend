@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { RootState } from '../types';
-import { ColorInput, EmojiInput, LongTextInput, TextInput } from '../components/Form';
+import { ColorInput, EmojiInput, LongTextInput, TextInput, TimeSlotInput } from '../components/Form';
 
 interface IProps {
 	dispatch: any;
@@ -28,6 +28,12 @@ function ApplicationForm(_props: IProps) {
       <ColorInput id="brandColor" title="Brand Color"
         helptext={"Pick a color to brand your show page with (click to select)"+
                   ", or specify a hex color code"}/>
+      <TimeSlotInput id="firstSlot" title="First Slot Request"
+        helptext="Pick your first-choice slot (time and day)"/>
+      <TimeSlotInput id="secondSlot" title="Second Slot Request"
+        helptext="Pick your second-choice slot (time and day)"/>
+      <TimeSlotInput id="thirdSlot" title="Third Slot Request"
+        helptext="Pick your third-choice slot (time and day)"/>
 
 			<TextInput title="Facebook URL" id="socialFacebookUrl"
 				helptext="(optional) If you have a Facebook page for your show, paste its URL here"
