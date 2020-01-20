@@ -1,56 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { RootState } from '../types';
+import { EmojiInput, LongTextInput, TextInput } from '../components/Form';
 
 interface IProps {
 	dispatch: any;
-}
-
-interface ITextEntryProps {
-	title: string;
-	helptext?: string;
-	id: string;
-	type?: string;
-	minimum?: number;
-	optional?: boolean;
-}
-
-function TextEntry(props: ITextEntryProps) {
-	return <div className="TextEntry">
-		<label htmlFor={props.id} title={props.helptext}>{props.title}</label>
-		{props.helptext && <div className="meta">{props.helptext}</div>}
-		<input type={props.type || "text"} className="TextEntry__input"
-			id={props.id} placeholder={props.title} required={!props.optional}/>
-	</div>
-}
-
-function LongTextEntry(props: ITextEntryProps) {
-	let [rows, setRows] = useState(3);
-	
-	function autoGrow(e: any) {
-		let ta: any = e.target;
-
-		if (ta.textLength == 0) {
-			setRows(3);
-			return;
-		}
-
-		if (ta.scrollHeight > ta.clientHeight) {
-			let diff = ta.scrollHeight - ta.clientHeight;
-			let delta = Math.ceil(diff / 27);
-			
-			setRows(rows + delta);
-		}
-	}
-
-	return <div className="TextEntry LongTextEntry">
-		<label htmlFor={props.id} title={props.helptext}>{props.title}</label>
-		{props.helptext && <div className="meta">{props.helptext}</div>}
-		<textarea className="TextEntry__input" id={props.id}
-			required={true} rows={rows}
-			onChange={autoGrow}
-			placeholder={props.title} minLength={props.minimum || 0}/>
-	</div>
 }
 
 function ApplicationForm(_props: IProps) {
@@ -60,14 +14,19 @@ function ApplicationForm(_props: IProps) {
 			<p>Just fill out the form below and we'll take a look</p>
 		</div>
 		<form id="applyform">
-			<TextEntry title="Name of Show" id="name"/>
-			<TextEntry title="Short Description" id="shortDescription"
+			<TextInput title="Name of Show" id="name"/>
+			<TextInput title="Contact Email" id="contactEmail" type="email"
+        helptext="An email we can contact you by."/>
+
+			<TextInput title="Short Description" id="shortDescription"
 				helptext="A short tagline for your show"/>
-			<LongTextEntry title="Long Description" id="longDescription"
+			<LongTextInput title="Long Description" id="longDescription"
 				minimum={200}
 				helptext="A longer description for your show (min. 200 characters)"/>
+			<EmojiInput id="emojiDescription" title="Emoji Description"
+        helptext="Pick an emoji that represents your show!"/>
 
-			<TextEntry title="Facebook URL" id="socialFacebookUrl"
+			<TextInput title="Facebook URL" id="socialFacebookUrl"
 				helptext="(optional) If you have a Facebook page for your show, paste its URL here."
 				optional={true}/>
 		</form>
