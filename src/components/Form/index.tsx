@@ -186,3 +186,9 @@ export function TimeSlotInput(props: IInputProps) {
     </select>
   </div>
 }
+
+export function SubmitInput() {
+  return <div className="SubmitInput">
+    <input type="submit" value="Submit"/>
+  </div>
+}

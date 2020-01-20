@@ -58,6 +58,23 @@
 	}
 }
 
+.SubmitInput > input[type=submit] {
+  display: block;
+  padding: 20px 10px;
+  width: 100%;
+  background: var(--color__brand-red);
+  color: #fff;
+  border: 0;
+  font-size: 20px;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--color__lighter-red);
+  }
+}
+
 .EmojiInput, .ColorInput {
   margin-bottom: 5px;
 
