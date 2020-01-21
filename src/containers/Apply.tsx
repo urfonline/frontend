@@ -194,19 +194,20 @@ function ApplicationForm(_props: IProps) {
           "Just fill out the form below and we'll take a look"}</p>
 		</div>
 		<form id="applyform" onSubmit={handleSubmit}>
-			<TextInput title="Name of Show" id="name"/>
-      <TextInput title="Your Name" id="hostName"/>
+			<TextInput title="Name of Show" id="name" maximum={80}/>
+      <TextInput title="Your Name" id="hostName" maximum={80}/>
 			<TextInput title="Contact Email" id="contactEmail" type="email"
         helptext="An email we can contact you with"/>
       <TextInput title="Contact Phone" id="contactPhone" type="tel"
-        helptext="A phone number we can contact you with"/>
-      <TextInput title="Producer's Name" id="producerName" helptext="Optional"
-        optional={true}/>
+        helptext="A phone number we can contact you with" maximum={20}/>
+      <TextInput title="Producer's Name" id="producerName"
+        helptext="Your producer or co-host's name (Optional)"
+        optional={true} maximum={80}/>
       <BoolInput title="Are you a new show?" id="new"
         helptext="Click this box if you're a new show, so we know who needs training"/>
 
 			<TextInput title="Short Description" id="shortDescription"
-				helptext="A short tagline for your show"/>
+				helptext="A short tagline for your show" maximum={90}/>
 			<LongTextInput title="Long Description" id="longDescription"
 				minimum={200}
 				helptext="A longer description for your show (min. 200 characters)"/>
@@ -237,13 +238,13 @@ function ApplicationForm(_props: IProps) {
 				optional={true}/>
 			<TextInput title="Mixcloud Handle" id="socialMixcloudHandle"
 				helptext="(optional) If you have a Mixcloud page for your show, add your handle here"
-				optional={true}/>
+				optional={true} maximum={35}/>
 			<TextInput title="Twitter @" id="socialTwitterHandle"
 				helptext="(optional) If you have a Twitter page for your show, add your @ here"
-				optional={true}/>
+				optional={true} maximum={35}/>
 			<TextInput title="Instagram Handle" id="socialInstagramHandle"
 				helptext="(optional) If you have an Instagram page for your show, add your handle here"
-				optional={true}/>
+				optional={true} maximum={35}/>
       {error && <div className="Error">{error}</div>}
 			<SubmitInput text={statusMsg || "Submit"}/>
 		</form>

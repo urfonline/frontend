@@ -14,6 +14,7 @@ interface IInputProps {
 interface ITextInputProps extends IInputProps {
   type?: string;
   minimum?: number;
+  maximum?: number;
   optional?: boolean;
 }
 
@@ -22,7 +23,8 @@ export function TextInput(props: ITextInputProps) {
     <label htmlFor={props.id} title={props.helptext}>{props.title}</label>
     {props.helptext && <div className="meta">{props.helptext}</div>}
     <input type={props.type || "text"} className="StyledInput__input"
-           name={props.id} placeholder={props.title} required={!props.optional}/>
+           name={props.id} placeholder={props.title} required={!props.optional}
+           maxLength={props.maximum || -1}/>
   </div>
 }
 
