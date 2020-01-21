@@ -55,6 +55,21 @@ export function LongTextInput(props: ITextInputProps) {
   </div>
 }
 
+export function BoolInput(props: IInputProps) {
+  let [checked, setChecked] = useState(false);
+
+  return <div className="StyledInput BoolInput">
+    <label htmlFor={props.id} title={props.helptext}>{props.title}</label>
+    {props.helptext && <div className="meta">{props.helptext}</div>}
+
+    <input type="checkbox" name={props.id} checked={checked}
+           onChange={(e: any) => setChecked(e.target.checked)}/>
+    <div className="Flipper" onClick={() => setChecked(!checked)}>
+      {checked ? "Yeah!" : "Nope"}
+    </div>
+  </div>
+}
+
 export function EmojiInput(props: IInputProps) {
   let [open, setOpen] = useState(false);
   let [emoji, setEmoji] = useState('\ud83d\udcfb');

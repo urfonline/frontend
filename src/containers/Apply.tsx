@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  BoolInput,
   CategoryInput,
   ColorInput,
   EmojiInput, ImageUploadInput,
@@ -19,10 +20,15 @@ interface IProps {
 const ApplyMutation = gql`
   mutation applyForShow(
     $name: String!
+    $hostName: String!
     $contactEmail: String!
+    $contactPhone: String!
+    $producerName: String
     $shortDescription: String!
     $longDescription: String!
     $category: String!
+    $new: Boolean
+    $biweekly: Boolean
     $brandColor: String!
     $emojiDescription: String!
     $firstSlot: TimeSlotInput!
@@ -37,10 +43,15 @@ const ApplyMutation = gql`
   ) {
     apply(
       name: $name,
+      hostName: $hostName,
       contactEmail: $contactEmail,
+      contactPhone: $contactPhone,
+      producerName: $producerName,
       shortDescription: $shortDescription,
       longDescription: $longDescription,
       category: $category,
+      new: $new,
+      biweekly: $biweekly,
       brandColor: $brandColor,
       emojiDescription: $emojiDescription,
       firstSlot: $firstSlot,
@@ -180,8 +191,15 @@ function ApplicationForm(_props: IProps) {
 		</div>
 		<form id="applyform" onSubmit={handleSubmit}>
 			<TextInput title="Name of Show" id="name"/>
+      <TextInput title="Your Name" id="hostName"/>
 			<TextInput title="Contact Email" id="contactEmail" type="email"
-        helptext="An email we can contact you by"/>
+        helptext="An email we can contact you with"/>
+      <TextInput title="Contact Phone" id="contactPhone" type="tel"
+        helptext="A phone number we can contact you with"/>
+      <TextInput title="Producer's Name" id="producerName" helptext="Optional"
+        optional={true}/>
+      <BoolInput title="Are you a new show?" id="new"
+        helptext="Click this box if you're a new show, so we know who needs training"/>
 
 			<TextInput title="Short Description" id="shortDescription"
 				helptext="A short tagline for your show"/>
@@ -201,6 +219,8 @@ function ApplicationForm(_props: IProps) {
         helptext={"Upload a rectangular photo as your show banner (Optional"+
                   ", recommended size 1280x720)"}/>
 
+      <BoolInput id="biweekly" title="Bi-weekly?"
+        helptext="Click this box if you want a biweekly show"/>
       <TimeSlotInput id="firstSlot" title="First Slot Request"
         helptext="Pick your first-choice slot (time and day)"/>
       <TimeSlotInput id="secondSlot" title="Second Slot Request"
