@@ -123,6 +123,18 @@ export function ColorInput(props: IInputProps) {
   </div>
 }
 
+interface IImageUploadProps extends IInputProps {
+  to: string;
+}
+
+export function ImageUploadInput(props: IImageUploadProps) {
+  return <div className="StyledInput ImageUploadInput">
+    <label htmlFor={props.id} title={props.helptext}>{props.title}</label>
+    {props.helptext && <div className="meta">{props.helptext}</div>}
+    <input type="file" name={props.id}/>
+  </div>
+}
+
 const CategoryQuery = gql`
   query CategoryQuery {
     allCategories {
@@ -176,7 +188,7 @@ export function TimeSlotInput(props: IInputProps) {
       <option value={23}>11pm</option>
     </select>
     <select name={props.id + "Day"} required={true}>
-      <option selected value={0}>Monday</option>
+      <option value={0}>Monday</option>
       <option value={1}>Tuesday</option>
       <option value={2}>Wednesday</option>
       <option value={3}>Thursday</option>
@@ -187,8 +199,8 @@ export function TimeSlotInput(props: IInputProps) {
   </div>
 }
 
-export function SubmitInput() {
+export function SubmitInput({ text }: { text: string; }) {
   return <div className="SubmitInput">
-    <input type="submit" value="Submit"/>
+    <input type="submit" value={text}/>
   </div>
 }

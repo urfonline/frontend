@@ -74,6 +74,10 @@
 
   &__streams {
     text-align: right;
+
+    @media (--below-medium) {
+      display: none;
+    }
   }
 
   &__button {
