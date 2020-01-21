@@ -28,6 +28,9 @@ const ApplyMutation = gql`
     $secondSlot: TimeSlotInput!
     $thirdSlot: TimeSlotInput!
     $socialFacebookUrl: String
+    $socialMixcloudHandle: String
+    $socialTwitterHandle: String
+    $socialInstagramHandle: String
   ) {
     apply(
       name: $name,
@@ -41,6 +44,9 @@ const ApplyMutation = gql`
       secondSlot: $secondSlot,
       thirdSlot: $thirdSlot,
       socialFacebookUrl: $socialFacebookUrl,
+      socialMixcloudHandle: $socialMixcloudHandle,
+      socialTwitterHandle: $socialTwitterHandle,
+      socialInstagramHandle: $socialInstagramHandle,
     ) {
       success, problems
     }
@@ -154,6 +160,15 @@ function ApplicationForm(_props: IProps) {
 
 			<TextInput title="Facebook URL" id="socialFacebookUrl"
 				helptext="(optional) If you have a Facebook page for your show, paste its URL here"
+				optional={true}/>
+			<TextInput title="Mixcloud Handle" id="socialMixcloudHandle"
+				helptext="(optional) If you have a Mixcloud page for your show, add your handle here"
+				optional={true}/>
+			<TextInput title="Twitter @" id="socialTwitterHandle"
+				helptext="(optional) If you have a Twitter page for your show, add your @ here"
+				optional={true}/>
+			<TextInput title="Instagram Handle" id="socialInstagramHandle"
+				helptext="(optional) If you have an Instagram page for your show, add your handle here"
 				optional={true}/>
       {error && <div className="Error">{error}</div>}
 			<SubmitInput/>
