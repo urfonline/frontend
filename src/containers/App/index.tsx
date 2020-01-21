@@ -72,6 +72,11 @@ const LoadableLogin = Loadable({
   loading: LoadableSpinner,
 });
 
+const LoadableApplicationForm = Loadable({
+  loader: () => import(/* webpackChunkName: "ApplicationForm" */ '../Apply'),
+  loading: LoadableSpinner,
+});
+
 const App: React.FC = () => {
   const { data, loading } = useQuery(ScheduleQuery);
 
@@ -128,6 +133,7 @@ const App: React.FC = () => {
           <Route path="/shows/:showSlug" component={LoadableShowPage} />
           <Route path="/auth/login" component={LoadableLogin} exact />
           <Route path="/members" component={LoadableMembersApp} />
+          <Route path="/apply" component={LoadableApplicationForm} />
           <Route
             path="/article/**-:articleId"
             component={LoadableArticle}
