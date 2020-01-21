@@ -169,6 +169,7 @@ function ApplicationForm(_props: IProps) {
         setError("");
       } else {
         setError(apply.problems[0]);
+        setStatusMsg("Try again");
       }
     } catch (err) {
       setError(err.message);
@@ -231,7 +232,7 @@ function ApplicationForm(_props: IProps) {
       <TimeSlotInput id="thirdSlot" title="Third Slot Request"
         helptext="Pick your third-choice slot (time and day)"/>
 
-			<TextInput title="Facebook URL" id="socialFacebookUrl"
+			<TextInput title="Facebook URL" id="socialFacebookUrl" type="url"
 				helptext="(optional) If you have a Facebook page for your show, paste its URL here"
 				optional={true}/>
 			<TextInput title="Mixcloud Handle" id="socialMixcloudHandle"
