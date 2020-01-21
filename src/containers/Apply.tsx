@@ -136,7 +136,10 @@ function ApplicationForm(_props: IProps) {
     for (let i = 0; i < elements.length; i++) {
       let name = elements[i].name;
 
-      variables[name] = elements[i].value;
+      if (elements[i].type == 'checkbox')
+        variables[name] = elements[i].checked;
+      else
+        variables[name] = elements[i].value;
     }
 
     ['firstSlot', 'secondSlot', 'thirdSlot'].forEach((key) => {
