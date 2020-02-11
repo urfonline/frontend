@@ -29,7 +29,6 @@ function buildPage(title, meta) {
   </head>
   <body class="Core">
     <div class="js__app"></div>
-    <script type="text/javascript" src="${assetsManifest.vendor.js}"></script>  
     <script type="text/javascript" src="${assetsManifest.main.js}"></script>  
   </body>  
 </html>
@@ -136,7 +135,7 @@ query StaticSiteRenderer {
 
   await savePage('news-events', buildSimplePage(
     standardTitle('News & Events'),
-    'Student radio at the University of Sussex, broadcasting online and on DAB across Brighton',
+    'Journalism from URF, the student radio station at the University of Sussex',
     'original_images/facebook_image_1.jpg'
   ));
 }
