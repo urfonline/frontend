@@ -135,7 +135,7 @@ query StaticSiteRenderer {
 
   await savePage('news-events', buildSimplePage(
     standardTitle('News & Events'),
-    'Student radio at the University of Sussex, broadcasting online and on DAB across Brighton',
+    'Journalism from URF, the student radio station at the University of Sussex',
     'original_images/facebook_image_1.jpg'
   ));
 }
