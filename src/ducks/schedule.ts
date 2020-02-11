@@ -62,7 +62,7 @@ export default function scheduleReducer(state: IScheduleState = initialState, ac
       // then find the first stream with a slate. we do this because
       // the rest of the code currently assumes we have a slate.
       let slateStream = Array.from(allStreams).sort(
-        (a: any, b: any) => b.priorityOnline - a.priorityOnline
+        (a: any, b: any) => a.priorityOnline - b.priorityOnline
       ).find(
         (stream: any) => stream.slate != null
       );
