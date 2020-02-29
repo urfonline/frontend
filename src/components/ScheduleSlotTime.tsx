@@ -1,11 +1,11 @@
 import React from 'react';
 import cx from 'classnames';
 import OnAirBadge from './OnAirBadge';
-import { formatTime } from '../utils/schedule';
-import isBefore from 'date-fns/isBefore';
+import { formatTime} from '../utils/schedule';
+import { ChunkedSlot, SlotType } from '../utils/types';
 
 interface IProps {
-  slot: any; // todo
+  slot: ChunkedSlot;
   index: number;
   onAir: boolean;
 }
@@ -13,7 +13,7 @@ interface IProps {
 function ScheduleSlotTime(props: IProps) {
   const { slot } = props;
 
-  const isOvernight = isBefore(slot.endDate, slot.startDate);
+  const isOvernight = slot.type != SlotType.Contained;
 
   const fromElement = (
     <span

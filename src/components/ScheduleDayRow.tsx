@@ -2,14 +2,15 @@ import React from 'react';
 import cx from 'classnames';
 import ScheduleSlot from './ScheduleSlot';
 import dateInterval from '../hoc/DateInterval';
+import { ChunkedSlot } from '../utils/types';
 
 interface IProps {
   dateInterval: object;
   calculateWidth(number: number): number;
   day: number;
   className: string;
-  slots: Array<any>; // todo
-  onAirSlotId: number;
+  slots: Array<ChunkedSlot>;
+  onAirSlotId: string;
 }
 
 const ScheduleDayRow: React.FC<IProps> = (props: IProps) => {
@@ -26,10 +27,10 @@ const ScheduleDayRow: React.FC<IProps> = (props: IProps) => {
           {slots.map((slot, index) => {
             return (
               <ScheduleSlot
-                key={slot.slotId}
+                key={slot.id}
                 slot={slot}
                 index={index}
-                onAir={onAirSlotId === slot.slotId}
+                onAir={onAirSlotId === slot.id}
                 calculateWidth={calculateWidth}
               />
             );

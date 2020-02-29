@@ -189,9 +189,11 @@ const ScheduleQuery = gql`
               resource
             }
           }
+          id
           startTime
           endTime
           day
+#          week
         }
       }
     }

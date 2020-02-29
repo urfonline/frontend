@@ -1,242 +1,132 @@
-import differenceInMinutes from 'date-fns/differenceInMinutes';
-import getDay from 'date-fns/getDay';
-import setHours from 'date-fns/setHours';
-import isSameDay from 'date-fns/isSameDay';
-import getHours from 'date-fns/getHours';
-import setMinutes from 'date-fns/setMinutes';
-import getMinutes from 'date-fns/getMinutes';
-import format from 'date-fns/format';
-import subDays from 'date-fns/subDays';
-import addDays from 'date-fns/addDays';
-import isBefore from 'date-fns/isBefore';
-import startOfDay from 'date-fns/startOfDay';
-import endOfDay from 'date-fns/endOfDay';
-import isWithinInterval from 'date-fns/isWithinInterval';
-import { isEqual } from 'date-fns';
+import dayjs from 'dayjs';
+import { BaseSlot, ChunkedSlot, Show, Slot, SlotType } from './types';
 import { API_HOST } from '../config';
 
-const shiftedDates = [6, 0, 1, 2, 3, 4, 5];
-
-const NOW = new Date();
-const START_OF_TODAY = startOfDay(NOW);
-const END_OF_TODAY = endOfDay(NOW);
-
-interface Slot {
-  startDate: Date;
-  endDate: Date;
-  startTime: string;
-  endTime: string;
-  day: number;
-}
-
-enum SlotType {
-  Contained = 'Contained',
-  PreOvernight = 'PreOvernight',
-  PostOvernight = 'PostOvernight',
-}
-
 export function parseTime(timeString: string) {
-  const [hours, minutes] = timeString.split(':');
-
-  let date = startOfDay(new Date());
-  date = setHours(date, parseInt(hours, 10));
-  date = setMinutes(date, parseInt(minutes, 10));
-
-  return date;
+  return dayjs.at('Europe/London', timeString, "HH:mm");
 }
 
-export function formatTime(date: Date) {
-  if (getMinutes(date) === 0) {
-    return format(date, 'ha');
+export function formatTime(date: dayjs.Dayjs) {
+  if (date.minute() === 0) {
+    return date.format('ha');
   }
-  return format(date, 'h:mma');
-}
-
-function getDayOffsetFromToday(day: number) {
-  return getTodayDayMonday() - day;
+  return date.format('h:mma');
 }
 
 function createAutomationSlot(
-  slotId: number,
+  slotId: string,
   show: any,
-  startDate: Date,
-  endDate: Date,
-) {
-  /* todo */
+  day: number,
+  startTime: number,
+  duration: number,
+): ChunkedSlot {
+  let startDate = dayjs.at('Europe/London')
+    .startOf('day').hour(startTime).day(day);
+  let endDate = startDate.add(duration, 'hour');
+
   return {
-    slotId,
+    id: slotId,
+    startTime: startDate.format("HH:mm"),
+    endTime: endDate.format("HH:mm"),
     startDate,
     endDate,
-    automation: true,
+    day,
     show,
-    duration: differenceInMinutes(endDate, startDate),
+    type: SlotType.Contained,
+    duration: endDate.diff(startDate, 'minute'),
   };
 }
 
-function parseSlotDate(slot: Slot) {
-  const initialDayOffset = getDayOffsetFromToday(slot.day);
+function upgradeSlot(slot: BaseSlot): Slot {
+  let startDate = parseTime(slot.startTime).day(slot.day);
+  let endDate = parseTime(slot.endTime).day(slot.day);
 
-  const startDate = addDays(parseTime(slot.startTime), initialDayOffset);
-
-  let endDate = addDays(parseTime(slot.endTime), initialDayOffset);
-
-  if (isEqual(startOfDay(endDate), endDate)) {
-    endDate = endOfDay(endDate);
+  // wrap around midnight
+  if (endDate.isBefore(startDate)) {
+    endDate = endDate.add(1, 'day');
   }
 
-  if (isBefore(endDate, startDate)) {
-    endDate = addDays(endDate, 1);
-  }
-
-  return { startDate, endDate };
+  return { ...slot, startDate, endDate };
 }
 
-function prepareSlots(slots: Array<Slot>) {
-  const sortedSlots: Array<Slot> = slots.map((slot) => {
-    const { startDate, endDate } = parseSlotDate(slot);
-    return {
-      ...slot,
-      startDate,
-      endDate,
-    };
-  });
-
-  // sort the slots by day and start time
-  sortedSlots.sort((a: Slot, b: Slot) => {
-    return isBefore(a.startDate, b.startDate) ? -1 : 1;
-  });
-
-  return sortedSlots;
+export function chunkSlotsByDay(allSlots: Array<BaseSlot>, automationShow: Show) {
+  return newChunkSlotsByDay(allSlots.map(upgradeSlot), automationShow);
 }
 
-export function chunkSlotsByDay(
-  slotsUnsorted: Array<Slot>,
-  automationShow: Slot,
-) {
-  const sortedSlots = prepareSlots(slotsUnsorted);
+function newChunkSlotsByDay(allSlots: Array<Slot>, automationShow: Show) {
+  const days: Array<Array<ChunkedSlot>> = [[], [], [], [], [], [], []];
+  const taken: Array<Array<boolean>> = [[], [], [], [], [], [], []];
 
-  const days: Array<Array<any>> = [[], [], [], [], [], [], []];
-  let slotId = 0;
-  let currentDate = START_OF_TODAY;
-  let currentDay = -0;
+  allSlots.forEach(slot => {
+    let index = slot.startDate.hour();
+    let duration = slot.endDate.diff(slot.startDate, 'minute');
+    let takenHours = slot.endDate.diff(slot.startDate, 'hour');
 
-  sortedSlots.forEach((slot) => {
-    // if slot is first of a new day, set the time to midnight
-    if (currentDay !== slot.day) {
-      currentDate = startOfDay(slot.startDate);
-      currentDay = slot.day;
+    let tracker = slot.startDate;
+    for (let i = 0; i < takenHours; i++) {
+      taken[tracker.day()][tracker.hour()] = true;
+      tracker = tracker.add(1, 'hour');
     }
 
-    // add automation show if there is a gap before this show
-    if (
-      getHours(currentDate) !== getHours(slot.startDate) ||
-      getMinutes(currentDate) !== getMinutes(slot.startDate)
-    ) {
-      days[slot.day].push(
-        createAutomationSlot(
-          slotId++,
-          automationShow,
-          currentDate,
-          slot.startDate,
-        ),
-      );
-      currentDate = slot.startDate;
-    }
+    // does slot wrap around?
+    if (slot.startDate.day() !== slot.endDate.day()) {
+      let firstDuration = slot.startDate
+        .endOf('day')
+        .diff(slot.startDate, 'minute') + 1; // bump up extra minute
 
-    // add this slot
-    // if is overnight
-    if (
-      !isSameDay(slot.endDate, slot.startDate) &&
-      getHours(slot.endDate) !== 0 &&
-      getMinutes(slot.endDate) !== 0
-    ) {
-      const diffMins = differenceInMinutes(
-        endOfDay(slot.startDate),
-        slot.startDate,
-      );
+      let secondStart = slot.endDate.startOf('day');
+      let secondDuration = slot.endDate.diff(secondStart, 'minute');
 
-      days[slot.day].push(
-        Object.assign({}, slot, {
-          slotId: slotId++,
-          duration: diffMins,
-          type: SlotType.PreOvernight,
-        }),
-      );
+      // first slot
+      days[slot.day][index] = {
+        ...slot,
+        duration: firstDuration,
+        type: SlotType.PreOvernight,
+      };
 
-      if (slot.day !== 6) {
-        const postMins = differenceInMinutes(
-          startOfDay(slot.endDate),
-          slot.startDate,
-        );
-        days[slot.day + 1].push(
-          Object.assign({}, slot, {
-            startDate: startOfDay(slot.endDate),
-            slotId: slotId++,
-            duration: postMins,
-            type: SlotType.PostOvernight,
-          }),
-        );
+      // add a second slot on day 2 if there is any duration left
+      if (secondDuration > 0) {
+        days[slot.endDate.day()][0] = {
+          ...slot,
+          duration: secondDuration,
+          type: SlotType.PostOvernight,
+        };
       }
     } else {
-      days[slot.day].push({
-        slotId: slotId++,
+      // normal contained slot
+      days[slot.day][index] = {
         ...slot,
-        duration: differenceInMinutes(slot.endDate, slot.startDate),
-      });
-    }
-
-    currentDate = slot.endDate;
-  });
-
-  const startDay = START_OF_TODAY;
-  const endDay = END_OF_TODAY;
-  days.forEach((daySlots) => {
-    // create a day length auto-slot if there is nothing on that day
-    if (daySlots.length <= 0) {
-      daySlots.push(
-        createAutomationSlot(slotId++, automationShow, startDay, endDay),
-      );
-      return;
-    }
-
-    // if the last slot isn't overnight and doesn't end at midnight; add auto-slot to midnight
-    const lastSlotOfDay = daySlots[daySlots.length - 1];
-
-    if (
-      !isEqual(lastSlotOfDay.endDate, endOfDay(lastSlotOfDay.endDate)) &&
-      isBefore(lastSlotOfDay.startDate, lastSlotOfDay.endDate)
-    ) {
-      daySlots.push(
-        createAutomationSlot(
-          slotId++,
-          automationShow,
-          lastSlotOfDay.endDate,
-          endOfDay(lastSlotOfDay.endDate),
-        ),
-      );
+        duration,
+        type: SlotType.Contained,
+      }
     }
   });
 
-  // ✨ Sunday wrap around ✨
-  const lastSundaySlot = days[6][days[6].length - 1];
-  if (
-    !isSameDay(lastSundaySlot.startDate, lastSundaySlot.endDate) &&
-    !isEqual(
-      lastSundaySlot.endDate,
-      startOfDay(addDays(lastSundaySlot.startDate, 1)),
-    )
-  ) {
-    const mondaySlot = { ...lastSundaySlot };
-    const endOfSunday = startOfDay(addDays(lastSundaySlot.startDate, 1));
-    const durationDuringSunday = differenceInMinutes(
-      endOfSunday,
-      lastSundaySlot.startDate,
-    );
-    const durationDuringMonday = lastSundaySlot.duration - durationDuringSunday;
-    lastSundaySlot.duration = durationDuringSunday;
-    mondaySlot.duration = durationDuringMonday;
-    days[0][0].duration = days[0][0].duration - mondaySlot.duration;
-    days[0].unshift(mondaySlot);
+  // fill in automation
+  for (let day = 0; day < 7; day++) {
+    let start = -1;
+    let duration = 0;
+
+    for (let hour = 0; hour < 24; hour++) {
+      if (!taken[day][hour]) {
+        if (start < 0) {
+          start = hour;
+          duration = 1;
+        } else {
+          duration += 1;
+        }
+      } else if (start >= 0) {
+        days[day][start] = createAutomationSlot(`auto-${day}-${hour}`,
+          automationShow, day, start, duration);
+        start = -1;
+      }
+    }
+
+    // fill in final case
+    if (!taken[day][23]) {
+      days[day][23] = createAutomationSlot(`auto-${day}-23`,
+        automationShow, day, 23, 1);
+    }
   }
 
   return days;
@@ -253,40 +143,26 @@ export function calculateWidthWithUnit(number: number) {
   return `${Math.floor(calculateWidth(number))}px`;
 }
 
-export function getTodayDayMonday() {
-  return shiftedDates[getDay(new Date())];
+export function getZonedNow(): dayjs.Dayjs {
+  return dayjs.at('Europe/London')
 }
 
-export function getOnAirSlot(slotsByDay: any) {
+export function getTodayDayMonday() {
+  return getZonedNow().day();
+}
+
+export function getOnAirSlot(slotsByDay: Array<Array<ChunkedSlot>>): ChunkedSlot | null {
   if (slotsByDay === null) return null;
 
-  // todo
-  const now = new Date();
-  const todaySlots = slotsByDay[shiftedDates[getDay(now)]];
+  const now = getZonedNow();
+  const todaySlots = slotsByDay[now.day()];
 
-  // @ts-ignore
-  for (const [_index, slot] of todaySlots.entries()) {
-    let endDate = slot.endDate;
-    let startDate = slot.startDate;
-    if (isBefore(slot.endDate, slot.startDate)) {
-      if (slot.type === SlotType.PreOvernight) {
-        endDate = addDays(endDate, 1);
-      } else if (slot.type === SlotType.PreOvernight) {
-        startDate = subDays(startDate, 1);
-      }
-    }
-
-    if (isWithinInterval(now, { start: startDate, end: endDate })) {
-      return slot;
-    }
-  }
-
-  return null;
+  return todaySlots.find(slot => slot && now.isBetween(slot.startDate, slot.endDate)) || null;
 }
 
 export function getScrollPositionForNow(): number {
-  const now = new Date();
-  const duration = differenceInMinutes(now, START_OF_TODAY);
+  const now = getZonedNow();
+  const duration = now.diff(now.startOf('day'), 'minute');
 
   return calculateWidth(duration);
 }
@@ -297,9 +173,11 @@ export function resolveStreamOrder(streams: Array<any>): Promise<any> {
       let asleep = false;
 
       if (stream.slate != null) {
-        asleep = getOnAirSlot(
+        let currentSlot = getOnAirSlot(
           chunkSlotsByDay(stream.slate.slots, stream.slate.automationShow)
-        ).show.id === stream.slate.automationShow.id;
+        );
+
+        asleep = currentSlot ? (currentSlot.show.id === stream.slate.automationShow.id) : true;
       }
 
       return fetch(`${API_HOST}/streams/${stream.slug}/status`)

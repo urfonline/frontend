@@ -56,7 +56,7 @@ class FullSchedule extends React.Component<IProps, any> {
                 <ScheduleDayRow
                   title={day}
                   day={index}
-                  onAirSlotId={currentlyOnAir.slotId}
+                  onAirSlotId={currentlyOnAir.id}
                   slots={slotsByDay[index]}
                   calculateWidth={calculateWidth}
                 />
