@@ -8,7 +8,6 @@
     "babel-plugin-emotion": "^10.0.9",
     "classnames": "^2.2.6",
     "color": "^3.1.0",
-    "date-fns": "2.0.0-alpha.7",
     "dayjs": "^1.8.21",
     "emoji-mart": "^2.11.2",
     "emotion": "^10.0.9",

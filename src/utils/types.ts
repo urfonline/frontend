@@ -1,5 +1,11 @@
 import dayjs from 'dayjs';
 
+interface EmbeddedImage {
+  width: number;
+  height: number;
+  resource: string;
+}
+
 export interface Show {
   id: number;
   name: string;
@@ -9,8 +15,13 @@ export interface Show {
   };
   brandColor: string;
   shortDescription: string;
+  longDescription: string;
   slug: string;
   emojiDescription: string;
+  createdAt: string;
+  slots?: Array<BaseSlot>;
+  cover?: EmbeddedImage;
+  socialMixcloudHandle?: string;
 }
 
 export enum Tone {

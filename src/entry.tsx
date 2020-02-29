@@ -18,6 +18,7 @@ import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import weekDay from 'dayjs/plugin/weekday';
 import TimeZone from './utils/TimeZone';
 
@@ -27,6 +28,7 @@ import 'dayjs/locale/en-gb';
 
 dayjs.extend(isBetween);
 dayjs.extend(customParseFormat);
+dayjs.extend(relativeTime);
 dayjs.extend(weekDay);
 dayjs.extend(TimeZone);
 
