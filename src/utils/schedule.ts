@@ -123,9 +123,9 @@ function newChunkSlotsByDay(allSlots: Array<Slot>, automationShow: Show) {
     }
 
     // fill in final case
-    if (!taken[day][23]) {
-      days[day][23] = createAutomationSlot(`auto-${day}-23`,
-        automationShow, day, 23, 1);
+    if (start > 0) {
+      days[day][start] = createAutomationSlot(`auto-${day}-${start}`,
+        automationShow, day, start, duration);
     }
   }
 

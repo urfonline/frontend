@@ -20,6 +20,7 @@ import isBetween from 'dayjs/plugin/isBetween';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import weekDay from 'dayjs/plugin/weekday';
+import utc from 'dayjs/plugin/utc';
 import TimeZone from './utils/TimeZone';
 
 import { API_HOST } from './config';
@@ -30,6 +31,7 @@ dayjs.extend(isBetween);
 dayjs.extend(customParseFormat);
 dayjs.extend(relativeTime);
 dayjs.extend(weekDay);
+dayjs.extend(utc);
 dayjs.extend(TimeZone);
 
 dayjs.locale('en-gb');
