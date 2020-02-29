@@ -1,17 +1,27 @@
+import { ChunkedSlot, Slot, Stream } from '../utils/types';
+
 const LOAD_SCHEDULE_REQUEST = 'LOAD_SCHEDULE_REQUEST';
 const LOAD_SCHEDULE_SUCCESS = 'LOAD_SCHEDULE_SUCCESS';
 const LOAD_SCHEDULE_FAILURE = 'LOAD_SCHEDULE_FAILURE';
-const UPDATE_ON_AIR_SLOT = 'UPDATE_ON_AIR_SLOT';
+const UPDATE_CURRENT_SLOT = 'UPDATE_CURRENT_SLOT';
+const UPDATE_SLATE_CHUNKS = 'UPDATE_SLATE_CHUNKS';
 const SWITCH_ACTIVE_STREAM = 'SWITCH_ACTIVE_STREAM';
 const RESOLVE_STREAMS_SUCCESS = 'RESOLVE_STREAMS_SUCCESS';
-
-import { chunkSlotsByDay, getOnAirSlot } from '../utils/schedule';
 
 export const scheduleLoaded = (streams: any) => ({
   type: LOAD_SCHEDULE_SUCCESS,
   payload: { streams: streams.allStreams },
 });
-export const updateOnAirSlot = () => ({ type: UPDATE_ON_AIR_SLOT });
+
+export const updateSlot = (slot?: Slot) => ({
+  type: UPDATE_CURRENT_SLOT,
+  payload: { slot }
+});
+
+export const updateSlateChunks = (chunked: Array<Array<ChunkedSlot>>, onAirSlot?: Slot) => ({
+  type: UPDATE_SLATE_CHUNKS,
+  payload: { slotsByDay: chunked, slot: onAirSlot }
+});
 
 export const switchStreams = (streamIndex: number) => ({
   type: SWITCH_ACTIVE_STREAM,
@@ -25,29 +35,26 @@ export const streamsResolved = (onlineStreams: Array<any>) => ({
 
 export interface IScheduleState {
   isLoading: boolean;
-  currentlyOnAir: Array<any>;
-  slotsByDay: Array<any>;
-  automationShow: any;
   streamsResolved: boolean;
   activeStream: number;
-  allStreams: Array<any>;
-  onlineStreams: Array<any>;
-  stream: any;
+  allStreams: Array<Stream>;
+  onlineStreams: Array<Stream>;
+  slotsByDay: Array<Array<ChunkedSlot>>;
+  stream?: Stream;
+  onAirSlot?: Slot;
 }
 
 const initialState: IScheduleState = {
   isLoading: true,
-  currentlyOnAir: [],
-  slotsByDay: [],
-  automationShow: null,
   streamsResolved: false,
   activeStream: 0,
   allStreams: [],
   onlineStreams: [],
-  stream: null,
+  slotsByDay: [],
+  stream: undefined,
 };
 
-export default function scheduleReducer(state: IScheduleState = initialState, action: any) {
+export default function scheduleReducer(state: IScheduleState = initialState, action: any): IScheduleState {
   switch (action.type) {
     case LOAD_SCHEDULE_REQUEST: {
       return {
@@ -70,17 +77,9 @@ export default function scheduleReducer(state: IScheduleState = initialState, ac
       let activeStream = allStreams.indexOf(slateStream);
       let stream = allStreams[activeStream];
 
-      const slotsByDay = chunkSlotsByDay(
-        stream.slate.slots,
-        stream.slate.automationShow,
-      );
-
       return {
         ...state,
         isLoading: false,
-        slotsByDay: slotsByDay,
-        automationShow: stream.slate.automationShow,
-        currentlyOnAir: getOnAirSlot(slotsByDay),
         activeStream: activeStream,
         stream: stream,
         allStreams: allStreams,
@@ -91,41 +90,28 @@ export default function scheduleReducer(state: IScheduleState = initialState, ac
         ...state,
       };
     }
-    case UPDATE_ON_AIR_SLOT: {
-      if (state.isLoading) {
-        return state;
-      }
-
+    case UPDATE_CURRENT_SLOT: {
       return {
         ...state,
-        currentlyOnAir: getOnAirSlot(state.slotsByDay),
+        onAirSlot: action.payload.slot,
       };
+    }
+    case UPDATE_SLATE_CHUNKS: {
+      return {
+        ...state,
+        slotsByDay: action.payload.slotsByDay,
+        onAirSlot: action.payload.slot,
+      }
     }
     case SWITCH_ACTIVE_STREAM: {
       let streams: any = state.onlineStreams;
       if (streams == null || streams.length == 0) return state;
 
       let stream = streams[action.payload.streamIndex];
-      if (stream.slate == null) {
-        return {
-          ...state,
-          stream: stream,
-          activeStream: action.payload.streamIndex,
-        }
-        // TODO: the stream has no schedule slate - hide schedule?
-      }
-
-      const slotsByDay = chunkSlotsByDay(
-        stream.slate.slots,
-        stream.slate.automationShow,
-      );
 
       return {
         ...state,
         activeStream: action.payload.streamIndex,
-        slotsByDay: slotsByDay,
-        automationShow: stream.slate.automationShow,
-        currentlyOnAir: getOnAirSlot(slotsByDay),
         stream: stream,
       }
     }

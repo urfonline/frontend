@@ -24,11 +24,11 @@ const Player: React.FC<IProps> = () => {
   const { player, schedule } = useMappedState(mapState);
   const dispatch = useDispatch();
 
-  if (schedule.isLoading) {
+  if (schedule.isLoading || !schedule.stream || !schedule.onAirSlot) {
     return null;
   }
 
-  const {show, startDate, endDate} = schedule.currentlyOnAir;
+  const {show, startDate, endDate} = schedule.onAirSlot;
   const stream = schedule.stream;
 
   let mountpoint = stream.mountpoint;

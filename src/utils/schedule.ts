@@ -151,13 +151,13 @@ export function getTodayDayMonday() {
   return getZonedNow().day();
 }
 
-export function getOnAirSlot(slotsByDay: Array<Array<ChunkedSlot>>): ChunkedSlot | null {
-  if (slotsByDay === null) return null;
+export function getOnAirSlot(slotsByDay: Array<Array<ChunkedSlot>>): ChunkedSlot | undefined {
+  if (slotsByDay === null) return;
 
   const now = getZonedNow();
   const todaySlots = slotsByDay[now.day()];
 
-  return todaySlots.find(slot => slot && now.isBetween(slot.startDate, slot.endDate)) || null;
+  return todaySlots.find(slot => slot && now.isBetween(slot.startDate, slot.endDate, 'minute', '[)'));
 }
 
 export function getScrollPositionForNow(): number {

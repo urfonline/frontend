@@ -1,6 +1,8 @@
 import React from 'react';
 import cx from 'classnames';
 import { NavLink } from 'react-router-dom';
+import { useMappedState } from 'redux-react-hook';
+import { RootState } from '../../types';
 
 interface IProps {
   desktop?: boolean;
@@ -8,6 +10,8 @@ interface IProps {
 }
 
 function MainNavigation({ desktop, mobile }: IProps) {
+  let { stream } = useMappedState((state: RootState) => ({ stream: state.schedule.stream }));
+
   return (
     <div
       className={cx('MainNavigation', {
@@ -16,9 +20,9 @@ function MainNavigation({ desktop, mobile }: IProps) {
       })}
     >
       <ul className="MainNavigation__list">
-        <li className="MainNavigation__item">
+        {stream && stream.slate && <li className="MainNavigation__item">
           <NavLink to="/schedule">Schedule</NavLink>
-        </li>
+        </li>}
         <li className="MainNavigation__item">
           <NavLink to="/shows">Shows</NavLink>
         </li>

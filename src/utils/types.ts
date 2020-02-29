@@ -20,7 +20,7 @@ export interface Show {
   emojiDescription: string;
   createdAt: string;
   slots?: Array<BaseSlot>;
-  cover?: EmbeddedImage;
+  cover: EmbeddedImage;
   socialMixcloudHandle?: string;
 }
 
@@ -51,4 +51,23 @@ export enum SlotType {
 export interface ChunkedSlot extends Slot {
   duration: number;
   type: SlotType;
+}
+
+export interface Slate {
+  id?: string;
+  name?: string;
+  automationShow: Show;
+  slots: Array<BaseSlot>;
+}
+
+export interface Stream {
+  id: string;
+  slug: string;
+  name: string;
+  host: string;
+  port: number;
+  mountpoint: string;
+  priorityOnline: number;
+  priorityOffline: number;
+  slate?: Slate;
 }

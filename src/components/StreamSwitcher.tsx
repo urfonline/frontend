@@ -34,7 +34,7 @@ function StreamSwitcher({ onChange, schedule }: IProps) {
         <UpArrow className="StreamSwitcher__selector__indicator" style={{
           transform: (isOpen ? "rotateX(180deg)": "")
         }} />
-        {schedule.stream.name}
+        {schedule.stream ? schedule.stream.name : 'Loading...'}
       </div>
       <div className={`StreamSwitcher__options StreamSwitcher__options__${isOpen ? "open": "closed"}`}>
         {schedule.onlineStreams.map((stream: any, i: number) =>
