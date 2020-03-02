@@ -17,13 +17,9 @@ function createAutomationSlot(
   slotId: string,
   show: any,
   day: number,
-  startTime: number,
-  duration: number,
+  startDate: dayjs.Dayjs,
+  endDate: dayjs.Dayjs,
 ): ChunkedSlot {
-  let startDate = dayjs.at('Europe/London')
-    .startOf('day').hour(startTime).day(day);
-  let endDate = startDate.add(duration, 'hour');
-
   return {
     id: slotId,
     startTime: startDate.format("HH:mm"),
@@ -38,98 +34,135 @@ function createAutomationSlot(
 }
 
 function upgradeSlot(slot: BaseSlot): Slot {
-  let startDate = parseTime(slot.startTime).day(slot.day);
-  let endDate = parseTime(slot.endTime).day(slot.day);
+  let startDate = dayjs.atTimeOnDay('Europe/London', slot.day, slot.startTime);
+  let endDate = dayjs.atTimeOnDay('Europe/London', slot.day, slot.endTime);
+
+  let now = getZonedNow();
+  if (startDate.isBefore(now, 'week')) {
+    // slot's jumped back a week (because calling .weekday() did that)
+    // this feels a like a bit of a hacky fix. ideally dates were just day-of-week, hour and minute,
+    // but that makes it much more difficult to process DST?
+    startDate = startDate.add(1, 'week');
+    endDate = endDate.add(1, 'week');
+  }
 
   // wrap around midnight
   if (endDate.isBefore(startDate)) {
     endDate = endDate.add(1, 'day');
+
+    // sunday-monday wraparound
+    if (startDate.weekday() == 6 && endDate.weekday() == 0) {
+      endDate = endDate.subtract(7, 'day');
+    }
   }
 
-  return { ...slot, startDate, endDate };
+  return { ...slot, startDate, endDate, day: startDate.weekday() };
 }
 
 export function chunkSlotsByDay(allSlots: Array<BaseSlot>, automationShow: Show) {
   return newChunkSlotsByDay(allSlots.map(upgradeSlot), automationShow);
 }
 
-function newChunkSlotsByDay(allSlots: Array<Slot>, automationShow: Show) {
-  const days: Array<Array<ChunkedSlot>> = [[], [], [], [], [], [], []];
-  const taken: Array<Array<boolean>> = [[], [], [], [], [], [], []];
+function slotToParts(slot: Slot): ChunkedSlot | ReadonlyArray<ChunkedSlot> {
+  let duration = slot.endDate.diff(slot.startDate, 'minute');
 
-  allSlots.forEach(slot => {
-    let index = slot.startDate.hour();
-    let duration = slot.endDate.diff(slot.startDate, 'minute');
-    let takenHours = slot.endDate.diff(slot.startDate, 'hour');
+  if (slot.startDate.weekday() === slot.endDate.weekday()) {
+    // Normal slot.
 
-    let tracker = slot.startDate;
-    for (let i = 0; i < takenHours; i++) {
-      taken[tracker.day()][tracker.hour()] = true;
-      tracker = tracker.add(1, 'hour');
+    return {
+      ...slot,
+      duration,
+      type: SlotType.Contained,
     }
+  } else {
+    // Wrap-around slot
+    let firstEnd = slot.startDate.endOf('day');
+    let firstDuration = firstEnd.diff(slot.startDate, 'minute') + 1;
+    let secondStart = slot.endDate.startOf('day');
+    let secondDuration = slot.endDate.diff(secondStart, 'minute');
 
-    // does slot wrap around?
-    if (slot.startDate.day() !== slot.endDate.day()) {
-      let firstDuration = slot.startDate
-        .endOf('day')
-        .diff(slot.startDate, 'minute') + 1; // bump up extra minute
-
-      let secondStart = slot.endDate.startOf('day');
-      let secondDuration = slot.endDate.diff(secondStart, 'minute');
-
-      // first slot
-      days[slot.day][index] = {
-        ...slot,
-        duration: firstDuration,
-        type: SlotType.PreOvernight,
-      };
-
-      // add a second slot on day 2 if there is any duration left
-      if (secondDuration > 0) {
-        days[slot.endDate.day()][0] = {
-          ...slot,
-          duration: secondDuration,
-          type: SlotType.PostOvernight,
-        };
-      }
-    } else {
-      // normal contained slot
-      days[slot.day][index] = {
+    if (secondDuration == 0) {
+      // Slot ended at midnight, let's treat it regularly
+      return {
         ...slot,
         duration,
         type: SlotType.Contained,
       }
     }
+
+    // the wild wild west
+    return [{
+      ...slot,
+      day: slot.startDate.weekday(),
+      // endDate: firstEnd,
+      duration: firstDuration,
+      type: SlotType.PreOvernight,
+    }, {
+      ...slot,
+      id: `${slot.id}-post`,
+      day: secondStart.weekday(),
+      startDate: secondStart.subtract(1, 'week'),
+      duration: secondDuration,
+      type: SlotType.PostOvernight,
+    }];
+  }
+}
+
+function sundayWrap(slot: Slot): Slot {
+  return {
+    ...slot,
+    startDate: slot.startDate.add(7, 'day'),
+    endDate: slot.endDate.add(7, 'day'),
+  }
+}
+
+function groupBy<T>(list: Array<T>, keyfunc: (el: T) => number) {
+  let result: Array<Array<T>> = [];
+
+  list.forEach(el => {
+    let key = keyfunc(el);
+    if (!result[key]) result[key] = [];
+
+    result[key].push(el);
   });
 
-  // fill in automation
-  for (let day = 0; day < 7; day++) {
-    let start = -1;
-    let duration = 0;
+  return result;
+}
 
-    for (let hour = 0; hour < 24; hour++) {
-      if (!taken[day][hour]) {
-        if (start < 0) {
-          start = hour;
-          duration = 1;
-        } else {
-          duration += 1;
-        }
-      } else if (start >= 0) {
-        days[day][start] = createAutomationSlot(`auto-${day}-${hour}`,
-          automationShow, day, start, duration);
-        start = -1;
-      }
+function newChunkSlotsByDay(allSlots: Array<Slot>, automationShow: Show) {
+  let autoId = 1;
+
+  let unchunked = allSlots.sort((a, b) =>
+    a.startDate.diff(b.startDate, 'minute')
+  ).flatMap<ChunkedSlot>((slot, i, arr) => {
+    let nextSlot = arr[i + 1];
+
+    if (!nextSlot) {
+      nextSlot = sundayWrap(arr[0]);
     }
 
-    // fill in final case
-    if (start > 0) {
-      days[day][start] = createAutomationSlot(`auto-${day}-${start}`,
-        automationShow, day, start, duration);
+    if (slot.endDate.isBefore(nextSlot.startDate, 'minute')) {
+      // just fill the hole, hole filler
+      return [
+        slotToParts(slot),
+        slotToParts(
+          createAutomationSlot(`auto-${autoId++}`, automationShow,
+            slot.endDate.weekday(), slot.endDate, nextSlot.startDate)
+        )
+      ].flat(1)
     }
-  }
 
-  return days;
+    return slotToParts(slot);
+  });
+
+  console.log(unchunked);
+
+  return groupBy(unchunked, slot => slot.day)
+    .map(dayMap =>
+      dayMap.sort((a, b) =>
+        a.startDate.diff(b.startDate, 'minute')
+      )
+    );
 }
 
 export function calculateWidth(number: number) {
@@ -148,14 +181,14 @@ export function getZonedNow(): dayjs.Dayjs {
 }
 
 export function getTodayDayMonday() {
-  return getZonedNow().day();
+  return getZonedNow().weekday();
 }
 
 export function getOnAirSlot(slotsByDay: Array<Array<ChunkedSlot>>): ChunkedSlot | undefined {
   if (slotsByDay === null) return;
 
   const now = getZonedNow();
-  const todaySlots = slotsByDay[now.day()];
+  const todaySlots = slotsByDay[now.weekday()];
 
   return todaySlots.find(slot => slot && now.isBetween(slot.startDate, slot.endDate, 'minute', '[)'));
 }
