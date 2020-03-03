@@ -13,6 +13,10 @@ export function formatTime(date: dayjs.Dayjs) {
   return date.format('h:mma');
 }
 
+function sortIndexOf(startDate: dayjs.Dayjs) {
+  return (startDate.weekday() * 24 * 60) + (startDate.hour() * 60) + startDate.minute()
+}
+
 function createAutomationSlot(
   slotId: string,
   show: any,
@@ -20,12 +24,18 @@ function createAutomationSlot(
   startDate: dayjs.Dayjs,
   endDate: dayjs.Dayjs,
 ): ChunkedSlot {
+  let duration = endDate.diff(startDate, 'minute');
+  if (duration > 60 * 24) {
+    console.warn(`very long slot generated: ${duration}m`, startDate.format("DD-HH:mm"), endDate.format("DD-HH:mm"));
+  }
+
   return {
     id: slotId,
     startTime: startDate.format("HH:mm"),
     endTime: endDate.format("HH:mm"),
     startDate,
     endDate,
+    sortIndex: sortIndexOf(startDate),
     day,
     show,
     type: SlotType.Contained,
@@ -34,29 +44,22 @@ function createAutomationSlot(
 }
 
 function upgradeSlot(slot: BaseSlot): Slot {
-  let startDate = dayjs.atTimeOnDay('Europe/London', slot.day, slot.startTime);
-  let endDate = dayjs.atTimeOnDay('Europe/London', slot.day, slot.endTime);
-
   let now = getZonedNow();
-  if (startDate.isBefore(now, 'week')) {
-    // slot's jumped back a week (because calling .weekday() did that)
-    // this feels a like a bit of a hacky fix. ideally dates were just day-of-week, hour and minute,
-    // but that makes it much more difficult to process DST?
-    startDate = startDate.add(1, 'week');
-    endDate = endDate.add(1, 'week');
-  }
+  let startDate = dayjs.atTimeOnDay('Europe/London', slot.day, slot.startTime).week(now.week());
+  let endDate = dayjs.atTimeOnDay('Europe/London', slot.day, slot.endTime).week(now.week());
+  let sortIndex = sortIndexOf(startDate);
 
   // wrap around midnight
   if (endDate.isBefore(startDate)) {
-    endDate = endDate.add(1, 'day');
-
     // sunday-monday wraparound
     if (startDate.weekday() == 6 && endDate.weekday() == 0) {
-      endDate = endDate.subtract(7, 'day');
+      // endDate = endDate.subtract(7, 'day');
+    } else {
+      endDate = endDate.add(1, 'day');
     }
   }
 
-  return { ...slot, startDate, endDate, day: startDate.weekday() };
+  return { ...slot, startDate, endDate, sortIndex, day: startDate.weekday() };
 }
 
 export function chunkSlotsByDay(allSlots: Array<BaseSlot>, automationShow: Show) {
@@ -94,20 +97,20 @@ function slotToParts(slot: Slot): ChunkedSlot | ReadonlyArray<ChunkedSlot> {
     return [{
       ...slot,
       day: slot.startDate.weekday(),
-      // endDate: firstEnd,
       duration: firstDuration,
       type: SlotType.PreOvernight,
     }, {
       ...slot,
       id: `${slot.id}-post`,
       day: secondStart.weekday(),
-      startDate: secondStart.subtract(1, 'week'),
+      sortIndex: sortIndexOf(secondStart),
       duration: secondDuration,
       type: SlotType.PostOvernight,
     }];
   }
 }
 
+// @ts-ignore
 function sundayWrap(slot: Slot): Slot {
   return {
     ...slot,
@@ -139,6 +142,14 @@ function newChunkSlotsByDay(allSlots: Array<Slot>, automationShow: Show) {
 
     if (!nextSlot) {
       nextSlot = sundayWrap(arr[0]);
+      // nextSlot = arr[0];
+
+      // Sunday wraparound is difficult! We use `isBefore` here, which mostly works except for the wraparound,
+      // because endDate is Sunday while startDate is all the way back at Monday.
+      // We tried to fix this using `sundayWrap`, which overrode the next slot's date *for this comparison*
+      // (but didn't use it for any subsequent operations), however if a slot gets split across the wraparound
+      // (because of, say, a +9:30 timezone) then this would generate a week-long slot because of the difference.
+      // TODO: More special handling for the wraparound.
     }
 
     if (slot.endDate.isBefore(nextSlot.startDate, 'minute')) {
@@ -155,12 +166,10 @@ function newChunkSlotsByDay(allSlots: Array<Slot>, automationShow: Show) {
     return slotToParts(slot);
   });
 
-  console.log(unchunked);
-
   return groupBy(unchunked, slot => slot.day)
     .map(dayMap =>
       dayMap.sort((a, b) =>
-        a.startDate.diff(b.startDate, 'minute')
+        a.sortIndex - b.sortIndex
       )
     );
 }

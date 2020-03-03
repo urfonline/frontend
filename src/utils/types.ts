@@ -38,6 +38,7 @@ export interface BaseSlot {
 }
 
 export interface Slot extends BaseSlot {
+  sortIndex: number;
   startDate: dayjs.Dayjs;
   endDate: dayjs.Dayjs;
 }
