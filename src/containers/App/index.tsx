@@ -158,6 +158,8 @@ const ScheduleQuery = gql`
       slug
       host
       port
+      proxyUrl
+      mobileMountpoint
       priorityOnline
       priorityOffline
       slate {

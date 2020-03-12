@@ -2,11 +2,12 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 
 interface IProps {
   stream: string;
+  query: string[];
   userState: any; // todo
   onChange: any;
 }
 
-export const PlayerAudio: React.FC<IProps> = ({ userState, stream, onChange}) => {
+export const PlayerAudio: React.FC<IProps> = ({ userState, stream, query, onChange}) => {
   const [cacheKey] = useState(Math.random());
   const ref = useRef<HTMLAudioElement>(null);
   const handleEvent = useCallback(onChange, []);
@@ -45,9 +46,11 @@ export const PlayerAudio: React.FC<IProps> = ({ userState, stream, onChange}) =>
     }
   }, [userState]);
 
+  query.push(`nocache=${cacheKey}`);
+
   return (
     <audio
-      src={`${stream}?nocache=${cacheKey}`}
+      src={`${stream}?${query.join('&')}`}
       autoPlay
       ref={ref}
     />
