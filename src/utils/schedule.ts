@@ -14,7 +14,7 @@ export function formatTime(date: dayjs.Dayjs) {
 }
 
 function sortIndexOf(startDate: dayjs.Dayjs) {
-  return (startDate.weekday() * 24 * 60) + (startDate.hour() * 60) + startDate.minute()
+  return (startDate.hour() * 60) + startDate.minute()
 }
 
 function createAutomationSlot(
@@ -45,25 +45,28 @@ function createAutomationSlot(
 
 function upgradeSlot(slot: BaseSlot): Slot {
   let now = getZonedNow();
-  let startDate = dayjs.atTimeOnDay('Europe/London', slot.day, slot.startTime).week(now.week());
-  let endDate = dayjs.atTimeOnDay('Europe/London', slot.day, slot.endTime).week(now.week());
+  let startDate = dayjs.atTimeOnDay('Europe/London', slot.day, slot.startTime);
+  let endDate = dayjs.atTimeOnDay('Europe/London', slot.day, slot.endTime);
   let sortIndex = sortIndexOf(startDate);
 
   // wrap around midnight
   if (endDate.isBefore(startDate)) {
     // sunday-monday wraparound
     if (startDate.weekday() == 6 && endDate.weekday() == 0) {
-      // endDate = endDate.subtract(7, 'day');
+      // do nothing. it seems easier to read this way
     } else {
       endDate = endDate.add(1, 'day');
     }
   }
 
+  startDate = startDate.week(now.week());
+  endDate = endDate.week(now.week());
+
   return { ...slot, startDate, endDate, sortIndex, day: startDate.weekday() };
 }
 
 export function chunkSlotsByDay(allSlots: Array<BaseSlot>, automationShow: Show) {
-  return newChunkSlotsByDay(allSlots.map(upgradeSlot), automationShow);
+  return chunkAllSlotsByDay(allSlots.map(upgradeSlot), automationShow);
 }
 
 function slotToParts(slot: Slot): ChunkedSlot | ReadonlyArray<ChunkedSlot> {
@@ -132,7 +135,7 @@ function groupBy<T>(list: Array<T>, keyfunc: (el: T) => number) {
   return result;
 }
 
-function newChunkSlotsByDay(allSlots: Array<Slot>, automationShow: Show) {
+function chunkAllSlotsByDay(allSlots: Array<Slot>, automationShow: Show) {
   let autoId = 1;
 
   let unchunked = allSlots.sort((a, b) =>
@@ -141,15 +144,12 @@ function newChunkSlotsByDay(allSlots: Array<Slot>, automationShow: Show) {
     let nextSlot = arr[i + 1];
 
     if (!nextSlot) {
-      nextSlot = sundayWrap(arr[0]);
-      // nextSlot = arr[0];
-
-      // Sunday wraparound is difficult! We use `isBefore` here, which mostly works except for the wraparound,
-      // because endDate is Sunday while startDate is all the way back at Monday.
-      // We tried to fix this using `sundayWrap`, which overrode the next slot's date *for this comparison*
-      // (but didn't use it for any subsequent operations), however if a slot gets split across the wraparound
-      // (because of, say, a +9:30 timezone) then this would generate a week-long slot because of the difference.
-      // TODO: More special handling for the wraparound.
+      if (arr[0].startDate.isSame(slot.endDate, 'minute')) {
+        // Slots are directly touching already, don't do wraparound
+        nextSlot = arr[0];
+      } else {
+        nextSlot = sundayWrap(arr[0]);
+      }
     }
 
     if (slot.endDate.isBefore(nextSlot.startDate, 'minute')) {

@@ -27,9 +27,9 @@ const pluginFunc: dayjs.PluginFunc = (_option: any, _dayjsClass: typeof dayjs.Da
 
 declare module 'dayjs' {
   export function at(zoneName: string,
-                     date?: dayjs.ConfigType, format?: string): Dayjs
+                     date?: dayjs.ConfigType, format?: string): dayjs.Dayjs
 
-  export function atTimeOnDay(zoneName: string, day: number, time: string): Dayjs
+  export function atTimeOnDay(zoneName: string, day: number, time: string): dayjs.Dayjs
 }
 
 export default pluginFunc;
