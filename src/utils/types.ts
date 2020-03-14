@@ -67,7 +67,9 @@ export interface Stream {
   name: string;
   host: string;
   port: number;
+  proxyUrl: string;
   mountpoint: string;
+  mobileMountpoint: string;
   priorityOnline: number;
   priorityOffline: number;
   slate?: Slate;
