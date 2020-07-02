@@ -17,7 +17,7 @@ const ScheduleDayRow: React.FC<IProps> = (props: IProps) => {
   const { slots, calculateWidth, onAirSlotId } = props;
 
   if (slots === undefined) {
-    return <div>Nothing is scheduled.</div>;
+    return <div className="ScheduleRow__empty">Nothing is scheduled.</div>;
   }
 
   return (
