@@ -2,8 +2,10 @@ import dayjs from 'dayjs';
 import { BaseSlot, ChunkedSlot, Show, Slot, SlotType } from './types';
 import { API_HOST } from '../config';
 
+const STUDIO_TIMEZONE = 'Europe/London';
+
 export function parseTime(timeString: string) {
-  return dayjs.at('Europe/London', timeString, "HH:mm");
+  return dayjs.at(STUDIO_TIMEZONE, timeString, "HH:mm");
 }
 
 export function formatTime(date: dayjs.Dayjs) {
@@ -45,8 +47,8 @@ function createAutomationSlot(
 
 function upgradeSlot(slot: BaseSlot): Slot {
   let now = getZonedNow();
-  let startDate = dayjs.atTimeOnDay('Europe/London', slot.day, slot.startTime);
-  let endDate = dayjs.atTimeOnDay('Europe/London', slot.day, slot.endTime);
+  let startDate = dayjs.atTimeOnDay(STUDIO_TIMEZONE, slot.day, slot.startTime);
+  let endDate = dayjs.atTimeOnDay(STUDIO_TIMEZONE, slot.day, slot.endTime);
   let sortIndex = sortIndexOf(startDate);
 
   // wrap around midnight
@@ -186,7 +188,7 @@ export function calculateWidthWithUnit(number: number) {
 }
 
 export function getZonedNow(): dayjs.Dayjs {
-  return dayjs.at('Europe/London')
+  return dayjs.at(STUDIO_TIMEZONE)
 }
 
 export function getTodayDayMonday() {
