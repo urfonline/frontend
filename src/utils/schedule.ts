@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { BaseSlot, ChunkedSlot, Show, Slot, SlotType } from './types';
+import { BaseSlot, ChunkedSlot, Show, Slot, SlotType, Stream } from './types';
 import { API_HOST } from '../config';
 
 const STUDIO_TIMEZONE = 'Europe/London';
@@ -28,7 +28,9 @@ function createAutomationSlot(
 ): ChunkedSlot {
   let duration = endDate.diff(startDate, 'minute');
   if (duration > 60 * 24) {
-    console.warn(`very long slot generated: ${duration}m`, startDate.format("DD-HH:mm"), endDate.format("DD-HH:mm"));
+    console.warn(`very long slot generated: ${duration}m`,
+      startDate.format("DD-HH:mm"),
+      endDate.format("DD-HH:mm"));
   }
 
   return {
@@ -45,6 +47,11 @@ function createAutomationSlot(
   };
 }
 
+/**
+ * Upgrade a naive BaseSlot (slot as received from the API) into a Slot, which
+ * has locale-aware dates attached, along with the day and sort index.
+ * @param slot Basic slot to upgrade
+ */
 function upgradeSlot(slot: BaseSlot): Slot {
   let now = getZonedNow();
   let startDate = dayjs.atTimeOnDay(STUDIO_TIMEZONE, slot.day, slot.startTime);
@@ -67,10 +74,22 @@ function upgradeSlot(slot: BaseSlot): Slot {
   return { ...slot, startDate, endDate, sortIndex, day: startDate.weekday() };
 }
 
-export function chunkSlotsByDay(allSlots: Array<BaseSlot>, automationShow: Show) {
-  return chunkAllSlotsByDay(allSlots.map(upgradeSlot), automationShow);
-}
-
+/**
+ * In some cases, slots might wrap-around the "midnight" marker, which is
+ * a physical linebreak in our site layout. In order for that to work, we
+ * need to split those slots up into two parts - one for pre-midnight, and
+ * one for post-midnight. This function does just that - if the slot crosses
+ * midnight, we return two slots, broken up at the midnight line. The start
+ * and end date is the same for both chunked slots, but their duration is
+ * reduced to only occupy one part, for when we eventually convert the duration
+ * to width.
+ *
+ * The returned ChunkedSlot(s) have duration and type properties, which is
+ * missing from the input Slot.
+ *
+ * @param slot Basic Slot to convert into chunked slot(s).
+ * @returns Either a ChunkedSlot or an Array of ChunkedSlots.
+ */
 function slotToParts(slot: Slot): ChunkedSlot | ReadonlyArray<ChunkedSlot> {
   let duration = slot.endDate.diff(slot.startDate, 'minute');
 
@@ -137,6 +156,15 @@ function groupBy<T>(list: Array<T>, keyfunc: (el: T) => number) {
   return result;
 }
 
+/**
+ * Take an array of Slots (which have been placed into the local timezone via upgradeSlot)
+ * and chunk them into a possibly-sparse Array, with each index 0-7 corresponding
+ * to each weekday, monday-sunday.
+ *
+ * @param allSlots Slots to chunk into day groups.
+ * @param automationShow Show to use as the automation show.
+ * @returns Array<Array<ChunkedSlot>> 2D array of chunked slots
+ */
 function chunkAllSlotsByDay(allSlots: Array<Slot>, automationShow: Show) {
   let autoId = 1;
 
@@ -176,6 +204,10 @@ function chunkAllSlotsByDay(allSlots: Array<Slot>, automationShow: Show) {
     );
 }
 
+export function chunkSlotsByDay(allSlots: Array<BaseSlot>, automationShow: Show) {
+  return chunkAllSlotsByDay(allSlots.map(upgradeSlot), automationShow);
+}
+
 export function calculateWidth(number: number) {
   const width = 3600;
   const totalMinutes = 24 * 60;
@@ -191,7 +223,7 @@ export function getZonedNow(): dayjs.Dayjs {
   return dayjs.at(STUDIO_TIMEZONE)
 }
 
-export function getTodayDayMonday() {
+export function getZonedToday() {
   return getZonedNow().weekday();
 }
 
@@ -211,9 +243,15 @@ export function getScrollPositionForNow(): number {
   return calculateWidth(duration);
 }
 
-export function resolveStreamOrder(streams: Array<any>): Promise<any> {
+/**
+ * Resolve the order of streams by querying their Icecast proxy endpoints.
+ *
+ * @param streams List of stream objects to order
+ * @returns Promise that resolves to a list of streams, with the highest (lowest value) priority stream first.
+ */
+export function resolveStreamOrder(streams: Array<Stream>): Promise<any> {
   return Promise.all(
-    streams.map((stream: any): Promise<any> => {
+    streams.map((stream): Promise<any> => {
       let asleep = false;
 
       if (stream.slate != null) {

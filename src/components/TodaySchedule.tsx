@@ -6,7 +6,7 @@ import Spinner from './Spinner';
 import {
   calculateWidth,
   getScrollPositionForNow,
-  getTodayDayMonday,
+  getZonedToday,
 } from '../utils/schedule';
 import { RootState } from '../types';
 
@@ -42,7 +42,7 @@ class TodaySchedule extends React.Component<IProps> {
 
   renderSchedule() {
     const slotsByDay = this.props.schedule.slotsByDay;
-    const today = getTodayDayMonday();
+    const today = getZonedToday();
 
     return (
       <div
