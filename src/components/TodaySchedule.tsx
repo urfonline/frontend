@@ -43,7 +43,6 @@ class TodaySchedule extends React.Component<IProps> {
 
   renderSchedule() {
     const slotsByDay = this.props.schedule.slotsByDay;
-    console.log(this.props.schedule);
     const today = getZonedToday();
 
     return (
@@ -58,7 +57,7 @@ class TodaySchedule extends React.Component<IProps> {
           <div className="Schedule__day-row">
             <ScheduleDayRow
               day={today}
-              slots={slotsByDay[today].slots}
+              slots={slotsByDay[today]?.slots}
               calculateWidth={calculateWidth}
             />
           </div>
