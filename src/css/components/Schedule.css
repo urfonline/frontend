@@ -24,11 +24,16 @@
   margin-left: 10px;
 
   &__inline, > * {
-    display: inline-block;
-    margin: 0 10px;
+    display: block;
+    margin: 10px 0;
     vertical-align: bottom;
     vertical-align: -moz-middle-with-baseline;
     vertical-align: -webkit-baseline-middle;
+
+    @media (--medium) {
+      margin: 0 10px;
+      display: inline-block;
+    }
   }
 
   &__Week {

@@ -17,7 +17,10 @@
   &__heading {
     margin: 0;
     padding-top: 0.75rem;
-    margin-bottom: 1.25rem;
     display: inline-block;
+
+    @media (--medium) {
+      margin-bottom: 1.25rem;
+    }
   }
 }
