@@ -15,9 +15,9 @@ export const updateSlateChunks = (chunked: ISlateWeek, onAirSlot?: Slot) => ({
   payload: { slotsByDay: chunked.days, slot: onAirSlot }
 });
 
-export const switchWeek = (week?: number) => ({
+export const switchWeek = (nextWeek: boolean) => ({
   type: SWITCH_ACTIVE_WEEK,
-  payload: { week },
+  payload: { nextWeek },
 });
 
 export interface IScheduleState {
@@ -26,13 +26,13 @@ export interface IScheduleState {
   slotsByDay: Array<ISlotList>;
   onAirSlot?: Slot;
 
-  selectedWeek: number;
+  showNextWeek: boolean;
 }
 
 const initialState: IScheduleState = {
   loaded: false,
   slotsByDay: [],
-  selectedWeek: 1,
+  showNextWeek: false,
 };
 
 export default function scheduleReducer(state: IScheduleState = initialState, action: Action): IScheduleState {
@@ -56,7 +56,7 @@ export default function scheduleReducer(state: IScheduleState = initialState, ac
     case SWITCH_ACTIVE_WEEK: {
       return {
         ...state,
-        selectedWeek: action.payload.week,
+        showNextWeek: action.payload.nextWeek,
       }
     }
 

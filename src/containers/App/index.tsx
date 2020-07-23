@@ -87,11 +87,11 @@ const App: React.FC = () => {
     }
   }, [loading, data]);
 
-  const { isPlaying, stream, week, onAirSlot } = useMappedState(
+  const { isPlaying, stream, showNextWeek, onAirSlot } = useMappedState(
     (state: RootState) => ({
       isPlaying: state.player.userState === true,
       stream: state.streams.stream,
-      week: state.schedule.selectedWeek,
+      showNextWeek: state.schedule.showNextWeek,
       onAirSlot: state.schedule.onAirSlot
     })
   );
@@ -102,7 +102,11 @@ const App: React.FC = () => {
     if(!stream || !stream.slate) return;
 
     const slate = stream.slate;
-    let slots = filterSlotsByWeek(slate.slots, week);
+
+    let thisWeekFilter = Math.abs(slate.weekFromStart % 2 - 2);
+    let nextWeekFilter = Math.abs(thisWeekFilter - 3);
+
+    let slots = filterSlotsByWeek(slate.slots, showNextWeek ? nextWeekFilter : thisWeekFilter);
     let chunked = chunkSlotsByDay(slots, slate.automationShow);
 
     dispatch(updateSlateChunks(chunked, getOnAirSlot(chunked)));
@@ -116,7 +120,7 @@ const App: React.FC = () => {
     return () => {
       clearInterval(interval);
     };
-  }, [stream, week]);
+  }, [stream, showNextWeek]);
 
   return (
     <div>
@@ -172,6 +176,7 @@ const ScheduleQuery = gql`
       priorityOnline
       priorityOffline
       slate {
+        weekFromStart
         automationShow {
           id
           name
@@ -202,7 +207,7 @@ const ScheduleQuery = gql`
           startTime
           endTime
           day
-#          week
+          week
         }
       }
     }

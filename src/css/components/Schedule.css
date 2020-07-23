@@ -19,3 +19,40 @@
 .ScheduleSingleContainer {
   min-height: 132px;
 }
+
+.WeekSelector {
+  margin-left: 10px;
+
+  &__inline, > * {
+    display: inline-block;
+    margin: 0 10px;
+    vertical-align: bottom;
+    vertical-align: -moz-middle-with-baseline;
+    vertical-align: -webkit-baseline-middle;
+  }
+
+  &__Week {
+    transition: color .25s, fill .25s;
+    cursor: pointer;
+
+    &__inactive {
+      color: #999;
+      fill: #999;
+    }
+
+    &:hover {
+      color: #000;
+      fill: #000;
+    }
+  }
+
+  h2 {
+    margin: 0;
+    line-height: 0.8em;
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+}

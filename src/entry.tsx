@@ -21,6 +21,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import weekDay from 'dayjs/plugin/weekday';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
 import utc from 'dayjs/plugin/utc';
 import TimeZone from './utils/TimeZone';
 
@@ -33,6 +34,7 @@ dayjs.extend(customParseFormat);
 dayjs.extend(relativeTime);
 dayjs.extend(weekDay);
 dayjs.extend(weekOfYear);
+dayjs.extend(advancedFormat);
 dayjs.extend(utc);
 dayjs.extend(TimeZone);
 
