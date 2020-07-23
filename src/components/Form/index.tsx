@@ -186,7 +186,6 @@ export function TimeSlotInput(props: IInputProps) {
     {props.helptext && <div className="meta">{props.helptext}</div>}
     <select name={props.id + "Time"} required={true}>
       <option value={0}>12am</option>
-      <option value={1}>1am</option>
       <option value={8}>8am</option>
       <option value={9}>9am</option>
       <option value={10}>10am</option>
