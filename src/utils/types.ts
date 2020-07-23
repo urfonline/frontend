@@ -1,5 +1,10 @@
 import dayjs from 'dayjs';
 
+export interface Action {
+  type: string;
+  payload: any;
+}
+
 interface EmbeddedImage {
   width: number;
   height: number;
@@ -34,6 +39,7 @@ export interface BaseSlot {
   startTime: string;
   endTime: string;
   day: number;
+  week?: number;
   show: Show;
 }
 
@@ -59,6 +65,18 @@ export interface Slate {
   name?: string;
   automationShow: Show;
   slots: Array<BaseSlot>;
+}
+
+export interface ISlotList {
+  slots: Array<ChunkedSlot>;
+}
+
+export interface ISlateWeek {
+  days: Array<ISlotList>;
+}
+
+export interface IResolvedSlate {
+  weeks: Array<ISlateWeek>;
 }
 
 export interface Stream {

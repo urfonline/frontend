@@ -9,9 +9,10 @@ import {
   getZonedToday,
 } from '../utils/schedule';
 import { RootState } from '../types';
+import { IScheduleState } from '../ducks/schedule';
 
 interface IProps {
-  schedule: any; // todo
+  schedule: IScheduleState;
 }
 
 class TodaySchedule extends React.Component<IProps> {
@@ -42,6 +43,7 @@ class TodaySchedule extends React.Component<IProps> {
 
   renderSchedule() {
     const slotsByDay = this.props.schedule.slotsByDay;
+    console.log(this.props.schedule);
     const today = getZonedToday();
 
     return (
@@ -56,7 +58,7 @@ class TodaySchedule extends React.Component<IProps> {
           <div className="Schedule__day-row">
             <ScheduleDayRow
               day={today}
-              slots={slotsByDay[today]}
+              slots={slotsByDay[today].slots}
               calculateWidth={calculateWidth}
             />
           </div>
@@ -67,7 +69,7 @@ class TodaySchedule extends React.Component<IProps> {
   render() {
     return (
       <div className="Schedule">
-        {this.props.schedule.isLoading ? <Spinner /> : this.renderSchedule()}
+        {this.props.schedule.loaded ? this.renderSchedule() : <Spinner />}
       </div>
     );
   }

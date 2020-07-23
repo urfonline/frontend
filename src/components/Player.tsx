@@ -18,18 +18,19 @@ const Player: React.FC<IProps> = () => {
     (state: RootState) => ({
       player: state.player,
       schedule: state.schedule,
+      streams: state.streams,
     }),
     [],
   );
-  const { player, schedule } = useMappedState(mapState);
+  const { player, schedule, streams } = useMappedState(mapState);
   const dispatch = useDispatch();
 
-  if (schedule.isLoading || !schedule.stream || !schedule.onAirSlot) {
+  if (!schedule.loaded || !streams.stream || !schedule.onAirSlot) {
     return null;
   }
 
   const {show, startDate, endDate} = schedule.onAirSlot;
-  const stream = schedule.stream;
+  const stream = streams.stream;
 
   let mountpoint = stream.mountpoint;
   if (isMobile) {

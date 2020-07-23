@@ -5,14 +5,15 @@ import MainNavigation from '../../components/MainNavigation';
 import { Route, Switch } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { Redirect } from 'react-router';
-import { scheduleLoaded, updateSlateChunks, updateSlot } from '../../ducks/schedule';
+import { updateSlateChunks, updateSlot } from '../../ducks/schedule';
+import { streamsLoaded } from '../../ducks/streams';
 import Loadable from 'react-loadable';
 import gql from 'graphql-tag';
 import { LoadableSpinner } from '../../components/LoadableSpinner';
 import { RootState } from '../../types';
 import { useDispatch, useMappedState } from 'redux-react-hook';
 import { useQuery } from 'react-apollo-hooks';
-import { chunkSlotsByDay, getOnAirSlot } from '../../utils/schedule';
+import { chunkSlotsByDay, filterSlotsByWeek, getOnAirSlot } from '../../utils/schedule';
 
 const LoadableShowPage = Loadable({
   loader: () => import(/* webpackChunkName: "ShowBase" */ '../ShowBase'),
@@ -82,14 +83,17 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (!loading && data) {
-      dispatch(scheduleLoaded(data));
+      dispatch(streamsLoaded(data));
     }
   }, [loading, data]);
 
-  const { isPlaying, stream, onAirSlot } = useMappedState((state: RootState) => ({
-    isPlaying: state.player.userState === true,
-    stream: state.schedule.stream,
-    onAirSlot: state.schedule.onAirSlot })
+  const { isPlaying, stream, week, onAirSlot } = useMappedState(
+    (state: RootState) => ({
+      isPlaying: state.player.userState === true,
+      stream: state.streams.stream,
+      week: state.schedule.selectedWeek,
+      onAirSlot: state.schedule.onAirSlot
+    })
   );
   const dispatch = useDispatch();
 
@@ -98,7 +102,8 @@ const App: React.FC = () => {
     if(!stream || !stream.slate) return;
 
     const slate = stream.slate;
-    let chunked = chunkSlotsByDay(slate.slots, slate.automationShow);
+    let slots = filterSlotsByWeek(slate.slots, week);
+    let chunked = chunkSlotsByDay(slots, slate.automationShow);
 
     dispatch(updateSlateChunks(chunked, getOnAirSlot(chunked)));
 
@@ -111,7 +116,7 @@ const App: React.FC = () => {
     return () => {
       clearInterval(interval);
     };
-  }, [stream]);
+  }, [stream, week]);
 
   return (
     <div>

@@ -10,7 +10,7 @@ interface IProps {
 }
 
 function MainNavigation({ desktop, mobile }: IProps) {
-  let { stream } = useMappedState((state: RootState) => ({ stream: state.schedule.stream }));
+  let { stream } = useMappedState((state: RootState) => ({ stream: state.streams.stream }));
 
   return (
     <div

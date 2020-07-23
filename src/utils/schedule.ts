@@ -1,8 +1,24 @@
 import dayjs from 'dayjs';
-import { BaseSlot, ChunkedSlot, Show, Slot, SlotType, Stream } from './types';
+import { BaseSlot, ChunkedSlot, ISlateWeek, ISlotList, Show, Slot, SlotType, Stream } from './types';
 import { API_HOST } from '../config';
 
 const STUDIO_TIMEZONE = 'Europe/London';
+
+export class SlateWeek implements ISlateWeek {
+  days: Array<ISlotList>;
+
+  constructor(days: Array<ISlotList>) {
+    this.days = days;
+  }
+
+  get monday() { return this.days[0]; }
+  get tuesday() { return this.days[1]; }
+  get wednesday() { return this.days[2]; }
+  get thursday() { return this.days[3]; }
+  get friday() { return this.days[4]; }
+  get saturday() { return this.days[5]; }
+  get sunday() { return this.days[6]; }
+}
 
 export function parseTime(timeString: string) {
   return dayjs.at(STUDIO_TIMEZONE, timeString, "HH:mm");
@@ -163,7 +179,7 @@ function groupBy<T>(list: Array<T>, keyfunc: (el: T) => number) {
  *
  * @param allSlots Slots to chunk into day groups.
  * @param automationShow Show to use as the automation show.
- * @returns Array<Array<ChunkedSlot>> 2D array of chunked slots
+ * @returns SlateWeek A week's worth of slots; 2D array of chunked slots
  */
 function chunkAllSlotsByDay(allSlots: Array<Slot>, automationShow: Show) {
   let autoId = 1;
@@ -196,16 +212,20 @@ function chunkAllSlotsByDay(allSlots: Array<Slot>, automationShow: Show) {
     return slotToParts(slot);
   });
 
-  return groupBy(unchunked, slot => slot.day)
-    .map(dayMap =>
-      dayMap.sort((a, b) =>
-        a.sortIndex - b.sortIndex
-      )
-    );
+  let sortedChunks = groupBy(unchunked, slot => slot.day)
+    .map(dayMap => (
+      { slots: dayMap.sort((a, b) => a.sortIndex - b.sortIndex) }
+    ));
+
+  return new SlateWeek(sortedChunks);
 }
 
 export function chunkSlotsByDay(allSlots: Array<BaseSlot>, automationShow: Show) {
   return chunkAllSlotsByDay(allSlots.map(upgradeSlot), automationShow);
+}
+
+export function filterSlotsByWeek(allSlots: Array<BaseSlot>, week: number): Array<BaseSlot> {
+  return allSlots.filter((slot) => !slot.week || slot.week == week)
 }
 
 export function calculateWidth(number: number) {
@@ -227,11 +247,11 @@ export function getZonedToday() {
   return getZonedNow().weekday();
 }
 
-export function getOnAirSlot(slotsByDay: Array<Array<ChunkedSlot>>): ChunkedSlot | undefined {
-  if (slotsByDay === null) return;
+export function getOnAirSlot(slateWeek: SlateWeek): ChunkedSlot | undefined {
+  if (slateWeek === null) return;
 
   const now = getZonedNow();
-  const todaySlots = slotsByDay[now.weekday()];
+  const todaySlots = slateWeek.days[now.weekday()].slots;
 
   return todaySlots.find(slot => slot && now.isBetween(slot.startDate, slot.endDate, 'minute', '[)'));
 }

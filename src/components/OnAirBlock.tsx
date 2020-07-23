@@ -44,7 +44,7 @@ export const OnAirBlock: React.FC<IProps> = () => {
   const { player, schedule } = useMappedState(mapState);
   const dispatch = useDispatch();
 
-  if (schedule.isLoading || !schedule.onAirSlot) {
+  if (!schedule.loaded || !schedule.onAirSlot) {
     return null;
   }
 
