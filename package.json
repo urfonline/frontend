@@ -36,7 +36,7 @@
     "timezone": "^1.0.23",
     "tinycolor2": "^1.4.1",
     "unfetch": "^4.1.0",
-    "webpack": "^4.43.0"
+    "webpack": "4.43.0"
   },
   "scripts": {
     "prod": "export NODE_ENV=production && node ./scripts/getFragmentTypes.js && `npm bin`/webpack --config webpack.prod.config.js && node ./scripts/lightStaticRenderer.js",
