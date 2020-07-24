@@ -1,18 +1,19 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Header from '../../components/Header';
 import Player from '../../components/Player';
 import MainNavigation from '../../components/MainNavigation';
 import { Route, Switch } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { Redirect } from 'react-router';
-import { loginRestoreAttempt } from '../../ducks/auth';
-import { scheduleLoaded, updateOnAirSlot } from '../../ducks/schedule';
+import { updateSlateChunks, updateSlot } from '../../ducks/schedule';
+import { streamsLoaded } from '../../ducks/streams';
 import Loadable from 'react-loadable';
 import gql from 'graphql-tag';
 import { LoadableSpinner } from '../../components/LoadableSpinner';
 import { RootState } from '../../types';
 import { useDispatch, useMappedState } from 'redux-react-hook';
 import { useQuery } from 'react-apollo-hooks';
+import { chunkSlotsByDay, filterSlotsByWeek, getOnAirSlot } from '../../utils/schedule';
 
 const LoadableShowPage = Loadable({
   loader: () => import(/* webpackChunkName: "ShowBase" */ '../ShowBase'),
@@ -80,45 +81,57 @@ const LoadableApplicationForm = Loadable({
 const App: React.FC = () => {
   const { data, loading } = useQuery(ScheduleQuery);
 
-  const mapState = useCallback(
-    (store: RootState) => ({
-      isPlaying: store.player.userState === true,
-      currentlyOnAirShow: store.schedule.currentlyOnAir
-        ? store.schedule.currentlyOnAir.show
-        : false,
-    }),
-    [],
-  );
+  useEffect(() => {
+    if (!loading && data) {
+      dispatch(streamsLoaded(data));
+    }
+  }, [loading, data]);
 
-  const { isPlaying, currentlyOnAirShow } = useMappedState(mapState);
+  const { isPlaying, stream, showNextWeek, onAirSlot } = useMappedState(
+    (state: RootState) => ({
+      isPlaying: state.player.userState === true,
+      stream: state.streams.stream,
+      showNextWeek: state.schedule.showNextWeek,
+      onAirSlot: state.schedule.onAirSlot
+    })
+  );
   const dispatch = useDispatch();
 
+  // This effect deals with keeping the schedule up to date.
   useEffect(() => {
-    loginRestoreAttempt()(dispatch);
+    if(!stream || !stream.slate) return;
 
-    const interval = setInterval(() => dispatch(updateOnAirSlot()), 1000 * 30);
+    const slate = stream.slate;
+
+    let thisWeekFilter = Math.abs(slate.weekFromStart % 2 - 2);
+    let nextWeekFilter = Math.abs(thisWeekFilter - 3);
+
+    let slots = filterSlotsByWeek(slate.slots, showNextWeek ? nextWeekFilter : thisWeekFilter);
+    let chunked = chunkSlotsByDay(slots, slate.automationShow);
+
+    dispatch(updateSlateChunks(chunked, getOnAirSlot(chunked)));
+
+    const interval = setInterval(() => {
+      let slot = getOnAirSlot(chunked);
+
+      dispatch(updateSlot(slot));
+    }, 1000 * 30);
 
     return () => {
       clearInterval(interval);
     };
-  }, []);
-
-  useEffect(() => {
-    if (!loading && data) {
-      dispatch(scheduleLoaded(data));
-    }
-  }, [loading, data]);
+  }, [stream, showNextWeek]);
 
   return (
     <div>
       <Helmet
         titleTemplate={
-          isPlaying
-            ? `${currentlyOnAirShow.emojiDescription} | %s | URF`
+          (isPlaying && onAirSlot)
+            ? `${onAirSlot.show.emojiDescription} | %s | URF`
             : '%s | URF'
         }
         defaultTitle={
-          isPlaying ? `${currentlyOnAirShow.emojiDescription} | URF` : 'URF'
+          (isPlaying && onAirSlot) ? `${onAirSlot.show.emojiDescription} | URF` : 'URF'
         }
       />
       <Header />
@@ -163,6 +176,8 @@ const ScheduleQuery = gql`
       priorityOnline
       priorityOffline
       slate {
+        name
+        weekFromStart
         automationShow {
           id
           name
@@ -189,9 +204,11 @@ const ScheduleQuery = gql`
               resource
             }
           }
+          id
           startTime
           endTime
           day
+          week
         }
       }
     }

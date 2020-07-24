@@ -1,9 +1,7 @@
 import React from 'react';
-import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { connect } from 'react-redux';
 import * as authActions from '../../ducks/auth';
-import { compose } from 'redux';
 
 interface IProps {
   mutate: any;
@@ -88,6 +86,7 @@ class Login extends React.Component<IProps, IState> {
   }
 }
 
+// @ts-ignore
 const LoginMutation = gql`
   mutation Login($username: String, $password: String) {
     login(username: $username, password: $password) {
@@ -97,12 +96,6 @@ const LoginMutation = gql`
   }
 `;
 
-export default compose(
-  connect(
-    null,
-    {
-      loginSuccess: authActions.loginSuccess,
-    },
-  ),
-  graphql<{}, {}, IProps>(LoginMutation),
-)(Login) as any;
+export default connect(null, {
+  loginSuccess: authActions.loginSuccess,
+})(Login);

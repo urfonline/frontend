@@ -1,12 +1,10 @@
 import React from 'react';
-import startOfDay from 'date-fns/startOfDay';
-import differenceInMinutes from 'date-fns/differenceInMinutes';
+import { getZonedNow } from '../utils/schedule';
 
 function getMinutes() {
-  const midnight = startOfDay(new Date());
-  const now = new Date();
+  const now = getZonedNow();
 
-  return differenceInMinutes(now, midnight);
+  return now.diff(now.startOf('day'), 'minute');
 }
 
 interface IProps {}

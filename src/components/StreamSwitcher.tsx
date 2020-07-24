@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import UpArrow from '../img/caret-up.svg';
 import { resolveStreamOrder } from '../utils/schedule';
-import { IScheduleState, streamsResolved, switchStreams } from '../ducks/schedule';
+import { IStreamState, streamsResolved, switchStreams } from '../ducks/streams';
 import { connect } from 'react-redux';
 import { RootState } from '../types';
 
 interface IProps {
   onChange(streamIndex: number): void;
-  schedule: IScheduleState;
+  streams: IStreamState;
 }
 
 interface IStreamProps {
@@ -25,7 +25,7 @@ function Stream({ stream, onClick }: IStreamProps) {
   )
 }
 
-function StreamSwitcher({ onChange, schedule }: IProps) {
+function StreamSwitcher({ onChange, streams }: IProps) {
   let [isOpen, setOpen] = useState(false);
 
   return (
@@ -34,10 +34,10 @@ function StreamSwitcher({ onChange, schedule }: IProps) {
         <UpArrow className="StreamSwitcher__selector__indicator" style={{
           transform: (isOpen ? "rotateX(180deg)": "")
         }} />
-        {schedule.stream.name}
+        {streams.stream ? streams.stream.name : 'Loading...'}
       </div>
       <div className={`StreamSwitcher__options StreamSwitcher__options__${isOpen ? "open": "closed"}`}>
-        {schedule.onlineStreams.map((stream: any, i: number) =>
+        {streams.onlineStreams.map((stream: any, i: number) =>
           <Stream stream={stream} key={stream.id} onClick={() => {
             onChange(i);
             setOpen(false);
@@ -49,22 +49,22 @@ function StreamSwitcher({ onChange, schedule }: IProps) {
 }
 
 interface IConnectProps {
-  schedule: IScheduleState;
+  streams: IStreamState;
   dispatch: any;
 }
 
-function LoadableStreamSwitcher({ schedule, dispatch }: IConnectProps) {
+function LoadableStreamSwitcher({ streams, dispatch }: IConnectProps) {
   useEffect(() => {
-    resolveStreamOrder(schedule.allStreams)
+    resolveStreamOrder(streams.allStreams)
       .then((onlineStreams: Array<any>) =>
         dispatch(streamsResolved(onlineStreams))
       )
       .then(() =>
         dispatch(switchStreams(0))
       )
-  }, [schedule.allStreams]);
+  }, [streams.allStreams]);
 
-  if (!schedule.streamsResolved) {
+  if (!streams.onlineResolved) {
     return <div className="Player__streams Player__section">
       <div className="StreamSwitcher__selector">Loading...</div>
     </div>
@@ -72,10 +72,10 @@ function LoadableStreamSwitcher({ schedule, dispatch }: IConnectProps) {
 
   return <StreamSwitcher
     onChange={streamIndex => dispatch(switchStreams(streamIndex))}
-    schedule={schedule}
+    streams={streams}
   />
 }
 
 export default connect(
-  (state: RootState) => ({ schedule: state.schedule }),
+  (state: RootState) => ({ streams: state.streams }),
 )(LoadableStreamSwitcher);

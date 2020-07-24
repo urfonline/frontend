@@ -2,11 +2,11 @@ import React from 'react';
 import cx from 'classnames';
 import Color from 'color';
 import gql from 'graphql-tag';
+import dayjs from 'dayjs';
 import { formatTime, parseTime } from '../utils/schedule';
 import { Helmet } from 'react-helmet';
 import styled from '@emotion/styled';
 import { NavLink, RouteComponentProps } from 'react-router-dom';
-import { format } from 'date-fns';
 import { queries } from '../css/mq';
 import { AspectRatio, OneImage } from '../components/OneImage';
 import {
@@ -14,6 +14,9 @@ import {
   getShowColourHexString,
 } from '../utils/shows';
 import { useQuery } from 'react-apollo-hooks';
+import { Show } from '../utils/types';
+import { useMappedState } from 'redux-react-hook';
+import { RootState } from '../types';
 
 // TODO: move to a utils thing or i18n file
 const DAYS_TEXT = [
@@ -46,11 +49,6 @@ const MixCloudButton = styled.a`
   padding: 0.2rem;
 `;
 
-console.log(queries.large`
-    padding-left: calc(200px + 2rem);
-    margin-bottom: 2rem;
-  `);
-
 const ShowMenu = styled.ul`
   list-style: none;
   padding: 0;
@@ -79,9 +77,12 @@ const ShowMenu = styled.ul`
 interface IProps extends RouteComponentProps<{ showSlug: string }> {}
 
 const ShowBase: React.FC<IProps> = (props) => {
+  const stream = useMappedState((state: RootState) => state.streams.stream);
+
   const { data, loading } = useQuery(ShowBaseQuery, {
     variables: {
       showSlug: props.match.params.showSlug,
+      slate: stream?.slate?.name,
     },
   });
 
@@ -101,7 +102,7 @@ const ShowBase: React.FC<IProps> = (props) => {
     );
   }
 
-  const { show } = data;
+  const { show }: { show: Show } = data;
 
   const bgColor = Color(`#${getShowColourHexString(show)}`)
     .desaturate(0.1)
@@ -125,7 +126,7 @@ const ShowBase: React.FC<IProps> = (props) => {
             <div className="ShowHeader__cover">
               <OneImage
                 src={
-                  show.cover.resource
+                  (show.cover && show.cover.resource)
                     ? show.cover.resource
                     : defaultShowCoverResource
                 }
@@ -136,10 +137,13 @@ const ShowBase: React.FC<IProps> = (props) => {
             <div className="ShowHeader__info">
               <h1 className="ShowHeader__show-title">{show.name}</h1>
               <span className="ShowHeader__schedule-times">
-                {show.slots.map((slot: any) => (
-                  <span>
+                {show.slots && show.slots.map((slot) => (
+                  <span key={slot.id}>
                     {DAYS_TEXT[slot.day]}s at{' '}
                     {formatTime(parseTime(slot.startTime))}
+                    {slot.week &&
+                      ` on ${slot.week == 2 ? 'even' : 'odd'} weeks`
+                    }
                   </span>
                 ))}
               </span>
@@ -167,7 +171,7 @@ const ShowBase: React.FC<IProps> = (props) => {
         <ShowMain>
           <ShowSidebar>
             <ul>
-              <li>Est. {format(new Date(show.createdAt), 'MMM YYYY')}</li>
+              <li>Est. {dayjs(show.createdAt).format('MMM YYYY')}</li>
             </ul>
           </ShowSidebar>
           <div className="ShowHeader__short-description">
@@ -180,7 +184,7 @@ const ShowBase: React.FC<IProps> = (props) => {
 };
 
 const ShowBaseQuery = gql`
-  query ShowBaseQuery($showSlug: String) {
+  query ShowBaseQuery($showSlug: String, $slate: String) {
     show(slug: $showSlug) {
       id
       name
@@ -196,9 +200,11 @@ const ShowBaseQuery = gql`
       cover {
         resource
       }
-      slots {
+      slots(slate: $slate) {
+        id
         startTime
         day
+        week
       }
     }
   }

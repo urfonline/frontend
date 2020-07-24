@@ -6,9 +6,10 @@ import ScheduleDayColumn from './ScheduleDayColumn';
 import Spinner from './Spinner';
 import { calculateWidth, getScrollPositionForNow } from '../utils/schedule';
 import { RootState } from '../types';
+import { IScheduleState } from '../ducks/schedule';
 
 interface IProps {
-  schedule: any;
+  schedule: IScheduleState;
 }
 
 class FullSchedule extends React.Component<IProps, any> {
@@ -33,8 +34,8 @@ class FullSchedule extends React.Component<IProps, any> {
   }
 
   render() {
-    const { isLoading, slotsByDay, currentlyOnAir } = this.props.schedule;
-    if (isLoading) {
+    const { loaded, onAirSlot, slotsByDay } = this.props.schedule;
+    if (!loaded) {
       return <Spinner />;
     }
 
@@ -56,8 +57,8 @@ class FullSchedule extends React.Component<IProps, any> {
                 <ScheduleDayRow
                   title={day}
                   day={index}
-                  onAirSlotId={currentlyOnAir.slotId}
-                  slots={slotsByDay[index]}
+                  onAirSlotId={!!onAirSlot ? onAirSlot.id : ''}
+                  slots={slotsByDay[index]?.slots}
                   calculateWidth={calculateWidth}
                 />
               </div>

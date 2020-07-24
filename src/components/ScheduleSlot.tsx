@@ -1,13 +1,14 @@
 import React from 'react';
 import cx from 'classnames';
-// import Color from 'color';
 import { Link } from 'react-router-dom';
 import ScheduleSlotTime from './ScheduleSlotTime';
+import { SlotType } from '../utils/types';
+import { ChunkedSlot } from '../utils/types';
 
 interface IProps {
   calculateWidth: any; // todo
   onAir: boolean;
-  slot: any; // todo
+  slot: ChunkedSlot;
   index: number;
 }
 
@@ -20,7 +21,7 @@ function ScheduleSlot(props: IProps) {
     'ScheduleSlot',
     !!show.category ? `ScheduleSlot--tone-light` : '',
     {
-      'ScheduleSlot--overnight': slot.is_overnight,
+      'ScheduleSlot--overnight': slot.type != SlotType.Contained,
       'ScheduleSlot--on-air': props.onAir,
     },
   );

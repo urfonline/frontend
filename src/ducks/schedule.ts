@@ -1,141 +1,65 @@
-const LOAD_SCHEDULE_REQUEST = 'LOAD_SCHEDULE_REQUEST';
-const LOAD_SCHEDULE_SUCCESS = 'LOAD_SCHEDULE_SUCCESS';
-const LOAD_SCHEDULE_FAILURE = 'LOAD_SCHEDULE_FAILURE';
-const UPDATE_ON_AIR_SLOT = 'UPDATE_ON_AIR_SLOT';
-const SWITCH_ACTIVE_STREAM = 'SWITCH_ACTIVE_STREAM';
-const RESOLVE_STREAMS_SUCCESS = 'RESOLVE_STREAMS_SUCCESS';
+import { Action, ISlateWeek, ISlotList, Slot } from '../utils/types';
 
-import { chunkSlotsByDay, getOnAirSlot } from '../utils/schedule';
+// const LOAD_SCHEDULE_FAILURE = 'LOAD_SCHEDULE_FAILURE';
+const UPDATE_CURRENT_SLOT = 'UPDATE_CURRENT_SLOT';
+const UPDATE_SLATE_CHUNKS = 'UPDATE_SLATE_CHUNKS';
+const SWITCH_ACTIVE_WEEK = 'SWITCH_ACTIVE_WEEK';
 
-export const scheduleLoaded = (streams: any) => ({
-  type: LOAD_SCHEDULE_SUCCESS,
-  payload: { streams: streams.allStreams },
-});
-export const updateOnAirSlot = () => ({ type: UPDATE_ON_AIR_SLOT });
-
-export const switchStreams = (streamIndex: number) => ({
-  type: SWITCH_ACTIVE_STREAM,
-  payload: { streamIndex },
+export const updateSlot = (slot?: Slot) => ({
+  type: UPDATE_CURRENT_SLOT,
+  payload: { slot }
 });
 
-export const streamsResolved = (onlineStreams: Array<any>) => ({
-  type: RESOLVE_STREAMS_SUCCESS,
-  payload: { onlineStreams },
+export const updateSlateChunks = (chunked: ISlateWeek, onAirSlot?: Slot) => ({
+  type: UPDATE_SLATE_CHUNKS,
+  payload: { slotsByDay: chunked.days, slot: onAirSlot }
+});
+
+export const switchWeek = (nextWeek: boolean) => ({
+  type: SWITCH_ACTIVE_WEEK,
+  payload: { nextWeek },
 });
 
 export interface IScheduleState {
-  isLoading: boolean;
-  currentlyOnAir: Array<any>;
-  slotsByDay: Array<any>;
-  automationShow: any;
-  streamsResolved: boolean;
-  activeStream: number;
-  allStreams: Array<any>;
-  onlineStreams: Array<any>;
-  stream: any;
+  loaded: boolean;
+
+  slotsByDay: Array<ISlotList>;
+  onAirSlot?: Slot;
+
+  showNextWeek: boolean;
 }
 
 const initialState: IScheduleState = {
-  isLoading: true,
-  currentlyOnAir: [],
+  loaded: false,
   slotsByDay: [],
-  automationShow: null,
-  streamsResolved: false,
-  activeStream: 0,
-  allStreams: [],
-  onlineStreams: [],
-  stream: null,
+  showNextWeek: false,
 };
 
-export default function scheduleReducer(state: IScheduleState = initialState, action: any) {
+export default function scheduleReducer(state: IScheduleState = initialState, action: Action): IScheduleState {
   switch (action.type) {
-    case LOAD_SCHEDULE_REQUEST: {
+    case UPDATE_CURRENT_SLOT: {
       return {
         ...state,
-        isLoading: true,
+        onAirSlot: action.payload.slot,
       };
     }
-    case LOAD_SCHEDULE_SUCCESS: {
-      let allStreams = action.payload.streams;
 
-      // to get the initial active stream, we sort by online priority and
-      // then find the first stream with a slate. we do this because
-      // the rest of the code currently assumes we have a slate.
-      let slateStream = Array.from(allStreams).sort(
-        (a: any, b: any) => a.priorityOnline - b.priorityOnline
-      ).find(
-        (stream: any) => stream.slate != null
-      );
-
-      let activeStream = allStreams.indexOf(slateStream);
-      let stream = allStreams[activeStream];
-
-      const slotsByDay = chunkSlotsByDay(
-        stream.slate.slots,
-        stream.slate.automationShow,
-      );
-
+    case UPDATE_SLATE_CHUNKS: {
       return {
         ...state,
-        isLoading: false,
-        slotsByDay: slotsByDay,
-        automationShow: stream.slate.automationShow,
-        currentlyOnAir: getOnAirSlot(slotsByDay),
-        activeStream: activeStream,
-        stream: stream,
-        allStreams: allStreams,
-      };
-    }
-    case LOAD_SCHEDULE_FAILURE: {
-      return {
-        ...state,
-      };
-    }
-    case UPDATE_ON_AIR_SLOT: {
-      if (state.isLoading) {
-        return state;
-      }
-
-      return {
-        ...state,
-        currentlyOnAir: getOnAirSlot(state.slotsByDay),
-      };
-    }
-    case SWITCH_ACTIVE_STREAM: {
-      let streams: any = state.onlineStreams;
-      if (streams == null || streams.length == 0) return state;
-
-      let stream = streams[action.payload.streamIndex];
-      if (stream.slate == null) {
-        return {
-          ...state,
-          stream: stream,
-          activeStream: action.payload.streamIndex,
-        }
-        // TODO: the stream has no schedule slate - hide schedule?
-      }
-
-      const slotsByDay = chunkSlotsByDay(
-        stream.slate.slots,
-        stream.slate.automationShow,
-      );
-
-      return {
-        ...state,
-        activeStream: action.payload.streamIndex,
-        slotsByDay: slotsByDay,
-        automationShow: stream.slate.automationShow,
-        currentlyOnAir: getOnAirSlot(slotsByDay),
-        stream: stream,
+        loaded: true,
+        slotsByDay: action.payload.slotsByDay,
+        onAirSlot: action.payload.slot,
       }
     }
-    case RESOLVE_STREAMS_SUCCESS: {
+
+    case SWITCH_ACTIVE_WEEK: {
       return {
         ...state,
-        onlineStreams: action.payload.onlineStreams,
-        streamsResolved: true,
+        showNextWeek: action.payload.nextWeek,
       }
     }
+
     default: {
       return state;
     }

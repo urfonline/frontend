@@ -1,8 +1,8 @@
 import React from 'react';
-import formatDistance from 'date-fns/formatDistance';
 import gql from 'graphql-tag';
 import { Helmet } from 'react-helmet';
 import convert from 'htmr';
+import dayjs from 'dayjs';
 import { elementMap } from '../components/Prose';
 import styled from '@emotion/styled';
 import { ImageHeader } from '../components/ImageHeader';
@@ -40,6 +40,7 @@ const ArticleQuery = gql`
       slug
       publishedAt
       authors {
+        id
         name
         username
       }
@@ -76,10 +77,10 @@ const Article: React.FC<IProps> = (props) => {
               <Byline>
                 By{' '}
                 {article.authors.map((author: any) => (
-                  <span>{author.name ? author.name : author.username}</span>
+                  <span key={author.id}>{author.name ? author.name : author.username}</span>
                 ))}
                 , published{' '}
-                {formatDistance(new Date(), new Date(article.publishedAt))} ago
+                {dayjs(article.publishedAt).fromNow()}
               </Byline>
             </div>
           </Header>

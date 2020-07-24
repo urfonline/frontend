@@ -97,7 +97,13 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           {
-            loader: 'awesome-typescript-loader?useBabel&babelCore=@babel/core',
+            loader: 'babel-loader'
+          },
+          {
+            loader: 'ts-loader',
+            options: {
+              onlyCompileBundledFiles: true,
+            },
           },
         ],
       },

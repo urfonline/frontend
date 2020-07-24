@@ -44,11 +44,11 @@ export const OnAirBlock: React.FC<IProps> = () => {
   const { player, schedule } = useMappedState(mapState);
   const dispatch = useDispatch();
 
-  if (schedule.isLoading) {
+  if (!schedule.loaded || !schedule.onAirSlot) {
     return null;
   }
 
-  const { show, startDate, endDate} = schedule.currentlyOnAir;
+  const { show, startDate, endDate} = schedule.onAirSlot;
 
   return (
     <Block

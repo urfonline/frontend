@@ -5,3 +5,10 @@
     clear: both;
   }
 }
+
+.ScheduleRow__empty {
+  height: 86px;
+  box-sizing: border-box;
+  padding: 10px 0;
+  text-align: center;
+}
