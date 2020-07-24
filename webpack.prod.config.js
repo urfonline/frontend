@@ -32,9 +32,6 @@ config.plugins = config.plugins.concat([
 
 config.optimization = {
   minimizer: [new TerserPlugin()],
-  splitChunks: {
-    chunks: 'all',
-  },
 };
 
 config.module.rules = config.module.rules.concat([
