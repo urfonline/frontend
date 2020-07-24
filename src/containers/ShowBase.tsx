@@ -136,6 +136,9 @@ const ShowBase: React.FC<IProps> = (props) => {
                   <span key={slot.id}>
                     {DAYS_TEXT[slot.day]}s at{' '}
                     {formatTime(parseTime(slot.startTime))}
+                    {slot.week &&
+                      ` on ${slot.week == 2 ? 'even' : 'odd'} weeks`
+                    }
                   </span>
                 ))}
               </span>
@@ -196,6 +199,7 @@ const ShowBaseQuery = gql`
         id
         startTime
         day
+        week
       }
     }
   }
