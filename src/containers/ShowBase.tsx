@@ -15,6 +15,8 @@ import {
 } from '../utils/shows';
 import { useQuery } from 'react-apollo-hooks';
 import { Show } from '../utils/types';
+import { useMappedState } from 'redux-react-hook';
+import { RootState } from '../types';
 
 // TODO: move to a utils thing or i18n file
 const DAYS_TEXT = [
@@ -75,9 +77,12 @@ const ShowMenu = styled.ul`
 interface IProps extends RouteComponentProps<{ showSlug: string }> {}
 
 const ShowBase: React.FC<IProps> = (props) => {
+  const stream = useMappedState((state: RootState) => state.streams.stream);
+
   const { data, loading } = useQuery(ShowBaseQuery, {
     variables: {
       showSlug: props.match.params.showSlug,
+      slate: stream?.slate?.name,
     },
   });
 
@@ -179,7 +184,7 @@ const ShowBase: React.FC<IProps> = (props) => {
 };
 
 const ShowBaseQuery = gql`
-  query ShowBaseQuery($showSlug: String) {
+  query ShowBaseQuery($showSlug: String, $slate: String) {
     show(slug: $showSlug) {
       id
       name
@@ -195,7 +200,7 @@ const ShowBaseQuery = gql`
       cover {
         resource
       }
-      slots {
+      slots(slate: $slate) {
         id
         startTime
         day

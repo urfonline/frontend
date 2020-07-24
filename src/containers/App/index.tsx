@@ -176,6 +176,7 @@ const ScheduleQuery = gql`
       priorityOnline
       priorityOffline
       slate {
+        name
         weekFromStart
         automationShow {
           id
