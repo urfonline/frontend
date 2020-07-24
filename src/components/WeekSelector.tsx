@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { RootState } from '../types';
 import { switchWeek } from '../ducks/schedule';
 import Arrow from '../img/arrow-right.svg';
-import dayjs from 'dayjs';
+import { getZonedNow } from '../utils/schedule';
 
 interface IWeekProps {
   isNextWeek: boolean;
@@ -12,7 +12,7 @@ interface IWeekProps {
 }
 
 function Week({ isNextWeek, isActive, switchWeek } : IWeekProps) {
-  let monday = dayjs().add(isNextWeek ? 1 : 0, 'week').startOf('week');
+  let monday = getZonedNow().add(isNextWeek ? 1 : 0, 'week').startOf('week');
 
   return <div className={`WeekSelector__Week WeekSelector__Week__${isActive ? 'active' : 'inactive'}`}
               onClickCapture={() => switchWeek(isNextWeek)}>
