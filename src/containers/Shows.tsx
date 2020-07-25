@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import ShowsGrid from '../components/ShowsGrid';
 import { Helmet } from 'react-helmet';
-import { Show } from '../utils/types';
+import { Category, Show } from '../utils/types';
 import Spinner from '../components/Spinner';
 import { useQuery } from 'react-apollo-hooks';
 import { SortMethod } from '../components/ShowsGrid/types';
@@ -11,6 +11,7 @@ interface Result {
   currentSlate: {
     shows: Array<Show>;
   };
+  allCategories: Array<Category>;
 }
 
 interface ISortProps {
@@ -45,7 +46,7 @@ const Shows: React.FC = () => {
       {loading || !data ? (
         <Spinner />
       ) : (
-        <ShowsGrid shows={data.currentSlate.shows} sortMethod={sortMethod} />
+        <ShowsGrid shows={data.currentSlate.shows} categories={data.allCategories} sortMethod={sortMethod} />
       )}
     </div>
   );
@@ -61,13 +62,18 @@ const HomeQuery = gql`
         brandColor
         category {
           name
-          slug
         }
         cover {
           resource
         }
         shortDescription
       }
+    }
+    
+    allCategories {
+      name
+      color
+      slug
     }
   }
 `;
