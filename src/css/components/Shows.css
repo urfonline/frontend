@@ -1,0 +1,20 @@
+.Shows__SortHeader {
+  margin: 0;
+}
+
+.Shows__SortSelect {
+  cursor: pointer;
+  transition: color .25s;
+
+  &__active {
+    border-bottom: 3px solid var(--color__brand-red);
+  }
+
+  &__inactive {
+    color: #999;
+  }
+
+  &:hover {
+    color: #000;
+  }
+}

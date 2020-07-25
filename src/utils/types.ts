@@ -29,6 +29,12 @@ export interface Show {
   socialMixcloudHandle?: string;
 }
 
+export interface Category {
+  name: string;
+  slug: string;
+  color: string;
+}
+
 export enum Tone {
   Dark = 'dark',
   Light = 'light',
