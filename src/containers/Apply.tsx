@@ -12,6 +12,7 @@ import {
 import gql from 'graphql-tag';
 import { useMutation, useQuery } from 'react-apollo-hooks';
 import { API_HOST } from '../config';
+import { formToMutation } from '../utils/forms';
 
 interface IProps {
 	dispatch: any;
@@ -131,16 +132,7 @@ function ApplicationForm(_props: IProps) {
 
     let form = e.target;
     let elements = form.elements;
-    let variables: any = {};
-
-    for (let i = 0; i < elements.length; i++) {
-      let name = elements[i].name;
-
-      if (elements[i].type == 'checkbox')
-        variables[name] = elements[i].checked;
-      else
-        variables[name] = elements[i].value;
-    }
+    let variables = formToMutation(form);
 
     ['firstSlot', 'secondSlot', 'thirdSlot'].forEach((key) => {
       variables[key] = {
@@ -204,7 +196,7 @@ function ApplicationForm(_props: IProps) {
         helptext="Your producer or co-host's name (Optional)"
         optional={true} maximum={80}/>
       <BoolInput title="Are you a new show?" id="new"
-        helptext="Click this box if you're a new show, so we know who needs training"/>
+        helptext="Check this box if you're a new show, so we know who needs training"/>
 
 			<TextInput title="Short Description" id="shortDescription"
 				helptext="A short tagline for your show" maximum={90}/>
@@ -225,7 +217,7 @@ function ApplicationForm(_props: IProps) {
                   ", recommended size 1280x720)"}/>
 
       <BoolInput id="biweekly" title="Bi-weekly?"
-        helptext="Click this box if you want a biweekly show"/>
+        helptext="Check this box if you want a biweekly show"/>
       <TimeSlotInput id="firstSlot" title="First Slot Request"
         helptext="Pick your first-choice slot (time and day)"/>
       <TimeSlotInput id="secondSlot" title="Second Slot Request"

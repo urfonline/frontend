@@ -80,18 +80,14 @@
     display: inline-block;
     margin: 0 10px 10px 5px;
     padding: 20px;
-    width: 200px;
-    font-size: 20px;
-    background-color: var(--color__brand-red);
-    color: #fff;
+    width: 50px;
+    height: 50px;
+    background-color: #fff;
+    border: 1px solid #aaa;
+    border-radius: 5px;
     cursor: pointer;
     text-align: center;
-    box-shadow: none;
-    transition: background-color .25s, box-shadow .25s;
-
-    &:hover {
-      background-color: var(--color__lighter-red);
-    }
+    transition: background .25s;
   }
 
   & > input[type=checkbox] {
@@ -100,15 +96,11 @@
     height: 0;
 
     &:checked + .Flipper {
-      background-color: var(--color-good);
+      background: url('data:image/svg+xml;utf8,<svg width="1700" height="1536" viewBox="0 100 1700 1536" fill="rgb(65, 192, 1)" xmlns="http://www.w3.org/2000/svg"><path d="M1671 566c0 25-10 50-28 68l-724 724-136 136c-18 18-43 28-68 28s-50-10-68-28l-136-136-362-362c-18-18-28-43-28-68s10-50 28-68l136-136c18-18 43-28 68-28s50 10 68 28l294 295 656-657c18-18 43-28 68-28s50 10 68 28l136 136c18 18 28 43 28 68z"/></svg>') 0%/85px no-repeat, #fff;
     }
 
-    &:focus + .Flipper {
-      box-shadow: 0 0 5px var(--color-good);
-    }
-
-    &:checked:focus + .Flipper {
-      box-shadow: 0 0 5px var(--color__lighter-red);
+    &:focus + .Flipper, .Flipper:focus {
+      border-color: #2e9a7f;
     }
   }
 }

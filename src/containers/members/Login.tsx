@@ -1,100 +1,65 @@
-import React from 'react';
+import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import { connect } from 'react-redux';
 import * as authActions from '../../ducks/auth';
+import { useMutation } from 'react-apollo-hooks';
+import { SubmitInput, TextInput } from '../../components/Form';
+import { formToMutation } from '../../utils/forms';
 
 interface IProps {
-  mutate: any;
-  loginSuccess: any;
+  loginSuccess(user: any): void;
 }
 
-interface IState {
-  username: string;
-  password: string;
-  error: string | null;
-}
-
-class Login extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
-
-    this.state = {
-      username: '',
-      password: '',
-      error: null,
-    };
-
-    this.handleUsernameUpdate = this.handleUsernameUpdate.bind(this);
-    this.handlePasswordUpdate = this.handlePasswordUpdate.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleUsernameUpdate(e: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({ username: e.currentTarget.value });
-  }
-
-  handlePasswordUpdate(e: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({ password: e.currentTarget.value });
-  }
-
-  handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    this.props
-      .mutate({
-        variables: {
-          username: this.state.username,
-          password: this.state.password,
-        },
-      })
-      .then(({ data }: any) => {
-        console.log(data);
-        if (data.login.success) {
-          this.props.loginSuccess(data.login.token);
-        } else {
-          this.setState({ error: 'Login failed' });
-        }
-      });
-  }
-
-  render() {
-    const { username, password, error } = this.state;
-
-    return (
-      <div className="Container">
-        {error ? <div>{error}</div> : null}
-        <form onSubmit={this.handleSubmit}>
-          <label form="loginUsername">Username</label>
-          <input
-            type="text"
-            value={username}
-            onChange={this.handleUsernameUpdate}
-            id="loginUsername"
-          />
-
-          <label form="loginPassword">Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={this.handlePasswordUpdate}
-            id="loginPassword"
-          />
-
-          <input type="submit" value="Log in" />
-        </form>
-      </div>
-    );
-  }
-}
-
-// @ts-ignore
 const LoginMutation = gql`
-  mutation Login($username: String, $password: String) {
+  mutation Login($username: String!, $password: String!) {
     login(username: $username, password: $password) {
-      token
+      user {
+        name
+        username
+        pronouns
+        isStaff
+        teams {
+          name
+          slug
+          membershipInfo {
+            accessLevel
+          }
+        }
+      }
       success
     }
   }
 `;
+
+function Login({ loginSuccess }: IProps) {
+  const mutate = useMutation(LoginMutation);
+  const [error, setError] = useState<String | undefined>();
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    let variables = formToMutation(e.currentTarget);
+
+    mutate({ variables })
+      .then(({ data }) => data.login)
+      .then((login) => {
+        if (login.success)
+          loginSuccess(login.user);
+        else
+          setError("Could not log you in");
+      });
+  }
+
+  return <div className="Container">
+    <h1>Login</h1>
+    <form onSubmit={handleSubmit}>
+      <TextInput id="username" title="Username"/>
+      <TextInput id="password" title="Password" type="password"/>
+      <SubmitInput text="Log In" />
+    </form>
+    {error && <div className="Error">{error}</div>}
+  </div>
+}
 
 export default connect(null, {
   loginSuccess: authActions.loginSuccess,

@@ -66,9 +66,7 @@ export function BoolInput(props: IInputProps) {
 
     <input type="checkbox" name={props.id} checked={checked}
            onChange={(e: any) => setChecked(e.target.checked)}/>
-    <div className="Flipper" onClick={() => setChecked(!checked)}>
-      {checked ? "Yeah!" : "Nope"}
-    </div>
+    <div className="Flipper" onClick={() => setChecked(!checked)} />
   </div>
 }
 
