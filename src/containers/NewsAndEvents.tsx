@@ -61,16 +61,15 @@ function renderContent(
               size={3}
             >
               <OneImage
-                src={edge.node.featuredImage.resource}
+                src={edge.node.featuredImage?.resource || ''}
                 aspectRatio={AspectRatio.r16by9}
                 alt=""
               />
               <BoxInner className={articleStyles}>
                 <BlockKicker>
-                  <span>{edge.node.tone}</span> ·{' '}
+                  <span>{edge.node.tone}</span> &middot;{' '}
                   <span>
-                    {dayjs(edge.node.publishedAt).fromNow()}{' '}
-                    ago
+                    {dayjs(edge.node.publishedAt).fromNow()}
                   </span>
                 </BlockKicker>
                 <BlockTitle>{edge.node.title}</BlockTitle>
