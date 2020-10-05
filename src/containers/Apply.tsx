@@ -110,7 +110,7 @@ function ApplicationForm(_props: IProps) {
       let form = new FormData();
       form.append('file', file, file.name);
 
-      req.withCredentials = true;
+      req.withCredentials = false;
       req.responseType = 'json';
       req.onload = function() {
         let data = req.response;
