@@ -7557,10 +7557,10 @@ lazy-universal-dotenv@^2.0.0:
     dotenv "^6.0.0"
     dotenv-expand "^4.2.0"
 
-lazysizes@^4.1.7:
-  version "4.1.7"
-  resolved "https://registry.yarnpkg.com/lazysizes/-/lazysizes-4.1.7.tgz#3e11c543c3b7695a75c15c3b9670f5f959de1151"
-  integrity sha512-icCNEAj4uQJt3MVBHo5Gx7FEuX6UYMrsS2x3M6jlUVnLGeb/K8iD4GsjCsLAlOJcpCJZgTFPozaYZboK3WigHw==
+lazysizes@^5.2.1:
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/lazysizes/-/lazysizes-5.2.1.tgz#f450e36a995efb5817acb8c904f3d2f2efc29ffa"
+  integrity sha512-607dEMlbcnkny2lGYVqoA/rQO+WGpWh/BISeS1eLfT8nHQw6E+R8ybJoKKGVlZ2czKPTATrsU95f+nkwix0fXw==
 
 lcid@^2.0.0:
   version "2.0.0"
