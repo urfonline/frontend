@@ -1,1 +1,5 @@
-export const API_HOST = "https://api.urfonline.com";
+// @ts-ignore
+export const API_HOST = URF_API_URL;
+// @ts-ignore
+export const IMG_ROOT = URF_IMG_ROOT;
+
