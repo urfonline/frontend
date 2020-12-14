@@ -4,6 +4,10 @@ const createApolloFetch = require('apollo-fetch').createApolloFetch;
 const assetsManifest = require(path.join(__dirname, '../webpack-assets.json'));
 const chunkManifest = require(path.join(__dirname, '../dist/manifest.json'));
 
+function escapeQuote(text) {
+  return text.replace(/\"/g, '&quot;');
+}
+
 function buildPage(title, meta) {
   return `
 <!doctype html>
@@ -16,7 +20,7 @@ function buildPage(title, meta) {
     <script type="text/javascript">
       window.webpackManifest = ${JSON.stringify(chunkManifest)};
     </script>
-    <meta property="og:title" content="${title}" />
+    <meta property="og:title" content="${escapeQuote(title)}" />
     <meta property="fb:app_id" content="307366706435125" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -48,7 +52,7 @@ const apolloFetch = createApolloFetch({
 });
 
 const buildSimplePage = (title, description, image) => buildPage(standardTitle(title), `
-      <meta property="og:description" content="${description}" />
+      <meta property="og:description" content="${escapeQuote(description)}" />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:image" content="https://urf.imgix.net/${image}?w=1200&h=630&crop=faces&fit=crop" />
@@ -94,7 +98,7 @@ query StaticSiteRenderer {
 
   await Promise.all(resources.shows.map(show => savePage(`shows/${show.slug}`,
     buildPage(standardTitle(show.name), `
-      <meta property="og:description" content="${show.shortDescription}" />
+      <meta property="og:description" content="${escapeQuote(show.shortDescription)}" />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:image" content="https://urf.imgix.net/${show.cover.resource}?w=1200&h=630&crop=faces&fit=crop" />
@@ -104,7 +108,7 @@ query StaticSiteRenderer {
   await Promise.all(resources.articles.map(article => savePage(`article/${article.slug}-${article.articleId}`,
     buildPage(standardTitle(article.title), `
       <meta property="og:type" content="article" />
-      <meta property="og:description" content="${article.shortDescription}" />
+      <meta property="og:description" content="${escapeQuote(article.shortDescription)}" />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:image" content="https://urf.imgix.net/${article.featuredImage.resource}?w=1200&h=630&crop=faces&fit=crop" />
@@ -113,7 +117,7 @@ query StaticSiteRenderer {
 
   await Promise.all(resources.events.map(event => savePage(`event/${event.slug}-${event.eventId}`,
     buildPage(standardTitle(event.title), `
-      <meta property="og:description" content="${event.shortDescription}" />
+      <meta property="og:description" content="${escapeQuote(event.shortDescription)}" />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:image" content="https://urf.imgix.net/${event.featuredImage.resource}?w=1200&h=630&crop=faces&fit=crop" />
