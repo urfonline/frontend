@@ -18,4 +18,9 @@
     text-align: center;
     color: grey;
   }
+
+  & > .caption {
+    color: grey;
+    font-style: italic;
+  }
 }

@@ -14,6 +14,7 @@ import { RootState } from '../../types';
 import { useDispatch, useMappedState } from 'redux-react-hook';
 import { useQuery } from 'react-apollo-hooks';
 import { chunkSlotsByDay, filterSlotsByWeek, getOnAirSlot } from '../../utils/schedule';
+import ApiError from '../../components/ApiError';
 
 const LoadableShowPage = Loadable({
   loader: () => import(/* webpackChunkName: "ShowBase" */ '../ShowBase'),
@@ -79,10 +80,10 @@ const LoadableApplicationForm = Loadable({
 });
 
 const App: React.FC = () => {
-  const { data, loading } = useQuery(ScheduleQuery);
+  const { data, loading, error } = useQuery(ScheduleQuery);
 
   useEffect(() => {
-    if (!loading && data) {
+    if (!loading && !error && data) {
       dispatch(streamsLoaded(data));
     }
   }, [loading, data]);
@@ -121,6 +122,10 @@ const App: React.FC = () => {
       clearInterval(interval);
     };
   }, [stream, showNextWeek]);
+
+  if (error != null) {
+    return <ApiError error={error} />
+  }
 
   return (
     <div>
