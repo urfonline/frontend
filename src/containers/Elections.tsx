@@ -69,6 +69,11 @@ const CandidateImageRight = css`
 const CandidateBlockLeft = css`
   padding: 5px 5px 0;
 
+  & h1 {
+    overflow: hidden;
+    word-break: break-word;
+  }
+
   ${queries.large`
     margin-left: 148px;
   `}
@@ -82,6 +87,8 @@ const CandidateBlockRight = css`
   `}
 
   & h1 {
+    overflow: hidden;
+    word-break: break-word;
     text-align: right;
   }
 `;
