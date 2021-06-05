@@ -15,6 +15,7 @@ import { useDispatch, useMappedState } from 'redux-react-hook';
 import { useQuery } from 'react-apollo-hooks';
 import { chunkSlotsByDay, filterSlotsByWeek, getOnAirSlot } from '../../utils/schedule';
 import ApiError from '../../components/ApiError';
+import { ElectionsContainer } from '../Elections';
 
 const LoadableShowPage = Loadable({
   loader: () => import(/* webpackChunkName: "ShowBase" */ '../ShowBase'),
@@ -152,6 +153,7 @@ const App: React.FC = () => {
           <Route path="/auth/login" component={LoadableLogin} exact />
           <Route path="/members" component={LoadableMembersApp} />
           <Route path="/apply" component={LoadableApplicationForm} />
+          <Route path="/elections" component={ElectionsContainer} />
           <Route
             path="/article/**-:articleId"
             component={LoadableArticle}
