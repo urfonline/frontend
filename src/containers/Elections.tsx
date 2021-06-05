@@ -66,7 +66,7 @@ const CandidateImageRight = css`
   `}
 `;
 
-const CandidateBlockLeft = css`
+const CandidateBlock = css`
   padding: 5px 5px 0;
 
   & h1 {
@@ -77,6 +77,10 @@ const CandidateBlockLeft = css`
       font-size: 4vh;
     `}
   }
+`
+
+const CandidateBlockLeft = css`
+  ${CandidateBlock}
 
   ${queries.large`
     margin-left: 148px;
@@ -84,17 +88,9 @@ const CandidateBlockLeft = css`
 `;
 
 const CandidateBlockRight = css`
-  padding: 5px 5px 0;
+  ${CandidateBlock}
 
-  & h1 {
-    font-size: 3.5vh;
-    word-break: break-word;
-    text-align: right;
-
-    ${queries.large`
-      font-size: 4vh;
-    `}
-  }
+  text-align: right;
 
   ${queries.large`
     margin-right: 148px;
@@ -109,6 +105,7 @@ const CandidateBio = styled.pre`
   white-space: pre-wrap;
   font-family: inherit;
   font-size: 0.85em;
+  text-align: left;
 `
 
 interface CandidateInfo {
@@ -144,7 +141,7 @@ function Candidate({ candidate, odd }: CandidateProps) {
               sizes={[128, 256]} alt={candidate.name} withoutContainer
               className={odd ? CandidateImageRight : CandidateImageLeft} />
     <Block size={1} title={candidate.name} innerClassName={CandidateBlockInner}
-           className={odd ? CandidateBlockRight : CandidateBlockLeft}>
+           kicker="Candidate" className={odd ? CandidateBlockRight : CandidateBlockLeft}>
       <CandidateBio>{candidate.bio}</CandidateBio>
     </Block>
   </Box>
@@ -157,7 +154,9 @@ function CandidateList({ positions }: PositionProps) {
         <PositionTitle>{pos.name}</PositionTitle>
         <Flex mx={-2} flexWrap="wrap">
           {pos.candidates.map((candidate, i) =>
-            <Candidate candidate={candidate} position={pos.name} key={candidate.id} odd={i % 2 != 0} />)}
+            <Candidate candidate={candidate} position={pos.name}
+                       key={candidate.id} odd={i % 2 != 0} />)
+          }
         </Flex>
       </div>
     )}
