@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-
-const ENDPOINT = 'https://urf.imgix.net/';
+import { IMG_ROOT } from '../../config';
 
 export enum AspectRatio {
   r16by9 = 'r16by9',
@@ -63,9 +62,9 @@ function generateUrl(
   opts: { width: number },
 ) {
   if (!props.aspectRatio) {
-    return `${ENDPOINT}${props.src}?w=${opts.width}`;
+    return `${IMG_ROOT}${props.src}?w=${opts.width}`;
   }
-  return `${ENDPOINT}${props.src}?w=${opts.width}&h=${aspectMultiplier(
+  return `${IMG_ROOT}${props.src}?w=${opts.width}&h=${aspectMultiplier(
     props.aspectRatio,
     opts.width,
   )}&${createQueryString(
@@ -106,7 +105,7 @@ const OneImage: React.FC<IProps> = (props) => {
 
   const img = (
     <img
-      className={`ResponsiveImage lazyload ${props.className}`}
+      className={`ResponsiveImage lazyload ${props.className || ''}`}
       src={generateUrl(props, { width: sizes[0] })}
       data-sizes={props.mediaSizes || 'auto'}
       srcSet="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="

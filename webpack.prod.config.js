@@ -28,6 +28,10 @@ config.plugins = config.plugins.concat([
   new CopyWebpackPlugin([
     { from: './src/root', to: './'}
   ]),
+  new webpack.DefinePlugin({
+    URF_API_URL: JSON.stringify("https://api.urfonline.com"),
+    URF_IMG_ROOT: JSON.stringify("https://urf.imgix.net/"),
+  }),
 ]);
 
 config.optimization = {

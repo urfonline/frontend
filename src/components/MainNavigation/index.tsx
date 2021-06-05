@@ -32,6 +32,9 @@ function MainNavigation({ desktop, mobile }: IProps) {
         <li className="MainNavigation__item">
           <NavLink to="/we-are-urf">About</NavLink>
         </li>
+        <li className="MainNavigation__item">
+          <NavLink to="/elections">Elections</NavLink>
+        </li>
       </ul>
     </div>
   );

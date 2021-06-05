@@ -251,7 +251,10 @@ export function getOnAirSlot(slateWeek: SlateWeek): ChunkedSlot | undefined {
   if (slateWeek === null) return;
 
   const now = getZonedNow();
-  const todaySlots = slateWeek.days[now.weekday()].slots;
+  const today = slateWeek.days[now.weekday()];
+
+  if (!today) return;
+  const todaySlots = today.slots;
 
   return todaySlots.find(slot => slot && now.isBetween(slot.startDate, slot.endDate, 'minute', '[)'));
 }
