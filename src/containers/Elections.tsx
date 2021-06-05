@@ -6,6 +6,9 @@ import { Block } from '../components/HomepageBlock';
 import { defaultShowCoverResource } from '../utils/shows';
 import { css } from 'emotion';
 import { AspectRatio, OneImage } from '../components/OneImage';
+import { useQuery } from 'react-apollo-hooks';
+import gql from 'graphql-tag';
+import Spinner from '../components/Spinner';
 
 const ElectionsHeaderBox = styled.div`
   padding: 10px 0;
@@ -29,37 +32,66 @@ const TextContainer = styled.div`
   text-align: center;
 `;
 
+const PositionTitle = styled.h2`
+  text-align: center;
+  font-size: 2rem;
+`;
+
 const CandidatesContainer = styled.div`
   padding: 0 20px;
 `;
 
-const CandidateImage = css`
+const CandidateImageLeft = css`
   float: left;
   max-height: 128px;
   margin: 15px 0 0 30px;
 `;
 
-const CandidateBlock = css`
+const CandidateImageRight = css`
+  float: right;
+  max-height: 128px;
+  margin: 15px 30px 0 0;
+`;
+
+const CandidateBlockLeft = css`
   padding: 5px 5px 0;
   margin-left: 148px;
+`;
+
+const CandidateBlockRight = css`
+  padding: 5px 5px 0;
+  margin-right: 148px;
+
+  & h1 {
+    text-align: right;
+  }
 `;
 
 const CandidateBlockInner = css`
   display: block;
 `;
 
+const CandidateBio = styled.pre`
+  white-space: pre-wrap;
+  font-family: inherit;
+  font-size: 0.85em;
+`
+
 interface CandidateInfo {
+  id: string,
   name: string,
   bio: string,
-  image_url?: string,
+  image?: string,
 }
 
 interface CandidateProps {
   candidate: CandidateInfo,
   position: string,
+  odd: boolean,
 }
 
 interface Position {
+  id: string,
   name: string,
   candidates: Array<CandidateInfo>,
 }
@@ -68,26 +100,29 @@ interface PositionProps {
   positions: Array<Position>,
 }
 
-function Candidate({ candidate }: CandidateProps) {
-  const image = candidate.image_url
-    ? { resource: candidate.image_url }
+function Candidate({ candidate, odd }: CandidateProps) {
+  const image = candidate.image
+    ? { resource: candidate.image }
     : { resource: defaultShowCoverResource };
 
   return <Box width={[1, 1 / 2]} px={10} mb={20}>
     <OneImage src={image.resource} aspectRatio={AspectRatio.r1by1}
-              className={CandidateImage} alt={candidate.name} withoutContainer />
+              sizes={[128, 256]} alt={candidate.name} withoutContainer
+              className={odd ? CandidateImageRight : CandidateImageLeft} />
     <Block size={1} title={candidate.name} innerClassName={CandidateBlockInner}
-           description={candidate.bio} className={CandidateBlock} />
+           className={odd ? CandidateBlockRight : CandidateBlockLeft}>
+      <CandidateBio>{candidate.bio}</CandidateBio>
+    </Block>
   </Box>
 }
 
 function CandidateList({ positions }: PositionProps) {
   return <CandidatesContainer>
-    {positions.map(pos => <div key={pos.name}>
-      <h2>{pos.name}</h2>
+    {positions.map(pos => <div key={pos.id}>
+      <PositionTitle>{pos.name}</PositionTitle>
       <Flex mx={-2} flexWrap="wrap">
-        {pos.candidates.map(candidate => <Candidate candidate={candidate}
-                                                    position={pos.name} />)}
+        {pos.candidates.map((candidate, i) =>
+          <Candidate candidate={candidate} position={pos.name} key={candidate.id} odd={i % 2 != 0} />)}
       </Flex>
     </div>)}
   </CandidatesContainer>
@@ -99,14 +134,32 @@ function ElectionsHeader() {
   </ElectionsHeaderBox>
 }
 
+const ElectionsQuery = gql`
+  query ElectionsQuery {
+    allPositions {
+      id
+      name
+      candidates {
+        id
+        name
+        bio
+        image
+      }
+    }
+  }
+`;
+
 export function ElectionsContainer() {
-  // TODO Fetch candidates
+  const {data, error, loading} = useQuery(ElectionsQuery);
+
   return <div>
     <Helmet title="Elections" />
     <ElectionsHeader/>
     <TextContainer>
       <p>It's election season! See the candidates running for the URF exec this year.</p>
+      {error && <p>Failed to retrieve candidate list: {error}</p>}
     </TextContainer>
-    <CandidateList positions={[]} />
+    {loading && <Spinner />}
+    {!loading && data.allPositions && <CandidateList positions={data.allPositions} />}
   </div>
 }
