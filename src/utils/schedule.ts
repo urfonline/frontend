@@ -239,8 +239,11 @@ export function calculateWidthWithUnit(number: number) {
   return `${Math.floor(calculateWidth(number))}px`;
 }
 
+/**
+ * Get the local zone-aware time
+ */
 export function getZonedNow(): dayjs.Dayjs {
-  return dayjs.at(STUDIO_TIMEZONE)
+  return dayjs();
 }
 
 export function getZonedToday() {
@@ -252,6 +255,8 @@ export function getOnAirSlot(slateWeek: SlateWeek): ChunkedSlot | undefined {
 
   const now = getZonedNow();
   const today = slateWeek.days[now.weekday()];
+
+  console.log(now);
 
   if (!today) return;
   const todaySlots = today.slots;
