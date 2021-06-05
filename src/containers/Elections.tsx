@@ -9,6 +9,7 @@ import { AspectRatio, OneImage } from '../components/OneImage';
 import { useQuery } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 import Spinner from '../components/Spinner';
+import { queries } from '../css/mq';
 
 const ElectionsHeaderBox = styled.div`
   padding: 10px 0;
@@ -22,8 +23,12 @@ const BigTitle = styled.h1`
   font-style: italic;
   margin: 0;
   color: #fff;
-  font-size: 8rem;
+  font-size: 4rem;
   text-shadow: 4px 4px 0 rgb(176, 39, 39);
+
+  ${queries.large`
+    font-size: 8rem;
+  `}
 `;
 
 const TextContainer = styled.div`
@@ -44,23 +49,37 @@ const CandidatesContainer = styled.div`
 const CandidateImageLeft = css`
   float: left;
   max-height: 128px;
-  margin: 15px 0 0 30px;
+  margin: 10px;
+
+  ${queries.large`
+    margin: 15px 0 0 30px;
+  `}
 `;
 
 const CandidateImageRight = css`
   float: right;
   max-height: 128px;
-  margin: 15px 30px 0 0;
+  margin: 10px;
+
+  ${queries.large`
+    margin: 15px 30px 0 0;
+  `}
 `;
 
 const CandidateBlockLeft = css`
   padding: 5px 5px 0;
-  margin-left: 148px;
+
+  ${queries.large`
+    margin-left: 148px;
+  `}
 `;
 
 const CandidateBlockRight = css`
   padding: 5px 5px 0;
-  margin-right: 148px;
+
+  ${queries.large`
+    margin-right: 148px;
+  `}
 
   & h1 {
     text-align: right;
