@@ -70,27 +70,34 @@ const CandidateBlockLeft = css`
   padding: 5px 5px 0;
 
   & h1 {
-    overflow: hidden;
+    font-size: 3vh;
     word-break: break-word;
   }
 
   ${queries.large`
     margin-left: 148px;
+
+    & h1 {
+      font-size: 4vh;
+    }
   `}
 `;
 
 const CandidateBlockRight = css`
   padding: 5px 5px 0;
 
-  ${queries.large`
-    margin-right: 148px;
-  `}
-
   & h1 {
-    overflow: hidden;
     word-break: break-word;
     text-align: right;
   }
+
+  ${queries.large`
+    margin-right: 148px;
+
+    & h1 {
+      font-size: 4vh;
+    }
+  `}
 `;
 
 const CandidateBlockInner = css`
