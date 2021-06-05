@@ -70,7 +70,7 @@ const CandidateBlockLeft = css`
   padding: 5px 5px 0;
 
   & h1 {
-    font-size: 3vh;
+    font-size: 3.5vh;
     word-break: break-word;
 
     ${queries.large`
@@ -87,7 +87,7 @@ const CandidateBlockRight = css`
   padding: 5px 5px 0;
 
   & h1 {
-    font-size: 3vh;
+    font-size: 3.5vh;
     word-break: break-word;
     text-align: right;
 
