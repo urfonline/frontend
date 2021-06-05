@@ -118,13 +118,15 @@ function Candidate({ candidate, odd }: CandidateProps) {
 
 function CandidateList({ positions }: PositionProps) {
   return <CandidatesContainer>
-    {positions.map(pos => <div key={pos.id}>
-      <PositionTitle>{pos.name}</PositionTitle>
-      <Flex mx={-2} flexWrap="wrap">
-        {pos.candidates.map((candidate, i) =>
-          <Candidate candidate={candidate} position={pos.name} key={candidate.id} odd={i % 2 != 0} />)}
-      </Flex>
-    </div>)}
+    {positions.filter(pos => pos.candidates.length > 0).map(pos =>
+      <div key={pos.id}>
+        <PositionTitle>{pos.name}</PositionTitle>
+        <Flex mx={-2} flexWrap="wrap">
+          {pos.candidates.map((candidate, i) =>
+            <Candidate candidate={candidate} position={pos.name} key={candidate.id} odd={i % 2 != 0} />)}
+        </Flex>
+      </div>
+    )}
   </CandidatesContainer>
 }
 
