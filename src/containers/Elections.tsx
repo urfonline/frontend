@@ -72,14 +72,14 @@ const CandidateBlockLeft = css`
   & h1 {
     font-size: 3vh;
     word-break: break-word;
+
+    ${queries.large`
+      font-size: 4vh;
+    `}
   }
 
   ${queries.large`
     margin-left: 148px;
-
-    & h1 {
-      font-size: 4vh;
-    }
   `}
 `;
 
@@ -87,16 +87,17 @@ const CandidateBlockRight = css`
   padding: 5px 5px 0;
 
   & h1 {
+    font-size: 3vh;
     word-break: break-word;
     text-align: right;
+
+    ${queries.large`
+      font-size: 4vh;
+    `}
   }
 
   ${queries.large`
     margin-right: 148px;
-
-    & h1 {
-      font-size: 4vh;
-    }
   `}
 `;
 
