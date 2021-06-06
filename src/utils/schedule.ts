@@ -256,8 +256,6 @@ export function getOnAirSlot(slateWeek: SlateWeek): ChunkedSlot | undefined {
   const now = getZonedNow();
   const today = slateWeek.days[now.weekday()];
 
-  console.log(now);
-
   if (!today) return;
   const todaySlots = today.slots;
 
