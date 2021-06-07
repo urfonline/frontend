@@ -27,6 +27,7 @@ const Box = styled("div", {
 `;
 
 export const BoxLink = Box.withComponent(Link);
+const BoxAnchor = Box.withComponent('a');
 
 export const BoxInner = styled.div`
   padding: 1rem;
@@ -71,6 +72,7 @@ interface IBlockProps {
   className?: string;
   innerClassName?: string;
   link?: string;
+  href?: string;
   onClick?(e: React.MouseEvent<HTMLDivElement>): void;
   backgroundColor?: string;
   image?: ImageResource;
@@ -120,6 +122,13 @@ export function Block(props: IBlockProps) {
         {inner}
       </BoxLink>
     );
+  }
+
+  if (props.href) {
+    return <BoxAnchor href={props.href} accentColor={props.backgroundColor}
+                      className={classNames}>
+      {inner}
+    </BoxAnchor>
   }
 
   return (
