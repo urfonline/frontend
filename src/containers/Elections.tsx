@@ -108,10 +108,6 @@ const CandidateBio = styled.pre`
   text-align: left;
 `;
 
-const VotingNotification = css`
-  color: #28359a;
-`;
-
 interface CandidateInfo {
   id: string,
   name: string,
@@ -188,14 +184,6 @@ const ElectionsQuery = gql`
   }
 `;
 
-// going to manually remove this when this election is over.
-// ideally we don't run another online election ever again,
-// so very little point in adding a whole shebang to the API.
-// the candidate listing can be used regardless though, that's
-// good for promotion
-const ELECTIONS_LINK =
-  "https://docs.google.com/forms/d/e/1FAIpQLSeqi3jGP1XVabz5vzI3qkPe_EWNF3i04AeTwAkmF0roOjRL9w/viewform";
-
 export function ElectionsContainer() {
   const {data, error, loading} = useQuery(ElectionsQuery);
 
@@ -206,8 +194,6 @@ export function ElectionsContainer() {
     <ElectionsHeader/>
     <TextContainer>
       <p>It's election season! See the candidates running for the URF exec this year.</p>
-      <Block size={1} title="Voting is now open!" href={ELECTIONS_LINK} className={VotingNotification}
-             description="Click here to vote in the URF Exec election!" />
       {error && <p>Failed to retrieve candidate list: {error}</p>}
     </TextContainer>
     {loading && <Spinner />}
