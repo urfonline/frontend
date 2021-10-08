@@ -183,6 +183,8 @@ export function TimeSlotInput(props: IInputProps) {
     <label htmlFor={props.id + "Time"} title={props.helptext}>{props.title}</label>
     {props.helptext && <div className="meta">{props.helptext}</div>}
     <select name={props.id + "Time"} required={true}>
+      <option value={0}>12am</option>
+      <option value={8}>8am</option>
       <option value={9}>9am</option>
       <option value={10}>10am</option>
       <option value={11}>11am</option>
@@ -192,6 +194,12 @@ export function TimeSlotInput(props: IInputProps) {
       <option value={15}>3pm</option>
       <option value={16}>4pm</option>
       <option value={17}>5pm</option>
+      <option value={18}>6pm</option>
+      <option value={19}>7pm</option>
+      <option value={20}>8pm</option>
+      <option value={21}>9pm</option>
+      <option value={22}>10pm</option>
+      <option value={23}>11pm</option>
     </select>
     <select name={props.id + "Day"} required={true}>
       <option value={0}>Monday</option>
@@ -199,6 +207,8 @@ export function TimeSlotInput(props: IInputProps) {
       <option value={2}>Wednesday</option>
       <option value={3}>Thursday</option>
       <option value={4}>Friday</option>
+      <option value={5}>Saturday</option>
+      <option value={6}>Sunday</option>
     </select>
   </div>
 }
