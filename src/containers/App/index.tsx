@@ -172,12 +172,8 @@ const ScheduleQuery = gql`
     allStreams {
       id
       name
-      mountpoint
       slug
-      host
-      port
       proxyUrl
-      mobileMountpoint
       priorityOnline
       priorityOffline
       slate {

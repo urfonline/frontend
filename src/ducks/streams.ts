@@ -1,10 +1,14 @@
-import { Action, Stream } from '../utils/types';
+import { Action, ResolvedStream, Stream } from '../utils/types';
 
 const LOAD_STREAMS_SUCCESS = 'LOAD_STREAMS_SUCCESS';
 const SWITCH_ACTIVE_STREAM = 'SWITCH_ACTIVE_STREAM';
 const RESOLVE_STREAMS_SUCCESS = 'RESOLVE_STREAMS_SUCCESS';
 
-export const streamsLoaded = (streams: any) => ({
+interface StreamsResponse {
+  allStreams: Stream[];
+}
+
+export const streamsLoaded = (streams: StreamsResponse) => ({
   type: LOAD_STREAMS_SUCCESS,
   payload: { streams: streams.allStreams },
 });
@@ -14,7 +18,7 @@ export const switchStreams = (streamIndex: number) => ({
   payload: { streamIndex },
 });
 
-export const streamsResolved = (onlineStreams: Array<any>) => ({
+export const streamsResolved = (onlineStreams: Array<ResolvedStream>) => ({
   type: RESOLVE_STREAMS_SUCCESS,
   payload: { onlineStreams },
 });
@@ -26,7 +30,7 @@ export interface IStreamState {
   stream?: Stream;
 
   onlineResolved: boolean;
-  onlineStreams: Array<Stream>;
+  onlineStreams: Array<ResolvedStream>;
 }
 
 const initialState: IStreamState = {
@@ -41,16 +45,25 @@ const initialState: IStreamState = {
 export default function streamReducer(state: IStreamState = initialState, action: Action): IStreamState {
   switch (action.type) {
     case LOAD_STREAMS_SUCCESS: {
-      let allStreams = action.payload.streams;
+      let allStreams: Stream[] = action.payload.streams;
 
       // to get the initial active stream, we sort by online priority and
       // then find the first stream with a slate. we do this because
       // the rest of the code currently assumes we have a slate.
-      let slateStream = Array.from(allStreams).sort(
-        (a: any, b: any) => a.priorityOnline - b.priorityOnline
+      let slateStream = allStreams.sort(
+        (a, b) => a.priorityOnline - b.priorityOnline
       ).find(
-        (stream: any) => stream.slate != null
+        (stream) => stream.slate != null
       );
+
+      if (!slateStream) {
+        // no slates!
+        return {
+          ...state,
+          loaded: true,
+          allStreams,
+        }
+      }
 
       let activeStream = allStreams.indexOf(slateStream);
       let stream = allStreams[activeStream];

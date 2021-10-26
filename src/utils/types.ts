@@ -90,12 +90,14 @@ export interface Stream {
   id: string;
   slug: string;
   name: string;
-  host: string;
-  port: number;
   proxyUrl: string;
-  mountpoint: string;
-  mobileMountpoint: string;
   priorityOnline: number;
   priorityOffline: number;
   slate?: Slate;
+}
+
+export interface ResolvedStream extends Stream {
+  bed: boolean;
+  icyDescription?: string;
+  resolvedPriority: number;
 }

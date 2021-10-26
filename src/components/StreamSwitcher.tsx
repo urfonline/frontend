@@ -4,6 +4,7 @@ import { resolveStreamOrder } from '../utils/schedule';
 import { IStreamState, streamsResolved, switchStreams } from '../ducks/streams';
 import { connect } from 'react-redux';
 import { RootState } from '../types';
+import { ResolvedStream } from '../utils/types';
 
 interface IProps {
   onChange(streamIndex: number): void;
@@ -12,7 +13,7 @@ interface IProps {
 
 interface IStreamProps {
   onClick(): void;
-  stream: any;
+  stream: ResolvedStream;
 }
 
 function Stream({ stream, onClick }: IStreamProps) {
@@ -37,7 +38,7 @@ function StreamSwitcher({ onChange, streams }: IProps) {
         {streams.stream ? streams.stream.name : 'Loading...'}
       </div>
       <div className={`StreamSwitcher__options StreamSwitcher__options__${isOpen ? "open": "closed"}`}>
-        {streams.onlineStreams.map((stream: any, i: number) =>
+        {streams.onlineStreams.map((stream, i: number) =>
           <Stream stream={stream} key={stream.id} onClick={() => {
             onChange(i);
             setOpen(false);
@@ -56,7 +57,7 @@ interface IConnectProps {
 function LoadableStreamSwitcher({ streams, dispatch }: IConnectProps) {
   useEffect(() => {
     resolveStreamOrder(streams.allStreams)
-      .then((onlineStreams: Array<any>) =>
+      .then((onlineStreams) =>
         dispatch(streamsResolved(onlineStreams))
       )
       .then(() =>

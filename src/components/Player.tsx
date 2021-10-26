@@ -4,7 +4,6 @@ import {PlayerAudio} from './PlayerAudio';
 import { playerAudioStateChange, playerUserStateChange } from '../ducks/player';
 import { Link } from 'react-router-dom';
 import { formatTime } from '../utils/schedule';
-import { isMobile } from '../utils/mobile';
 import { RootState } from '../types';
 import { AspectRatio, OneImage } from './OneImage';
 import { defaultShowCoverResource } from '../utils/shows';
@@ -32,23 +31,8 @@ const Player: React.FC<IProps> = () => {
   const {show, startDate, endDate} = schedule.onAirSlot;
   const stream = streams.stream;
 
-  let mountpoint = stream.mountpoint;
-  if (isMobile) {
-    mountpoint = stream.mobileMountpoint;
-  }
-
-  // this feels a little janky but hey ho
-  let endpointUrl = null;
-  let queryParts = [];
-  if (stream.proxyUrl) {
-    endpointUrl = `${stream.proxyUrl}`;
-    queryParts.push(`mp=${mountpoint}`);
-  } else {
-    endpointUrl = `http://${stream.host}:${stream.port}${mountpoint}`;
-  }
-
   const endpoint = player.userState
-    ? endpointUrl
+    ? stream.proxyUrl
     : null;
 
   return (
@@ -94,7 +78,6 @@ const Player: React.FC<IProps> = () => {
 
       {endpoint ? <PlayerAudio
         stream={endpoint}
-        query={queryParts}
         userState={player.userState}
         onChange={(state: any) => dispatch(playerAudioStateChange(state))}
       /> : null}
