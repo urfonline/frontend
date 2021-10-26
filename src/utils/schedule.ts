@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { BaseSlot, ChunkedSlot, ISlateWeek, ISlotList, Show, Slot, SlotType, Stream } from './types';
+import { BaseSlot, ChunkedSlot, ISlateWeek, ISlotList, ResolvedStream, Show, Slot, SlotType, Stream } from './types';
 import { API_HOST } from '../config';
 
 const STUDIO_TIMEZONE = 'Europe/London';
@@ -269,15 +269,22 @@ export function getScrollPositionForNow(): number {
   return calculateWidth(duration);
 }
 
+interface StreamStatus {
+  stream: Stream,
+  asleep: boolean;
+  offline: boolean;
+  description?: string;
+}
+
 /**
  * Resolve the order of streams by querying their Icecast proxy endpoints.
  *
  * @param streams List of stream objects to order
  * @returns Promise that resolves to a list of streams, with the highest (lowest value) priority stream first.
  */
-export function resolveStreamOrder(streams: Array<Stream>): Promise<any> {
+export function resolveStreamOrder(streams: Stream[]): Promise<ResolvedStream[]> {
   return Promise.all(
-    streams.map((stream): Promise<any> => {
+    streams.map((stream): Promise<StreamStatus> => {
       let asleep = false;
 
       if (stream.slate != null) {
@@ -289,35 +296,31 @@ export function resolveStreamOrder(streams: Array<Stream>): Promise<any> {
       }
 
       return fetch(`${API_HOST}/streams/${stream.slug}/status`)
-        .then((res) => res.json())
-        .then((data: any) => {
-          let info = data.icestats;
-          let source = info.source;
+        .then(res => res.json().then(data => {
+            if (!res.ok) {
+              throw new Error(data.error);
+            }
 
-          if (Array.isArray(source)) {
-            source = info.source[0];
-          }
-
-          return { stream,
-            bed: asleep,
-            offline: source == null,
-            description: (source ? source.server_description : null)
-          };
-        })
-        .catch(() => {
-          return { stream, offline: true }
-        })
+            return data;
+        })).then((data: any) => ({
+          stream, asleep,
+          offline: data.offline,
+          description: data.description,
+        })).catch(err => {
+          console.log(`Stream offline: ${err}`);
+          return { stream, asleep, offline: true };
+        });
     })
-  ).then((streamInfos: Array<any>) => {
-    return streamInfos.sort((a: any, b: any) =>
-      (a.bed ? a.stream.priorityOffline : a.stream.priorityOnline)
-      - (b.bed ? b.stream.priorityOffline : b.stream.priorityOnline)
-    ).filter((info: any) => !info.offline)
-      .map((info: any) => {
+  ).then((streamInfos) => {
+    return streamInfos.sort((a, b) =>
+      (a.asleep ? a.stream.priorityOffline : a.stream.priorityOnline)
+      - (b.asleep ? b.stream.priorityOffline : b.stream.priorityOnline)
+    ).filter((info) => !info.offline)
+      .map((info) => {
         return { ...info.stream,
-          bed: info.bed,
+          bed: info.asleep,
           icyDescription: info.description,
-          resolvedPriority: info.bed
+          resolvedPriority: info.asleep
             ? info.stream.priorityOffline
             : info.stream.priorityOnline
         }
@@ -325,5 +328,6 @@ export function resolveStreamOrder(streams: Array<Stream>): Promise<any> {
     )
   }).catch((errors) => {
     console.error(errors);
+    return [];
   })
 }
