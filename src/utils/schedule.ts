@@ -35,6 +35,24 @@ function sortIndexOf(startDate: dayjs.Dayjs) {
   return (startDate.hour() * 60) + startDate.minute()
 }
 
+/**
+ * Find the difference in minutes between two times.
+ * If there is a difference between the UTC offsets of the two times (e.g. DST
+ * happened between them) then adjust the difference to compensate.
+ * @param a First time
+ * @param b Second time
+ */
+function fixedZoneDiff(a: dayjs.Dayjs, b: dayjs.Dayjs) {
+  let duration = a.diff(b, 'minute');
+
+  // DAYLIGHT SAVINGS!
+  if (a.utcOffset() != b.utcOffset()) {
+    duration += a.utcOffset() - b.utcOffset();
+  }
+
+  return duration;
+}
+
 function createAutomationSlot(
   slotId: string,
   show: any,
@@ -42,7 +60,7 @@ function createAutomationSlot(
   startDate: dayjs.Dayjs,
   endDate: dayjs.Dayjs,
 ): ChunkedSlot {
-  let duration = endDate.diff(startDate, 'minute');
+  let duration = fixedZoneDiff(endDate, startDate);
   if (duration > 60 * 24) {
     console.warn(`very long slot generated: ${duration}m`,
       startDate.format("DD-HH:mm"),
@@ -59,7 +77,7 @@ function createAutomationSlot(
     day,
     show,
     type: SlotType.Contained,
-    duration: endDate.diff(startDate, 'minute'),
+    duration: fixedZoneDiff(endDate, startDate),
   };
 }
 
@@ -107,7 +125,7 @@ function upgradeSlot(slot: BaseSlot): Slot {
  * @returns Either a ChunkedSlot or an Array of ChunkedSlots.
  */
 function slotToParts(slot: Slot): ChunkedSlot | ReadonlyArray<ChunkedSlot> {
-  let duration = slot.endDate.diff(slot.startDate, 'minute');
+  let duration = fixedZoneDiff(slot.endDate, slot.startDate);
 
   if (slot.startDate.weekday() === slot.endDate.weekday()) {
     // Normal slot.
@@ -120,9 +138,9 @@ function slotToParts(slot: Slot): ChunkedSlot | ReadonlyArray<ChunkedSlot> {
   } else {
     // Wrap-around slot
     let firstEnd = slot.startDate.endOf('day');
-    let firstDuration = firstEnd.diff(slot.startDate, 'minute') + 1;
+    let firstDuration = fixedZoneDiff(firstEnd, slot.startDate) + 1;
     let secondStart = slot.endDate.startOf('day');
-    let secondDuration = slot.endDate.diff(secondStart, 'minute');
+    let secondDuration = fixedZoneDiff(slot.endDate, secondStart);
 
     if (secondDuration == 0) {
       // Slot ended at midnight, let's treat it regularly
@@ -264,7 +282,7 @@ export function getOnAirSlot(slateWeek: SlateWeek): ChunkedSlot | undefined {
 
 export function getScrollPositionForNow(): number {
   const now = getZonedNow();
-  const duration = now.diff(now.startOf('day'), 'minute');
+  const duration = fixedZoneDiff(now, now.startOf('day'));
 
   return calculateWidth(duration);
 }
