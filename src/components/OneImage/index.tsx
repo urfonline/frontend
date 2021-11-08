@@ -86,6 +86,20 @@ const defaultSizes = [
   1680,
 ];
 
+const mediaSizes = [
+  480,
+  960,
+  1440,
+  1920,
+];
+
+export function generateMediaImages(src: string, options?: ImageOptions): MediaImage[] {
+  return mediaSizes.map(width => ({
+    src: generateUrl({ src, options, aspectRatio: AspectRatio.r1by1 }, { width }),
+    sizes: `${width}x${width}`
+  }));
+}
+
 const OneImage: React.FC<IProps> = (props) => {
   const sizes = props.sizes || defaultSizes;
 

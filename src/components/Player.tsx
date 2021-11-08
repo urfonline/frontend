@@ -1,11 +1,11 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import PlayPauseButton from './PlayPauseButton';
 import {PlayerAudio} from './PlayerAudio';
 import { playerAudioStateChange, playerUserStateChange } from '../ducks/player';
 import { Link } from 'react-router-dom';
 import { formatTime } from '../utils/schedule';
 import { RootState } from '../types';
-import { AspectRatio, OneImage } from './OneImage';
+import { AspectRatio, generateMediaImages, OneImage } from './OneImage';
 import { defaultShowCoverResource } from '../utils/shows';
 import { useDispatch, useMappedState } from 'redux-react-hook';
 import StreamSwitcher from './StreamSwitcher';
@@ -23,6 +23,35 @@ const Player: React.FC<IProps> = () => {
   );
   const { player, schedule, streams } = useMappedState(mapState);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if ('mediaSession' in navigator) {
+      const session = navigator.mediaSession;
+
+      session.setActionHandler("play", () => dispatch(playerUserStateChange(true)));
+      session.setActionHandler("pause", () => dispatch(playerUserStateChange(false)));
+      session.setActionHandler("stop", () => dispatch(playerUserStateChange(false)));
+    }
+  }, []);
+
+  useEffect(() => {
+    if ('mediaSession' in navigator && !!schedule.onAirSlot) {
+      const session = navigator.mediaSession;
+      const { show } = schedule.onAirSlot;
+
+      session.metadata = new MediaMetadata({
+        title: `${show.emojiDescription} ${show.name}`,
+        artist: "URF",
+        artwork: generateMediaImages(show.cover.resource || defaultShowCoverResource)
+      });
+    }
+  }, [schedule.onAirSlot]);
+
+  useEffect(() => {
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.playbackState = player.userState ? "playing" : "paused";
+    }
+  }, [player.userState]);
 
   if (!schedule.loaded || !streams.stream || !schedule.onAirSlot) {
     return null;
