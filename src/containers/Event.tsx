@@ -70,7 +70,7 @@ const Event: React.FC<IProps> = (props) => {
 };
 
 const EventQuery = gql`
-  query Event($eventId: Int) {
+  query Event($eventId: String) {
     event(eventId: $eventId) {
       eventId
       title

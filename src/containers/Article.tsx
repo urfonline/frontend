@@ -34,7 +34,7 @@ const Header = styled.header`
 `;
 
 const ArticleQuery = gql`
-  query Article($articleId: Int) {
+  query Article($articleId: String) {
     article(articleId: $articleId) {
       title
       slug
