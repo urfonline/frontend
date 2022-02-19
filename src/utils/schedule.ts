@@ -144,9 +144,10 @@ function slotToParts(slot: Slot): ChunkedSlot | ReadonlyArray<ChunkedSlot> {
 
     if (secondDuration == 0) {
       // Slot ended at midnight, let's treat it regularly
+      // Use firstDuration in case the slot keeps going over several days
       return {
         ...slot,
-        duration,
+        duration: firstDuration,
         type: SlotType.Contained,
       }
     }
@@ -277,7 +278,17 @@ export function getOnAirSlot(slateWeek: SlateWeek): ChunkedSlot | undefined {
   if (!today) return;
   const todaySlots = today.slots;
 
-  return todaySlots.find(slot => slot && now.isBetween(slot.startDate, slot.endDate, 'minute', '[)'));
+  const fastSlot = todaySlots.find(slot => slot &&
+    now.isBetween(slot.startDate, slot.endDate, 'minute', '[)'));
+  if (fastSlot !== undefined) {
+    return fastSlot;
+  }
+
+  // try again a week in the future
+  // when a slot wraps around sunday, the PostOvernight slot gets pushed into next week,
+  // which means we wouldn't pick it up usually - this fixes that.
+  return todaySlots.find(slot => slot &&
+    now.add(1, 'week').isBetween(slot.startDate, slot.endDate, 'minute', '[)'));
 }
 
 export function getScrollPositionForNow(): number {
