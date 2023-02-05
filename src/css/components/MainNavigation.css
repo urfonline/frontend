@@ -48,6 +48,12 @@
       }
     }
 
+    & .MainNavigation__break {
+      display: block;
+      margin: 1rem 0;
+      color: #888;
+    }
+
     @media (--medium) {
       display: block;
     }
