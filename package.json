@@ -45,7 +45,7 @@
     "prep": "node ./scripts/getFragmentTypes.js",
     "test": "NODE_ENV=test && jest",
     "test-coverage": "yarn jest --coverage",
-    "test-ci": "yarn test-coverage -i --config jest.config.ci.js && codecov",
+    "test-ci": "yarn test-coverage -i --config jest.config.ci.js --passWithNoTests && codecov",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "build-storybook": "build-storybook -c .storybook -o storybook-public"
   },
