@@ -44,7 +44,7 @@
 
       & > a:hover,
       & > a.active {
-        border-bottom: 3px solid var(--color__brand-red);
+        border-bottom: 3px solid var(--color__brand);
       }
     }
 

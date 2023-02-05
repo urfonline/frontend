@@ -24,7 +24,7 @@
   position: relative;
 
   &__title {
-    color: var(--color__brand-red);
+    color: var(--color__brand__red);
     font-size: 8vmax;
     text-transform: uppercase;
     font-weight: bold;
