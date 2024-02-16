@@ -40,7 +40,7 @@
   },
   "scripts": {
     "prod": "export NODE_ENV=production && node ./scripts/getFragmentTypes.js && `npm bin`/webpack --config webpack.prod.config.js && node ./scripts/lightStaticRenderer.js",
-    "serve": "`npm bin`/webpack-dev-server --history-api-fallback --content-base=build --config webpack.dev.config --hot",
+    "serve": "webpack-dev-server --history-api-fallback --content-base=build --config webpack.dev.config --hot",
     "format": "prettier --write \"./src/**/*.{tsx,ts,js,css}\"",
     "prep": "node ./scripts/getFragmentTypes.js",
     "test": "NODE_ENV=test && jest",
@@ -129,5 +129,8 @@
     "bracketSpacing": true,
     "jsxBracketSameLine": false,
     "arrowParens": "always"
+  },
+  "volta": {
+    "node": "16.20.2"
   }
 }
