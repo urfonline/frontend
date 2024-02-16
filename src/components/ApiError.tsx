@@ -1,12 +1,12 @@
 import { Helmet } from 'react-helmet';
 import React from 'react';
-import Logotype from '../img/logotype-dark.svg';
+import Logo from '../img/logo-short-opt.svg';
 
 export default function ApiError({ error }: { error: Error }) {
   return <div className="Container ErrorPage">
     <Helmet title="Server error" />
     <br/>
-    <Logotype/>
+    <Logo style={{ width: "500px" }}/>
     <div>
       <h1 className="Page__heading">Server Error</h1>
       <div className="caption">Our website may be offline, but the radio carries on... &#128251;</div>

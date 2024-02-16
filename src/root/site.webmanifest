@@ -1,6 +1,7 @@
 {
-    "name": "",
-    "short_name": "",
+    "name": "University Radio Falmer",
+    "short_name": "URF",
+    "start_url": "/",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",
@@ -13,7 +14,7 @@
             "type": "image/png"
         }
     ],
-    "theme_color": "#ffffff",
-    "background_color": "#ffffff",
+    "theme_color": "#9087dc",
+    "background_color": "#f6f1f1",
     "display": "standalone"
 }

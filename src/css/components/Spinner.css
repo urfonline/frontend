@@ -19,7 +19,7 @@
   width: 11em;
 
   &:before {
-    background: #b02727;
+    background: var(--color__brand);
     border-radius: 100% 0 0 0;
     content: '';
     height: 50%;
