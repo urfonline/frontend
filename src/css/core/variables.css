@@ -1,5 +1,5 @@
 :root {
-  --background: #f6f1f1;
+  --background: #f1eef6;
   --header-grey: #4a4a4a;
   --ui-grey: #e6e6e6;
 
@@ -7,7 +7,9 @@
   --show-tone-dark: rgba(0, 0, 0, 1);
   --header-height: 75px;
 
-  --color__brand-red: rgb(176, 39, 39);
+  --color__brand: rgb(144, 135, 220);
+  --color__brand-hover: rgb(103, 96, 175);
+  --color__brand__red: rgb(176, 39, 39);
   --color__lighter-red: rgb(218, 43, 43);
 
   --color-good: #41c001;

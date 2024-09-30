@@ -35,41 +35,19 @@
 
   &__logo {
     display: block;
-    width: 320px;
     position: relative;
-    left: -115px;
-    top: -145px;
+    left: 0;
+    top: 0;
+    margin: 2.5px 0;
     float: left;
 
     & > a {
       display: block;
-      transition: transform 400ms ease;
-
-      @media (--large) {
-        &:hover {
-          transform: rotate(6deg);
-        }
-      }
     }
 
     @media (--medium) {
-      width: 80%;
-      left: 0;
-      top: 0;
       float: none;
-      margin: 1rem auto;
+      margin: 20px -0.9rem;
     }
-  }
-
-  &__logo-out {
-    background-image: url('../img/logo.png');
-    background-size: contain;
-    display: block;
-    height: 136px;
-    left: calc(-1 * (136px + 20px));
-    position: absolute;
-    top: 4px;
-    width: 136px;
-    z-index: var(--layer-logo);
   }
 }

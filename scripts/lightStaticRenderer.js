@@ -23,18 +23,19 @@ function buildPage(title, meta) {
     <meta property="og:title" content="${escapeQuote(title)}" />
     <meta property="fb:app_id" content="307366706435125" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="256x256" href="/favicon-256x256.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#9087dc">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
     ${meta}
   </head>
   <body class="Core">
     <div class="js__app"></div>
-    <script type="text/javascript" src="${assetsManifest.main.js}"></script>  
-  </body>  
+    <script type="text/javascript" src="${assetsManifest.main.js}"></script>
+  </body>
 </html>
   `;
 }
@@ -55,7 +56,7 @@ const buildSimplePage = (title, description, image) => buildPage(standardTitle(t
       <meta property="og:description" content="${escapeQuote(description)}" />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
-      <meta property="og:image" content="https://urf.imgix.net/${image}?w=1200&h=630&crop=faces&fit=crop" />
+      <meta property="og:image" content="${image}" />
 `);
 
 async function generate() {
@@ -90,7 +91,7 @@ query StaticSiteRenderer {
       }
     }
   }
-}   
+}
   `
   });
 
@@ -128,19 +129,19 @@ query StaticSiteRenderer {
   await savePage('', buildSimplePage(
     'University Radio Falmer',
     'Student radio at the University of Sussex, broadcasting online and on DAB across Brighton',
-    'original_images/facebook_image_1.jpg'
+    'https://urfonline.com/og-banner.png'
   ));
 
   await savePage('schedule', buildSimplePage(
     standardTitle('Schedule'),
     'Broadcasting 7 days a week, see what is on URF',
-    'original_images/facebook_image_1.jpg'
+    'https://urfonline.com/og-banner.png'
   ));
 
   await savePage('news-events', buildSimplePage(
     standardTitle('News & Events'),
     'Journalism from URF, the student radio station at the University of Sussex',
-    'original_images/facebook_image_1.jpg'
+    'https://urfonline.com/og-banner.png'
   ));
 }
 

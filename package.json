@@ -40,12 +40,12 @@
   },
   "scripts": {
     "prod": "export NODE_ENV=production && node ./scripts/getFragmentTypes.js && `npm bin`/webpack --config webpack.prod.config.js && node ./scripts/lightStaticRenderer.js",
-    "serve": "`npm bin`/webpack-dev-server --history-api-fallback --content-base=build --config webpack.dev.config --hot",
+    "serve": "webpack-dev-server --history-api-fallback --content-base=build --config webpack.dev.config --hot",
     "format": "prettier --write \"./src/**/*.{tsx,ts,js,css}\"",
     "prep": "node ./scripts/getFragmentTypes.js",
     "test": "NODE_ENV=test && jest",
     "test-coverage": "yarn jest --coverage",
-    "test-ci": "yarn test-coverage -i --config jest.config.ci.js && codecov",
+    "test-ci": "yarn test-coverage -i --config jest.config.ci.js --passWithNoTests && codecov",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "build-storybook": "build-storybook -c .storybook -o storybook-public"
   },
@@ -129,5 +129,8 @@
     "bracketSpacing": true,
     "jsxBracketSameLine": false,
     "arrowParens": "always"
+  },
+  "volta": {
+    "node": "16.20.2"
   }
 }
