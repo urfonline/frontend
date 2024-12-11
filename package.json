@@ -12,7 +12,7 @@
     "emotion": "^10.0.9",
     "graphql": "^14.1.1",
     "graphql-tag": "^2.10.1",
-    "htmr": "^0.7.0",
+    "htmr": "^0.8.7",
     "lazysizes": "^4.1.7",
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
